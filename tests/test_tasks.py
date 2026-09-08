@@ -1,6 +1,11 @@
 import pytest
 
-from native_verify.tasks import FAMILIES, generate_tasks
+from native_verify.tasks import (
+    FAMILIES,
+    generate_disjoint_task_splits,
+    generate_tasks,
+    task_fingerprint,
+)
 
 
 def test_generate_all_families_deterministic():
@@ -29,6 +34,22 @@ def test_holdout_extends_train_range():
     for task in generate_tasks(per_family=1, seed=3):
         assert task.holdout_values[0] != task.train_values[0] or len(set(task.holdout_values)) > 0
         assert len(task.train_values + task.holdout_values) > len(task.train_values)
+
+
+def test_default_train_eval_split_has_no_mathematical_overlap_or_duplicates():
+    train, evaluation = generate_disjoint_task_splits()
+    train_ids = [task_fingerprint(task) for task in train]
+    eval_ids = [task_fingerprint(task) for task in evaluation]
+    assert len(train_ids) == len(set(train_ids)) == 40
+    assert len(eval_ids) == len(set(eval_ids)) == 10
+    assert set(train_ids).isdisjoint(eval_ids)
+
+
+def test_prompt_states_exact_finite_acceptance_scope():
+    for task in generate_tasks(per_family=1, seed=9):
+        checked = len(task.train_values) + len(task.holdout_values)
+        assert f"0 <= n < {checked}" in task.prompt
+        assert "only agreement on that finite observation range" in task.prompt
 
 
 LEAN = None

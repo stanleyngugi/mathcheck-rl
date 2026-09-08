@@ -4,3 +4,5 @@ __pycache__/
 local/
 artifacts/
 *.lean.tmp
+*.egg-info/
+build/

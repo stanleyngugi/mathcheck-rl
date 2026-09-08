@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import random
+import hashlib
+import json
 from dataclasses import dataclass, field
 from typing import Callable
 
@@ -22,9 +24,11 @@ def _rule_prompt(statement: str, values: list[int], shown: int) -> str:
     return (
         f"{statement}\n\n"
         f"Reference values: {listed}.\n"
-        "Submit a Lean 4 definition `def f (n : Nat) : Nat` computing a(n) for "
-        "any n. Respond with a single ```lean code block containing pure "
-        "definitions only: no imports, no attributes, no theorems."
+        "Submit a Lean 4 definition `def f (n : Nat) : Nat` intended to compute a(n). "
+        f"Reward checks every index 0 <= n < {len(values)}; the unlisted suffix is hidden. "
+        "Passing establishes only agreement on that finite observation range. Respond with "
+        "a single ```lean code block containing pure definitions only: no imports, no "
+        "attributes, no theorems."
     )
 
 
@@ -69,7 +73,7 @@ def make_linear(rng: random.Random, index: int) -> Task:
     statement = (
         f"The sequence satisfies a(n) = {p}*n + {q} for all n >= 0."
     )
-    total = [p * n + q for n in range(16)]
+    total = [p * n + q for n in range(64)]
     return Task(
         task_id=f"linear_{index}",
         family="linear",
@@ -101,7 +105,7 @@ def make_polynomial(rng: random.Random, index: int) -> Task:
     terms.append(str(c0))
     expr = " + ".join(terms)
     statement = f"The sequence satisfies a(n) = {expr} for all n >= 0."
-    total = [poly(n) for n in range(14)]
+    total = [poly(n) for n in range(48)]
     return Task(
         task_id=f"poly_{index}",
         family="explicit_polynomial",
@@ -116,6 +120,8 @@ def make_polynomial(rng: random.Random, index: int) -> Task:
 
 def make_closed_form_sum(rng: random.Random, index: int) -> Task:
     variant = rng.choice(["triangular", "sum_squares", "sum_cubes"])
+    scale = rng.randint(1, 9)
+    offset = rng.randint(0, 20)
 
     def triangular(n: int) -> int:
         return n * (n + 1) // 2
@@ -143,8 +149,11 @@ def make_closed_form_sum(rng: random.Random, index: int) -> Task:
             "def f (n : Nat) : Nat := (n * (n + 1) / 2) * (n * (n + 1) / 2)",
         ),
     }
-    statement, fn, artifact = specs[variant]
-    total = [fn(n) for n in range(14)]
+    base_statement, fn, base_artifact = specs[variant]
+    statement = f"a(n) is {scale} times ({base_statement}) plus {offset}."
+    artifact_body = base_artifact.split(":=", 1)[1].strip()
+    artifact = f"def f (n : Nat) : Nat := {scale} * ({artifact_body}) + {offset}"
+    total = [scale * fn(n) + offset for n in range(48)]
     return Task(
         task_id=f"{variant}_{index}",
         family="closed_form_sum",
@@ -153,7 +162,7 @@ def make_closed_form_sum(rng: random.Random, index: int) -> Task:
         train_values=total[:8],
         holdout_values=total[8:],
         reference_artifact=artifact,
-        metadata={"variant": variant},
+        metadata={"variant": variant, "scale": scale, "offset": offset},
     )
 
 
@@ -168,7 +177,7 @@ def make_geometric_mod(rng: random.Random, index: int) -> Task:
         f"a(n) is {base} raised to the power n, modulo {modulus} "
         f"(i.e., the remainder of {base}^n divided by {modulus})."
     )
-    total = [gmod(n) for n in range(18)]
+    total = [gmod(n) for n in range(64)]
     return Task(
         task_id=f"gmod_{index}",
         family="geometric_mod",
@@ -182,20 +191,21 @@ def make_geometric_mod(rng: random.Random, index: int) -> Task:
 
 
 def make_digit_sum(rng: random.Random, index: int) -> Task:
+    offset = rng.randint(0, 999)
     def dsum(n: int) -> int:
         return sum(int(d) for d in str(n))
 
-    statement = "a(n) is the sum of the decimal digits of n (so a(0)=0)."
-    total = [dsum(n) for n in range(60)]
+    statement = f"a(n) is the sum of the decimal digits of n + {offset}."
+    total = [dsum(n + offset) for n in range(60)]
     return Task(
         task_id=f"dsum_{index}",
         family="digit_sum",
         difficulty="hard",
         prompt=_rule_prompt(statement, total, 12),
         train_values=total[:12],
-        holdout_values=total[12:30],
-        reference_artifact=_digit_sum_ref(),
-        metadata={},
+        holdout_values=total[12:],
+        reference_artifact=_digit_sum_ref().replace("digitSum n", f"digitSum (n + {offset})"),
+        metadata={"offset": offset},
     )
 
 
@@ -217,9 +227,64 @@ def generate_tasks(
     unknown = set(selected) - set(FAMILIES)
     if unknown:
         raise ValueError(f"unknown families: {sorted(unknown)}")
+    if type(per_family) is not int or per_family < 1:
+        raise ValueError("per_family must be a positive integer")
     tasks: list[Task] = []
     for family in selected:
         rng = random.Random(f"{seed}:{family}")
-        for index in range(per_family):
-            tasks.append(FAMILIES[family](rng, index))
+        seen: set[str] = set()
+        attempts = 0
+        while len(seen) < per_family:
+            attempts += 1
+            if attempts > 10000:
+                raise RuntimeError(f"unable to generate {per_family} unique {family} tasks")
+            task = FAMILIES[family](rng, len(seen))
+            digest = task_fingerprint(task)
+            if digest in seen:
+                continue
+            seen.add(digest)
+            task.task_id = f"{family}_{digest[:12]}"
+            task.metadata["specification_digest"] = digest
+            tasks.append(task)
     return tasks
+
+
+def task_fingerprint(task: Task) -> str:
+    payload = {
+        "contract": "finite_observation_v1",
+        "family": task.family,
+        "metadata": {k: v for k, v in task.metadata.items() if k != "specification_digest"},
+        "train": task.train_values,
+        "holdout": task.holdout_values,
+    }
+    return hashlib.sha256(
+        json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+
+
+def generate_disjoint_task_splits(
+    families: list[str] | None = None,
+    *,
+    train_per_family: int = 8,
+    eval_per_family: int = 2,
+    train_seed: int = 0,
+    eval_seed: int = 1000,
+) -> tuple[list[Task], list[Task]]:
+    selected = list(families or FAMILIES)
+    train = generate_tasks(selected, train_per_family, train_seed)
+    excluded = {task_fingerprint(task) for task in train}
+    evaluation: list[Task] = []
+    attempt = 0
+    while any(sum(t.family == family for t in evaluation) < eval_per_family for family in selected):
+        if attempt >= 10000:
+            raise RuntimeError("unable to construct a mathematically disjoint evaluation split")
+        for task in generate_tasks(selected, 1, eval_seed + attempt):
+            digest = task_fingerprint(task)
+            if digest in excluded:
+                continue
+            if sum(t.family == task.family for t in evaluation) >= eval_per_family:
+                continue
+            excluded.add(digest)
+            evaluation.append(task)
+        attempt += 1
+    return train, evaluation

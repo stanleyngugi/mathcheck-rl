@@ -1,82 +1,44 @@
-# ROADMAP
+# Bounded milestone status
 
-Experiment sequence from standalone verifier to RL environment. Phases are
-gated: do not start a phase before the previous phase's exit criteria hold.
+## M0 — isolated reproducible state
 
-## Phase 0 - Hardened harness (complete)
+Implemented in a dedicated worktree and virtual environment. Baseline evidence:
+68 verifier tests plus 38 subtests, and 44 native tests, all with actual Lean
+4.23.0. The active solver benchmark checkout, environment, quota state, and
+journals were not modified. Credential rotation remains an owner action; see the
+defect ledger without exposing the credential.
 
-- Sanitizer with fail-closed allowlist semantics.
-- Fixed template with env-held train + holdout arrays and two `native_decide`
-  verify theorems.
-- Runner with WSL bridge to pinned Lean, timeouts, verdict classification.
-- Positive demo (honest artifact accepted) and attack demo (eight rejection
-  classes).
+## M1 — shared checking contracts
 
-Exit criteria met: 43 tests green; all attack demos rejected at sanitize or
-holdout stage; honest artifacts accepted end-to-end.
+The existing answer-key-free scalar and complete-pair APIs remain compatible.
+Results now explicitly distinguish checked success, mathematical rejection, and
+operational failure. The shared runner optionally enforces an exact Lean version.
 
-## Phase 1 - Task generator + batch eval (complete)
+## M2 — hardened finite-program path
 
-- Five procedural families with programmatic ground truth: linear,
-  explicit_polynomial, closed_form_sum, geometric_mod, digit_sum.
-- Batch CLI (`scripts/batch_eval.py`) against any OpenAI-compatible endpoint
-  with per-stage verdict logging and 429 backoff.
-- Unicode canonicalization layer; entry contract relaxed to type-level.
-- Reference-artifact self-tests prove every family solvable end-to-end.
+The sequence runner uses the shared one-shot runner and `lean-isolated`, requires
+Lean 4.23.0, and has no implicit host/retired-checkout fallback. The model-code
+boundary rejects indented non-`def` declarations, qualified definitions,
+unterminated comments, and non-string inputs. Verdicts bind exact inputs. v0 and
+v1 scoring reuse one verdict; v1 uses an exact-input single-flight cache.
 
-Exit criteria met: baseline measured (gpt-oss-20b via Groq, 90% acceptance on
-10 tasks); acceptance report split by stage and family.
+## M3 — answer-key-free task type
 
-## Phase 2 - verifiers wheel (in progress, core complete)
+`native-verify-spec` derives prompts and trusted checkers from one frozen bounded
+specification. Runtime reward does not store or compare an expected answer.
+Positive/wrong/minimality/completeness controls execute through real Lean.
 
-- `environments/native_verify_seq/`: single-file env module exposing
-  `load_environment()`; dataset = generated tasks with env-held holdouts in
-  the answer field; rubric = binary `lean_pass` reward plus `stage_rank` and
-  `verify_seconds` metrics; verdict cached in rollout state; Lean check
-  offloaded via `asyncio.to_thread` per verifiers performance rules.
-- Packaging per Environments Hub contract: hatchling build, git-URL dependency
-  on this repo, eval defaults in pyproject.
-- Integration smoke passed against installed verifiers 0.3.0 (dataset rows,
-  honest/hack/no-fence scoring through real rubric funcs).
+## M4 — evaluation and packaging
 
-Remaining for Phase 2: `prime env push` to the Hub (needs Prime CLI auth).
+Generators enforce unique, digest-disjoint train/evaluation specifications.
+Packages declare the shared verifier and tested framework version. Batch records
+use exclusive creation, durable manifest/trial/terminal JSONL records, explicit
+retry budgets, and input/source digests. All four wheels install together in a
+fresh environment and pass the artifact smoke recorded in
+`docs/BOUNDED_MILESTONE_VALIDATION.md`.
 
-## Phase 3 - GRPO training run (in progress, launch-blocked on GPU credits)
+## M5 — separately authorized experiment
 
-Validated end-to-end on a RunPod A40 before credits ran out:
-
-- vLLM serving Qwen2.5-1.5B-Instruct locally; baseline measured at 2.5%
-  acceptance (1/40 rollouts) - near-zero but nonzero reward, ideal GRPO start.
-- prime-rl installed (uv sync, all five submodules, flash-attn build pending).
-- verifiers v1 Taskset written and validated via dry-run:
-  `NativeVerifyTaskset` + `NativeVerifyTasksetConfig` exported from the env
-  module; binary `nv_lean_pass` reward + zero-weight `nv_stage_rank` metric;
-  renderer pinned to "default" for Qwen2.5.
-- Full debug trail captured in `docs/POD_RUNBOOK.md`; relaunch is one scripted
-  sequence.
-
-Remaining: flash-attn build completion, then launch
-`uv run rl @ configs/grpo_smoke_a40.toml` and track reward trend, hack-attempt
-rate, holdout-failure rate over 24 steps.
-
-## Phase 3 - GRPO training run
-
-- Small open model via prime-rl (or Tinker) on Phase 2 environment.
-- Track: acceptance rate, hack-attempt rate (sanitize rejections), holdout
-  failures, VG gap, extrapolation slope.
-- Anti-hacking audit: manual review of rejected artifacts each checkpoint.
-
-Exit criteria: positive acceptance-rate trend without sanitize-rejection decay;
-holdout failure rate does not grow relative to train success (no memorization
-collapse).
-
-## Phase 4 - Self-written checkers
-
-- Model emits its own property checks alongside the answer artifact; env runs
-  both. Reward requires the model's checker to be sound (passes on true
-  variants, fails mutated variants).
-- Trains verification literacy explicitly; enables sound process rewards from
-  executed properties instead of learned PRMs.
-
-Exit criteria: measurable gap between answer accuracy and self-check quality
-closes over training.
+Not started. A paid or long-running learning experiment requires a separately
+approved model, frozen splits, compute/call budget, retry policy, stopping rule,
+and equal pre/post evaluation protocol.

@@ -14,6 +14,7 @@ BANNED_CHARS = {'"', "`", "@", "\\", "#"}
 CHAR_LITERAL_RE = re.compile(r"'(\\.|[^'\\\n])'")
 
 BANNED_WORDS = (
+    "abbrev",
     "admit",
     "attribute",
     "axiom",
@@ -64,7 +65,7 @@ BANNED_WORDS = (
 RESERVED_NAMES = {"f", "trainExpected", "holdoutExpected"}
 ENTRY_SIG_EXPLICIT_RE = re.compile(r"^def\s+f\s*\(\s*n\s*:\s*Nat\s*\)\s*(?::\s*Nat\s*)?:=")
 ENTRY_SIG_TYPED_RE = re.compile(r"^def\s+f\s*:\s*Nat\s*->\s*Nat\s*$")
-DEF_NAME_RE = re.compile(r"^def\s+([A-Za-z][A-Za-z0-9_]*)")
+DEF_NAME_RE = re.compile(r"^def\s+([A-Za-z][A-Za-z0-9_]*)(?=\s|\(|:)")
 HELPER_NAME_RE = re.compile(r"^[a-z][A-Za-z0-9_]*$")
 LITERAL_RE = re.compile(r"\d+")
 IDENT_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
@@ -72,7 +73,15 @@ IDENT_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
 
 def sanitize_model_code(model_code: str) -> SanitizeResult:
     errors: list[str] = []
-    cleaned = strip_comments(model_code)
+    if not isinstance(model_code, str):
+        return SanitizeResult(
+            accepted=False,
+            reason="model_code must be a string",
+            errors=["model_code must be a string"],
+        )
+    cleaned, comments_closed = _strip_comments_checked(model_code)
+    if not comments_closed:
+        errors.append("unterminated block comment")
 
     if len(model_code) > MAX_CHARS:
         errors.append(f"model_code exceeds {MAX_CHARS} characters")
@@ -142,7 +151,7 @@ def sanitize_model_code(model_code: str) -> SanitizeResult:
     return SanitizeResult(accepted=True, model_code=trimmed)
 
 
-def strip_comments(source: str) -> str:
+def _strip_comments_checked(source: str) -> tuple[str, bool]:
     out: list[str] = []
     depth = 0
     i = 0
@@ -170,7 +179,12 @@ def strip_comments(source: str) -> str:
             continue
         out.append(source[i])
         i += 1
-    return "".join(out)
+    return "".join(out), depth == 0
+
+
+def strip_comments(source: str) -> str:
+    """Return comment-free source; validation separately rejects unterminated blocks."""
+    return _strip_comments_checked(source)[0]
 
 
 def _def_headers(lines: list[str]) -> list[str]:
@@ -179,9 +193,13 @@ def _def_headers(lines: list[str]) -> list[str]:
         stripped = line.strip()
         if not stripped:
             continue
-        if line[0].isspace() or stripped.startswith("|"):
+        if stripped.startswith("|"):
             continue
-        headers.append(line)
+        if re.match(r"^def\b", stripped):
+            headers.append(stripped)
+            continue
+        if not line[0].isspace():
+            headers.append(line)
     return headers
 
 

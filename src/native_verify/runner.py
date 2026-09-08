@@ -1,22 +1,24 @@
 from __future__ import annotations
 
 import os
+import hashlib
+import json
 import re
-import shutil
-import subprocess
 import sys
-import tempfile
 import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Sequence
+
+from lean_kernel_verifier.runner.checker_runner import CheckerRunConfig, LeanCheckerRunner
+from lean_kernel_verifier.sanitizer.sanitizer import SanitizerConfig
 
 from .sanitizer import sanitize_model_code
 from .template import build_checker_source
 from .types import Verdict
 
 ERROR_LINE_RE = re.compile(r":(\d+):\d+:\s*error")
-PROBE_TIMEOUT_SECONDS = 20.0
+PINNED_LEAN_VERSION = (4, 23, 0)
 
 
 @dataclass(slots=True)
@@ -25,67 +27,22 @@ class LeanBackend:
     executable: str
 
 
-WSL_NATIVE_HOME_PREFIX = "$HOME/.native-verify/pinned"
+def locate_lean(explicit: str | None = None, *, probe: bool = True) -> LeanBackend | None:
+    """Resolve only an explicitly configured shared isolation wrapper.
 
-
-def locate_lean(explicit: str | None = None) -> LeanBackend | None:
-    candidates: list[LeanBackend] = []
-    if explicit:
-        candidates.append(_explicit_backend(explicit))
-    env = os.getenv("NATIVE_VERIFY_LEAN") or os.getenv("LEAN_BIN")
-    if env:
-        candidates.append(_explicit_backend(env))
-
-    if _is_windows():
-        candidates.append(
-            LeanBackend(
-                mode="wsl_native",
-                executable=f"{WSL_NATIVE_HOME_PREFIX}/lean-4.23.0-linux/bin/lean",
-            )
-        )
-
-        own_root = Path(__file__).resolve().parents[2]
-        folder_root = Path(__file__).resolve().parents[3]
-
-        for base in (folder_root / "aimo", own_root):
-            linux_lean = (
-                base
-                / "local"
-                / "runtime"
-                / "tools"
-                / "pinned"
-                / "lean-4.23.0-linux"
-                / "bin"
-                / "lean"
-            )
-            if linux_lean.is_file():
-                candidates.append(LeanBackend(mode="wsl", executable=str(linux_lean)))
-        windows_lean = (
-            own_root
-            / "local"
-            / "runtime"
-            / "tools"
-            / "pinned"
-            / "lean-4.23.0-windows"
-            / "bin"
-            / "lean.exe"
-        )
-        if windows_lean.is_file():
-            candidates.append(LeanBackend(mode="direct", executable=str(windows_lean)))
-
-    discovered = shutil.which("lean") or shutil.which("lean.exe")
-    if discovered:
-        candidates.append(LeanBackend(mode="direct", executable=discovered))
-
-    seen: set[tuple[str, str]] = set()
-    for candidate in candidates:
-        key = (candidate.mode, candidate.executable)
-        if key in seen:
-            continue
-        seen.add(key)
-        if _probe(candidate):
-            return candidate
-    return None
+    A broken explicit backend never falls through to a host Lean installation.
+    Native verification is supported from Linux/WSL processes, where the shared
+    ``lean-isolated`` entry point can be executed directly.
+    """
+    configured = explicit
+    if configured is None:
+        configured = os.getenv("NATIVE_VERIFY_LEAN") or os.getenv("LEAN_BIN")
+    if not configured:
+        return None
+    candidate = _explicit_backend(configured)
+    if candidate.mode != "direct" or Path(candidate.executable).name != "lean-isolated":
+        return None
+    return candidate if not probe or _probe(candidate) else None
 
 
 def _is_windows() -> bool:
@@ -95,8 +52,6 @@ def _is_windows() -> bool:
 def _explicit_backend(path: str) -> LeanBackend:
     if _is_windows() and path.startswith("/"):
         return LeanBackend(mode="wsl", executable=path)
-    if path.startswith("~") or path.startswith("$"):
-        return LeanBackend(mode="wsl_native", executable=path)
     return LeanBackend(mode="direct", executable=path)
 
 
@@ -122,6 +77,8 @@ def verify(
             diagnostics=sanitized.errors[:10],
             duration_ms=elapsed_ms(),
             backend="none",
+            status="invalid_input",
+            artifact_digest=_digest_text(model_code) if isinstance(model_code, str) else "",
         )
 
     try:
@@ -133,9 +90,14 @@ def verify(
             reason=f"template_error:{exc}",
             duration_ms=elapsed_ms(),
             backend="none",
+            status="invalid_input",
+            artifact_digest=_digest_text(sanitized.model_code),
         )
 
-    backend = locate_lean(lean_bin)
+    specification_digest = _finite_specification_digest(train_values, holdout_values)
+    artifact_digest = _digest_text(sanitized.model_code)
+
+    backend = locate_lean(lean_bin, probe=False)
     if backend is None:
         return Verdict(
             accepted=False,
@@ -143,51 +105,54 @@ def verify(
             reason="lean_not_found",
             duration_ms=elapsed_ms(),
             backend="none",
+            status="operational_error",
+            specification_digest=specification_digest,
+            artifact_digest=artifact_digest,
         )
-
-    tmpdir = tempfile.mkdtemp(prefix="native_verify_")
-    script_path = Path(tmpdir) / "checker.lean"
-    script_path.write_text(source, encoding="utf-8")
-    command = _build_command(backend, script_path)
-
+    runner = LeanCheckerRunner(CheckerRunConfig(
+        lean_executable=backend.executable,
+        timeout_seconds=max(1, int(timeout_seconds)),
+        min_lean_version=PINNED_LEAN_VERSION,
+        required_lean_version=PINNED_LEAN_VERSION,
+        execution_mode="oneshot_cli",
+    ))
     try:
-        proc = subprocess.run(
-            command,
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            timeout=timeout_seconds,
-            cwd=tmpdir,
-        )
-    except subprocess.TimeoutExpired:
-        return Verdict(
-            accepted=False,
-            stage="timeout",
-            reason="checker_timeout",
-            duration_ms=elapsed_ms(),
-            backend=backend.mode,
-        )
-    except OSError as exc:
-        return Verdict(
-            accepted=False,
-            stage="internal",
-            reason=f"execution_failed:{exc}",
-            duration_ms=elapsed_ms(),
-            backend=backend.mode,
+        checked = runner.run_source(
+            source,
+            SanitizerConfig(profile="A", enforce_template_contract=False),
         )
     finally:
-        shutil.rmtree(tmpdir, ignore_errors=True)
+        runner.close()
 
-    output = proc.stdout + "\n" + proc.stderr
+    output = checked.stdout + "\n" + checked.stderr
+    invocations = 1 if checked.returncode is None and not checked.timed_out else 2
+    if checked.timed_out:
+        return Verdict(
+            accepted=False, stage="timeout", reason="checker_timeout",
+            duration_ms=elapsed_ms(), backend=checked.backend_mode,
+            status="operational_error", specification_digest=specification_digest,
+            artifact_digest=artifact_digest, checker_invocations=invocations,
+        )
+    if checked.backend_error or checked.returncode in (124, 125) or checked.returncode is None:
+        diagnostics = [line.strip() for line in output.splitlines() if line.strip()][-10:]
+        return Verdict(
+            accepted=False, stage="internal", reason="checker_backend_error",
+            diagnostics=diagnostics, duration_ms=elapsed_ms(), backend=checked.backend_mode,
+            status="operational_error", specification_digest=specification_digest,
+            artifact_digest=artifact_digest, checker_invocations=invocations,
+        )
     error_lines = [line.strip() for line in output.splitlines() if ": error" in line]
-    if proc.returncode == 0 and not error_lines:
+    if checked.success and not error_lines:
         return Verdict(
             accepted=True,
             stage="verified",
             reason=None,
             duration_ms=elapsed_ms(),
-            backend=backend.mode,
+            backend=checked.backend_mode,
+            status="checked_success",
+            specification_digest=specification_digest,
+            artifact_digest=artifact_digest,
+            checker_invocations=invocations,
         )
     stage, reason = classify_failure(output, markers)
     diagnostics = error_lines[:10] or [line.strip() for line in output.splitlines() if line.strip()][-5:]
@@ -197,7 +162,11 @@ def verify(
         reason=reason,
         diagnostics=diagnostics,
         duration_ms=elapsed_ms(),
-        backend=backend.mode,
+        backend=checked.backend_mode,
+        status="mathematical_rejection" if stage in {"train_check", "holdout_check"} else "invalid_input",
+        specification_digest=specification_digest,
+        artifact_digest=artifact_digest,
+        checker_invocations=invocations,
     )
 
 
@@ -213,39 +182,33 @@ def classify_failure(output: str, markers: dict[str, int]) -> tuple[str, str]:
     return "compile", "model_or_template_error"
 
 
-def _build_command(backend: LeanBackend, script_path: Path) -> list[str]:
-    if backend.mode == "direct":
-        return [backend.executable, str(script_path)]
-    if backend.mode == "wsl":
-        return ["wsl", "-e", _to_wsl_path(backend.executable), _to_wsl_path(script_path)]
-    return [
-        "wsl",
-        "-e",
-        "bash",
-        "-c",
-        f"{backend.executable} {_to_wsl_path(script_path)}",
-    ]
-
-
 def _probe(backend: LeanBackend) -> bool:
-    if backend.mode == "direct":
-        command = [backend.executable, "--version"]
-    elif backend.mode == "wsl":
-        command = ["wsl", "-e", _to_wsl_path(backend.executable), "--version"]
-    else:
-        command = ["wsl", "-e", "bash", "-c", f"{backend.executable} --version"]
+    runner = LeanCheckerRunner(CheckerRunConfig(
+        lean_executable=backend.executable,
+        min_lean_version=PINNED_LEAN_VERSION,
+        required_lean_version=PINNED_LEAN_VERSION,
+    ))
     try:
-        result = subprocess.run(
-            command,
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            timeout=PROBE_TIMEOUT_SECONDS,
-        )
-    except (OSError, subprocess.TimeoutExpired):
-        return False
-    return result.returncode == 0
+        return runner._ensure_lean_compatible() is None
+    finally:
+        runner.close()
+
+
+def _digest_text(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def _finite_specification_digest(
+    train_values: Sequence[int], holdout_values: Sequence[int]
+) -> str:
+    payload = {
+        "contract": "finite_observation_v1",
+        "train": list(train_values),
+        "holdout": list(holdout_values),
+    }
+    return hashlib.sha256(
+        json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
 
 
 def _to_wsl_path(path: Path | str) -> str:

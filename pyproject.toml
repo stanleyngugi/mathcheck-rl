@@ -4,9 +4,20 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "native-verify"
-version = "0.0.1"
-description = "Execution-as-verification harness for RL training of LLMs"
+version = "0.1.0"
+description = "Bounded computational-verification harness for RL training of LLMs"
 requires-python = ">=3.10"
+dependencies = [
+    "lean-kernel-verifier>=0.3,<0.4",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8,<10",
+    "verifiers==0.3.0",
+    "datasets>=3,<5",
+    "build>=1,<2",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]

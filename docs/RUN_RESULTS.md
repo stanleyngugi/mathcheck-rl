@@ -1,5 +1,13 @@
 # GRPO Smoke Run Results — pod3 (RTX 2000 Ada 16GB), 2026-08-24
 
+> Historical evidence, not a current launch recipe. The preserved log contains
+> empty batches, dropped off-policy traces, cancelled episodes, and a reward
+> series that is not identical to every summarized series below. “Trainable
+> 100%” does not by itself prove absence of degenerate rollout groups. The run
+> establishes end-to-end execution and checkpoint logging, not learning
+> improvement. Current code requires the shared isolated wrapper; the historical
+> direct-Lean configs are intentionally retained unchanged as provenance.
+
 First completed GRPO training run on native-verify-seq.
 
 ## Run facts
@@ -33,8 +41,9 @@ First completed GRPO training run on native-verify-seq.
    digit_sum near zero; dataset ordered linear-first explains the high early
    steps). Meaningful signal requires hundreds of steps plus family-balanced
    sampling or difficulty filtering.
-3. **Trainable fraction was 100% on every step** — every batch contained a
-   reward mix that produced usable advantages. No degenerate groups.
+3. **The displayed trainer-step trainable fraction was 100%.** Raw group-level
+   rewards were not preserved here, so this aggregate alone cannot establish
+   that every rollout group was non-degenerate.
 4. Error rate 0.0%, truncation ~0-6%, sanitizer rejections visible in early
    batches then absent from summaries (to be quantified from traces).
 

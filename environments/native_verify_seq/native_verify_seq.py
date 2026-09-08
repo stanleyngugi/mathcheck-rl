@@ -1,14 +1,16 @@
 import asyncio
+import hashlib
 import json
 
 import verifiers as vf
 from datasets import Dataset
-from pydantic_config import BaseConfig
 
 from native_verify import verify
 from native_verify.canonical import canonicalize_unicode
 from native_verify.extract import extract_artifact
 from native_verify.tasks import FAMILIES, generate_tasks
+from native_verify.tasks import generate_disjoint_task_splits
+from native_verify.async_cache import AsyncSingleFlight
 
 SYSTEM_PROMPT = (
     "You are an expert Lean 4 programmer. You will receive a sequence problem. "
@@ -19,7 +21,8 @@ SYSTEM_PROMPT = (
     "Use structural recursion or explicit fuel loops for recursion. "
     "ASCII only: write `->` for function arrows, never the Unicode arrow character. "
     "Define f either as `def f (n : Nat) : Nat := ...` or as `def f : Nat -> Nat` "
-    "with match patterns."
+    "with match patterns. The reward contract is finite observation agreement on "
+    "the exact checked range stated in each prompt; it is not a universal theorem."
 )
 
 STAGE_RANK = {
@@ -40,10 +43,13 @@ class _ExtractFailure:
         self.stage = "extract"
         self.reason = reason
         self.duration_ms = 0
+        self.status = "invalid_input"
 
 
-def _build_split(families, per_family: int, seed: int) -> Dataset:
-    tasks = generate_tasks(families=families, per_family=per_family, seed=seed)
+_V1_VERDICTS = AsyncSingleFlight(max_completed=2048)
+
+
+def _build_split(tasks) -> Dataset:
     rows = []
     for task in tasks:
         rows.append(
@@ -60,6 +66,8 @@ def _build_split(families, per_family: int, seed: int) -> Dataset:
                         "task_id": task.task_id,
                         "family": task.family,
                         "difficulty": task.difficulty,
+                        "scope": "finite_observation",
+                        "specification_digest": task.metadata["specification_digest"],
                     }
                 ),
             }
@@ -70,24 +78,29 @@ def _build_split(families, per_family: int, seed: int) -> Dataset:
 async def _get_verdict(completion, answer, state):
     if "nv_verdict" in state:
         return state["nv_verdict"]
+    if "nv_verdict_task" in state:
+        return await asyncio.shield(state["nv_verdict_task"])
     response_text = ""
     if completion:
         last = completion[-1]
         response_text = last.get("content") or "" if isinstance(last, dict) else str(last)
     artifact = extract_artifact(response_text)
-    if artifact is None:
-        verdict = _ExtractFailure("no_lean_fence")
-    elif len(artifact) > 10000:
-        verdict = _ExtractFailure("artifact_too_large")
-    else:
+    async def run_once():
+        if artifact is None:
+            return _ExtractFailure("no_lean_fence")
+        if len(artifact) > 10000:
+            return _ExtractFailure("artifact_too_large")
         case_data = json.loads(answer)
-        verdict = await asyncio.to_thread(
-            verify,
-            canonicalize_unicode(artifact),
-            case_data["train"],
-            case_data["holdout"],
-            timeout_seconds=90.0,
+        return await asyncio.to_thread(
+            verify, canonicalize_unicode(artifact), case_data["train"],
+            case_data["holdout"], timeout_seconds=90.0,
         )
+    task = asyncio.create_task(run_once())
+    state["nv_verdict_task"] = task
+    try:
+        verdict = await asyncio.shield(task)
+    finally:
+        state.pop("nv_verdict_task", None)
     state["nv_verdict"] = verdict
     return verdict
 
@@ -119,8 +132,15 @@ def load_environment(
     if unknown:
         raise ValueError(f"unknown families: {sorted(unknown)}")
 
-    dataset = _build_split(family_list, num_per_family, seed)
-    eval_dataset = _build_split(family_list, eval_num_per_family, eval_seed)
+    training, evaluation = generate_disjoint_task_splits(
+        family_list,
+        train_per_family=num_per_family,
+        eval_per_family=eval_num_per_family,
+        train_seed=seed,
+        eval_seed=eval_seed,
+    )
+    dataset = _build_split(training)
+    eval_dataset = _build_split(evaluation)
 
     rubric = vf.Rubric(funcs=[lean_pass], weights=[1.0])
     rubric.add_metric(stage_rank)
@@ -161,20 +181,31 @@ try:
                 return _ExtractFailure("no_lean_fence")
             if len(artifact) > 10000:
                 return _ExtractFailure("artifact_too_large")
-            return await asyncio.to_thread(
-                verify,
-                canonicalize_unicode(artifact),
-                self.data.train_values,
-                self.data.holdout_values,
-                lean_bin=self.config.lean_bin,
-                timeout_seconds=self.config.verify_timeout,
-            )
+            canonical = canonicalize_unicode(artifact)
+            payload = json.dumps({
+                "artifact": canonical,
+                "train": self.data.train_values,
+                "holdout": self.data.holdout_values,
+                "lean_bin": self.config.lean_bin,
+                "timeout": self.config.verify_timeout,
+            }, sort_keys=True, separators=(",", ":"))
+            key = hashlib.sha256(payload.encode()).hexdigest()
+
+            async def run_once():
+                return await asyncio.to_thread(
+                    verify, canonical, self.data.train_values, self.data.holdout_values,
+                    lean_bin=self.config.lean_bin,
+                    timeout_seconds=self.config.verify_timeout,
+                )
+
+            return await _V1_VERDICTS.get(key, run_once)
 
         @reward(weight=1.0)
         async def nv_lean_pass(self, trace: Trace, runtime: Runtime) -> float:
             verdict = await self._run(trace)
             trace.info["nv_stage"] = verdict.stage
             trace.info["nv_reason"] = verdict.reason
+            trace.info["nv_status"] = verdict.status
             return 1.0 if verdict.accepted else 0.0
 
         @reward(weight=0.0)
@@ -220,5 +251,6 @@ try:
         "NativeVerifyTasksetConfig",
         "load_environment",
     ]
-except ImportError:
-    pass
+except ImportError as exc:
+    V1_IMPORT_ERROR = str(exc)
+    __all__ = ["load_environment"]

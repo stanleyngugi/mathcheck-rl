@@ -1,47 +1,24 @@
 # native-verify-seq
 
-Execution-as-verification RL environment for Prime Intellect's verifiers.
+Legacy finite-observation executable-program tasks for Prime Intellect
+`verifiers`. The model submits restricted pure Lean definitions. Reward is 1
+only when the function agrees with every environment-held value in the exact
+finite range stated in the prompt.
 
-The model receives a numeric sequence problem and must submit a Lean 4
-definition `def f (n : Nat) : Nat` in a ```lean code block. The environment
-compiles the submission into a fixed checker template and runs it with
-`native_decide`. The reward is binary: the definition must reproduce all
-training values AND generalize to held-out values the model never saw.
+This contract does not establish correctness for arbitrary `n`. Hidden suffixes
+and wider boundary ranges make hard-coded prefix solutions less useful, but they
+remain finite tests. Use `native-verify-spec` when answer-key-free complete
+bounded checking is required.
 
-## Reward
+Train and evaluation rows are deduplicated and disjoint by a digest over family,
+parameters, and all checked values. The framework `answer` column holds the
+environment-owned finite arrays and is never rendered into the prompt.
 
-- `lean_pass` (weight 1.0): 1.0 iff the artifact passes sanitization, compiles,
-  matches train cases, and passes the holdout gate. Binary by design - the
-  verifier is authoritative.
-- Metrics: `stage_rank` (how far the rollout reached: 0 extract/sanitize,
-  1 compile, 2 train gate, 3 holdout gate, 4 verified), `verify_seconds`.
+The v0 rubric exposes binary `lean_pass` plus zero-weight stage and timing
+metrics. The v1 task uses an exact-input bounded single-flight cache, so reward
+and metrics share one immutable verdict. Timeout or backend failure yields zero
+reward with `operational_error`; it is not called a mathematical mismatch.
 
-## Task families (procedural, contamination-free)
-
-- `linear`: a(n) = p*n + q (easy)
-- `explicit_polynomial`: cubic with small coefficients (medium)
-- `closed_form_sum`: triangular / sum of squares / sum of cubes (medium)
-- `geometric_mod`: b^n mod m via fuel-based modpow (hard)
-- `digit_sum`: decimal digit sum via fuel loop (hard)
-
-## Trust boundary
-
-The environment owns all ground truth. Submissions may contain only pure
-computational definitions: no imports, attributes, theorems, `sorry`,
-`partial`, or `unsafe`. Unknown constructs are rejected fail-closed. Holdout
-values are never shown in prompts.
-
-## Required environment variables
-
-None. But a Lean 4 toolchain (>= 4.22) must be available on the machine
-running rollouts:
-
-- set `NATIVE_VERIFY_LEAN` to the `lean` executable path, or
-- have `lean` on PATH.
-
-## Local development
-
-```bash
-uv pip install -e .
-vf-eval native-verify-seq
-```
+Execution requires Linux/WSL, the shared `lean-isolated` executable configured
+through `NATIVE_VERIFY_LEAN` or `LEAN_BIN`, and `LKV_SANDBOX_TOOLCHAIN` pointing
+to Lean 4.23.0. Missing isolation fails closed; host Lean discovery is disabled.

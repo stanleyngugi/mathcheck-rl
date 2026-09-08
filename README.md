@@ -1,85 +1,75 @@
 # native-verify
 
-Execution-as-verification primitives for RL training of LLMs.
+RL task and reward layers for bounded computational verification. The shared
+`lean-kernel-verifier` package owns trusted source generation, Lean execution,
+isolation, and checker evidence. This repository owns tasks, prompts, candidate
+formats, split policy, reward caching, and framework adapters.
 
-The model never proves anything and is never asked for a proof. It commits to a
-computational artifact; the environment compiles the artifact into a fixed Lean
-template and runs it with `native_decide`. The reward is the execution result.
+Two contracts are intentionally separate:
 
-```text
-problem -> model artifact (pure defs) -> sanitize -> template + env-held cases -> lean run -> reward
+| Environment | Model submission | What acceptance establishes |
+|---|---|---|
+| `native-verify-spec` | Integer candidate or complete pair certificate in JSON | The candidate satisfies the complete encoded bounded specification, without a stored expected answer |
+| `native-verify-seq` | Restricted pure Lean definitions | The function agrees with all environment-held observations in the declared finite index range |
+
+The specification environment is the answer-key-free path. The environment
+freezes an arithmetic predicate/objective before generation; the model cannot
+submit or weaken it. Scalar tasks cover exact evaluation, bounded sums, bounded
+counts, and bounded minima. Pair certificates must enumerate the entire
+satisfying relation in the declared rectangle, not merely valid witnesses.
+
+The legacy sequence environment is useful for executable-program RL, but it is
+finite observation testing. It does not prove a function correct for every
+natural number, even when the prose describes a universal rule.
+
+## Result model
+
+Verdicts distinguish:
+
+- `checked_success`: the encoded checker accepted;
+- `mathematical_rejection`: a well-formed candidate failed the encoded check;
+- `invalid_input`: extraction, language, or compilation was malformed;
+- `unsupported_task`: outside the declared task contract;
+- `operational_error`: timeout, missing/mismatched toolchain, or backend failure.
+
+Operational failures deny reward but are not reported as mathematical
+counterexamples. Verdicts bind SHA-256 digests of the exact specification and
+artifact/submission.
+
+## Isolation and toolchain
+
+Untrusted Lean programs require the shared Linux `lean-isolated` wrapper and
+Lean 4.23.0 exactly. There is no fallback to a discovered host Lean executable,
+retired checkout, or sibling solver environment.
+
+```bash
+python -m pip install -e ../lean-kernel-verifier -e '.[dev]'
+export NATIVE_VERIFY_LEAN=/absolute/path/to/venv/bin/lean-isolated
+export LKV_SANDBOX_TOOLCHAIN=/absolute/path/to/lean-4.23.0-linux
+python -m pytest tests -q
 ```
 
-## Why this exists
-
-Two verification regimes dominate current RL environments, and this project is
-deliberately orthogonal to both:
-
-| Regime | Verifier | Weakness |
-|---|---|---|
-| Proof-search RL (miniF2F-style) | Lean kernel over tactic proofs | Brutal coverage cliffs; sparse rewards; model must learn Mathlib |
-| Answer-match RL (math_verify) | String/numeric comparison | Trains answer shaping, not verification literacy; no process signal |
-| **Execution-as-verification (this)** | `native_decide` over compiled claims | Trust boundary must be enforced by harness (this repo's core) |
-
-`native_decide` turns Lean into a trusted evaluator: it compiles a decidable
-proposition and runs it. No proof search, no tactics, no Mathlib. The claim is
-verified because executing it returns true.
-
-## Binding trust-boundary rules
-
-These are non-negotiable design invariants. Under RL, gradient descent is an
-adversary aimed at the verifier; any hole will be found.
-
-1. The environment owns all ground truth. Model code can never name or embed
-   expected values.
-2. The model writes only pure computational definitions. One required entry
-   point (`def f (n : Nat) : Nat`) plus optional helper defs. Everything else
-   (theorems, attributes, imports, commands, types) is rejected.
-3. Sanitization is fail-closed. Anything not explicitly allowed is rejected;
-   unknown constructs are errors, not warnings.
-4. Holdout cases extend the same index space beyond the values shown to the
-   model and are checked in a separate gate. Hardcoding seen values fails the
-   holdout gate; only computations that generalize pass.
-5. Known unsoundness vectors are banned at the character/keyword level:
-   `@[implemented_by]`, `@[extern]`, `@[csimp]`, `unsafe`, `partial`, `opaque`,
-   `axiom`, `sorry`, `admit`, metaprogramming and IO surfaces.
-6. Every checker invocation is timeout-bounded and sandboxed to a temp file.
+Run from Linux or inside WSL. The isolation wrapper fails closed if bubblewrap,
+namespaces, resource limits, or the pinned toolchain are unavailable.
 
 ## Layout
 
 ```text
 src/native_verify/
-  sanitizer.py    # fail-closed filter for model-submitted code
-  template.py     # fixed checker template + stage markers
-  runner.py       # Lean discovery (WSL bridge or native), execution, verdicts
-  types.py        # result dataclasses
-examples/
-  demo_positive.py  # honest artifact -> accepted
-  demo_attacks.py   # eight hacking attempts -> all rejected
-tests/
-ROADMAP.md       # experiment phases toward an RL environment
+  specification_tasks.py  # answer-key-free tasks and reward path
+  tasks.py                 # legacy finite-observation sequence tasks
+  sanitizer.py             # restricted lexical program-language boundary
+  runner.py                # shared isolated runner integration
+  async_cache.py           # exact-input single-flight verdict cache
+environments/
+  native_verify_spec/      # v0/v1 answer-key-free adapter
+  native_verify_seq/       # v0/v1 finite-observation adapter
 ```
 
-## Quickstart
+Train/evaluation generators remove duplicate specifications and enforce digest
+disjointness. This is evidence of split separation for the encoded tasks, not a
+claim that procedural generation eliminates all semantic contamination.
 
-No installation and no Lean setup are required on this machine: the runner
-bridges to the pinned Lean 4.23.0 toolchain in the sibling `aimo` repo through
-WSL automatically. Override with `NATIVE_VERIFY_LEAN` (direct executable path)
-when needed.
-
-```bash
-python -m pytest tests -q
-python examples/demo_attacks.py
-python examples/demo_positive.py --strict
-```
-
-## Status
-
-Phase 0 scaffold: standalone harness, positive/negative demos, unit tests.
-See `ROADMAP.md` for the experiment sequence.
-
-## Lineage
-
-The sanitizer hardening approach descends from the Trace-to-Lean project
-(`../aimo`). Domain machinery (mining families, consensus, algebra pipelines)
-is deliberately excluded; that scaffolding becomes curriculum later or never.
+See `docs/DEFECT_LEDGER.md` for the bounded correction ledger and
+`docs/RUN_RESULTS.md` for historical training evidence. No learning improvement
+is inferred from the historical smoke launch alone.

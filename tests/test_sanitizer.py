@@ -109,3 +109,22 @@ def test_strip_comments_nested_block():
     assert "inner" not in cleaned
     assert "def a" in cleaned
     assert "def b" in cleaned
+
+
+def test_indented_top_level_non_def_declaration_is_rejected():
+    code = "def f (n : Nat) : Nat := n\n\n  abbrev extra : Nat := 7"
+    result = sanitize_model_code(code)
+    assert not result.accepted
+    assert any("abbrev" in error for error in result.errors)
+
+
+def test_indented_defs_are_still_counted_and_validated():
+    code = "def f (n : Nat) : Nat := n\n\n  def Bad.Helper : Nat := 7"
+    result = sanitize_model_code(code)
+    assert not result.accepted
+    assert any("unparsable" in error for error in result.errors)
+
+
+def test_unterminated_block_comment_and_non_string_are_rejected():
+    assert not sanitize_model_code("def f (n : Nat) : Nat := n\n/- open").accepted
+    assert not sanitize_model_code(None).accepted
