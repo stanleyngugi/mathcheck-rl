@@ -13,6 +13,8 @@ from .specification_tasks import (
     verify_specification_submission,
 )
 
+__version__ = "0.2.0"
+
 __all__ = [
     "LeanBackend",
     "SanitizeResult",
@@ -27,4 +29,5 @@ __all__ = [
     "generate_specification_tasks",
     "parse_specification_submission",
     "verify_specification_submission",
+    "__version__",
 ]

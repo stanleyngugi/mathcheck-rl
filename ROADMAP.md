@@ -39,6 +39,7 @@ fresh environment and pass the artifact smoke recorded in
 
 ## M5 — separately authorized experiment
 
-Not started. A paid or long-running learning experiment requires a separately
-approved model, frozen splits, compute/call budget, retry policy, stopping rule,
-and equal pre/post evaluation protocol.
+Prepared but not started. `docs/M5_PILOT_PROTOCOL.md` freezes recommended splits,
+hard call/cost/time limits, retry policy, stopping rules, and equal pre/post
+evaluation. Execution remains gated on the active benchmark finishing,
+credential cutover, reviewed merges, and filling the exact provider/model fields.

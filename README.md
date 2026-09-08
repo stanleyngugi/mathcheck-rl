@@ -73,3 +73,13 @@ claim that procedural generation eliminates all semantic contamination.
 See `docs/DEFECT_LEDGER.md` for the bounded correction ledger and
 `docs/RUN_RESULTS.md` for historical training evidence. No learning improvement
 is inferred from the historical smoke launch alone.
+
+## Release-candidate gate
+
+Install `requirements-release.lock` into a dedicated build environment, then run
+`scripts/release_gate.py` with the verifier worktree, a separately owned
+read-only Lean 4.23.0 distribution, its expected binary SHA-256, and an absent or
+empty output directory. The gate verifies the locked build tools and Lean hash,
+builds all four versioned wheels with a fixed source-date epoch, installs them in
+a disposable environment, runs `pip check`, and performs the answer-key-free
+real-Lean smoke outside both source trees.

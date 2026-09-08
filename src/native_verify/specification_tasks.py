@@ -30,6 +30,15 @@ SPECIFICATION_FAMILIES = (*SCALAR_FAMILIES, "bounded_pair_count")
 _JSON_FENCE_RE = re.compile(r"\s*```json\s*\n(?P<body>.*?)```\s*", re.DOTALL)
 
 
+def _unique_json_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate JSON key: {key}")
+        result[key] = value
+    return result
+
+
 @dataclass(frozen=True, slots=True)
 class SpecificationTask:
     task_id: str
@@ -202,7 +211,9 @@ def parse_specification_submission(
     if match is None:
         raise ValueError("submit exactly one fenced json object and no other text")
     try:
-        payload = json.loads(match.group("body"))
+        payload = json.loads(
+            match.group("body"), object_pairs_hook=_unique_json_object
+        )
     except json.JSONDecodeError as exc:
         raise ValueError("submission contains invalid JSON") from exc
     if not isinstance(payload, dict):
