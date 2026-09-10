@@ -83,3 +83,13 @@ empty output directory. The gate verifies the locked build tools and Lean hash,
 builds all four versioned wheels with a fixed source-date epoch, installs them in
 a disposable environment, runs `pip check`, and performs the answer-key-free
 real-Lean smoke outside both source trees.
+
+The separately authorized M5 pilot has an offline preregistration gate in
+`scripts/prepare_m5_manifest.py`. It binds the exact release manifest and Git
+commits, reproduces all 200 frozen task specifications and their commitments,
+enforces pairwise split disjointness, and rejects unset runtime fields. It does
+not contact a provider or start training.
+
+After the active benchmark finishes and credential rotation is coordinated,
+`scripts/check_remote_credentials.py` provides a read-only origin check whose
+output never includes the remote URL.

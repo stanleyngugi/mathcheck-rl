@@ -14,7 +14,11 @@ After the benchmark owner confirms completion:
 2. Replace the local origin with a credential-free HTTPS URL or an SSH URL.
    Authentication should come from the platform credential manager or SSH agent.
 3. Validate programmatically that the configured URL contains no user-info
-   component, without printing the old or new credential-bearing value.
+   component, without printing the old or new credential-bearing value. After
+   replacing the URL, run
+   `python scripts/check_remote_credentials.py --repository <repository>`.
+   Exit 0 means a credential-free HTTPS/SSH remote, exit 2 means embedded
+   credentials remain, and exit 3 means the remote is missing or unsupported.
 4. Search committed content and release artifacts for the credential fingerprint
    using a redacted detector. Do not echo matching secret text.
 5. Confirm the provider reports the old credential revoked before any push.

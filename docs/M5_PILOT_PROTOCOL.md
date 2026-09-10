@@ -15,6 +15,13 @@ All conditions must be recorded before the first provider call:
   filled into this document and committed;
 - no evaluation candidate or checker result is fed into training.
 
+After those facts and the runtime choices are known, create the preregistration
+with `scripts/prepare_m5_manifest.py`. The command is offline and writes its
+output with exclusive-create semantics. It rejects `UNSET` runtime fields,
+non-full commit IDs, a mismatched release-manifest digest, altered split
+commitments, duplicate/overlapping specifications, or a missing benchmark
+completion reference. Creating this manifest does not authorize or launch M5.
+
 ## Frozen task protocol
 
 - Primary environment: `native-verify-spec`; the legacy sequence environment is
@@ -68,3 +75,4 @@ not production deployment or a larger training run.
 - Currency conversion source, if needed: `UNSET`
 - Reviewed merge commits: `UNSET`
 - Wheel and Lean hashes: `UNSET`
+- Benchmark completion reference: `UNSET`

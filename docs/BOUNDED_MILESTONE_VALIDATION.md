@@ -1,6 +1,6 @@
 # Bounded milestone validation
 
-Validation was performed on 2026-09-08 and 2026-09-09 in the isolated worktrees under
+Validation was performed on 2026-09-08 through 2026-09-11 in the isolated worktrees under
 `_agent_worktrees/bounded-verifier-native-20260908`. The active solver checkout,
 its Python environment, its Lean wrapper/toolchain, quota state, and journals
 were not modified. Initial validation referenced the archived Lean 4.23.0
@@ -24,6 +24,14 @@ toolchain read-only. Final release validation used a separate read-only copy at
 - The answer-key-free environment smoke accepted the correct bounded candidate,
   rejected the wrong candidate, and reported `checked_success` versus
   `mathematical_rejection`.
+
+After adding offline transition gates, the complete native suite passed **113
+tests** in 179.27 seconds with the same dedicated environment and independent
+read-only Lean toolchain. The 26 added tests cover deterministic M5 manifest
+construction, all 200 frozen answer-key-free specifications, commitment and
+disjointness checks, rejection of unset or invalid runtime fields, exact release
+binding, and redaction-safe classification of credential-free versus
+credential-bearing Git remotes.
 
 The native pytest configuration now limits discovery to `tests/`. This prevents
 an unrestricted test invocation from collecting historical provider scripts,
@@ -57,18 +65,19 @@ answer, and exercised a real Lean accepted/rejected pair.
 Lean copy, exact Lean hash/version, package dependency closure, source-external
 imports, and a real answer-key-free accepted/rejected pair. Release-candidate
 versions are verifier `0.3.1`, native core `0.2.0`, sequence environment `0.2.0`,
-and specification environment `0.1.0`. The generated manifest is stored beside
-the candidate wheels in `release-candidate-20260909-repro`.
+and specification environment `0.1.0`. After the offline M5 and security gates
+were added, the current generated manifests and wheels were rebuilt into
+`release-candidate-20260911-a` and `release-candidate-20260911-b`.
 
 | Release-candidate wheel | SHA-256 |
 |---|---|
 | `lean_kernel_verifier-0.3.1-py3-none-any.whl` | `2ac1fea4e6e160e293b1e3a4787dc3f7aba9ca6978898834cb41112c529027e7` |
-| `native_verify-0.2.0-py3-none-any.whl` | `6a544c5fb3d8c311856127c61129fd52a35644a4c003629fc04ea5bd5ba70095` |
+| `native_verify-0.2.0-py3-none-any.whl` | `209d5f3b38deac79f37dcdceab522248989d378b06d8559ae410f1e9b96ca36a` |
 | `native_verify_seq-0.2.0-py3-none-any.whl` | `98a8f835137ce5aa6dfc0139cf1e4f0f0e5486bd211046e27a867180d339122d` |
 | `native_verify_spec-0.1.0-py3-none-any.whl` | `b520ee5881819934b06f722cbcf67996d3c02e22130e3b61dc3cf7b16e0c7b93` |
 
-A second independent build with the same locked inputs and source-date epoch
-produced byte-identical SHA-256 values for all four wheels.
+Two independent builds of the current source with the same locked inputs and
+source-date epoch produced byte-identical SHA-256 values for all four wheels.
 
 ## Deliberate boundary
 
