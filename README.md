@@ -50,7 +50,7 @@ Lean 4.23.0 exactly. There is no fallback to a discovered host Lean executable,
 retired checkout, or sibling solver environment.
 
 ```bash
-python -m pip install -e ../lean-kernel-verifier -e '.[dev]'
+python -m pip install -e ../mathcheck-engine -e '.[dev]'
 export NATIVE_VERIFY_LEAN=/absolute/path/to/venv/bin/lean-isolated
 export LKV_SANDBOX_TOOLCHAIN=/absolute/path/to/lean-4.23.0-linux
 python -m pytest tests -q
