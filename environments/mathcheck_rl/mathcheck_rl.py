@@ -1,4 +1,4 @@
-"""Answer-key-free bounded specification/certificate RL environment."""
+"""MathCheck RL: answer-key-free bounded specification/certificate tasks."""
 import asyncio
 import hashlib
 import json

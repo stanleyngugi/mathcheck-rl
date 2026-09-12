@@ -17,7 +17,8 @@ The following identifiers remain unchanged through the 0.x line:
 
 - PyPI/distribution name: `native-verify`
 - Python import: `native_verify`
-- environment IDs: `native-verify-spec` and `native-verify-seq`
+- public environment ID: `mathcheck-rl`
+- legacy experimental adapter ID: `native-verify-seq`
 - configuration prefix: `NATIVE_VERIFY_`
 
 The dependency distribution remains `lean-kernel-verifier` even though its

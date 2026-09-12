@@ -9,7 +9,7 @@ from pathlib import Path
 
 import native_verify
 import native_verify_seq
-import native_verify_spec
+import mathcheck_rl
 from lean_kernel_verifier.specification import ProblemSpec
 
 
@@ -17,7 +17,7 @@ EXPECTED_VERSIONS = {
     "lean-kernel-verifier": "0.3.1",
     "native-verify": "0.2.0",
     "native-verify-seq": "0.2.0",
-    "native-verify-spec": "0.1.0",
+    "mathcheck-rl": "0.1.0",
     "verifiers": "0.3.0",
     "datasets": "4.8.5",
 }
@@ -41,10 +41,10 @@ async def _verify_pair(row: dict) -> tuple[str, str]:
     )
     accepted_state: dict = {}
     rejected_state: dict = {}
-    accepted = await native_verify_spec.specification_pass(
+    accepted = await mathcheck_rl.specification_pass(
         _completion(correct), row["answer"], accepted_state
     )
-    rejected = await native_verify_spec.specification_pass(
+    rejected = await mathcheck_rl.specification_pass(
         _completion(correct + 1), row["answer"], rejected_state
     )
     assert (accepted, rejected) == (1.0, 0.0)
@@ -59,14 +59,14 @@ async def _verify_pair(row: dict) -> tuple[str, str]:
 def main() -> int:
     versions = {name: metadata.version(name) for name in EXPECTED_VERSIONS}
     assert versions == EXPECTED_VERSIONS
-    for module in (native_verify, native_verify_seq, native_verify_spec):
+    for module in (native_verify, native_verify_seq, mathcheck_rl):
         module_path = Path(inspect.getfile(module)).resolve()
         assert "site-packages" in module_path.parts, module_path
 
     sequence = native_verify_seq.load_environment(
         num_per_family=1, eval_num_per_family=1
     )
-    specification = native_verify_spec.load_environment(
+    specification = mathcheck_rl.load_environment(
         families="bounded_minimum",
         num_per_family=1,
         eval_num_per_family=1,

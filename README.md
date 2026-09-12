@@ -16,7 +16,7 @@ Two contracts are intentionally separate:
 
 | Environment | Model submission | What acceptance establishes |
 |---|---|---|
-| `native-verify-spec` | Integer candidate or complete pair certificate in JSON | The candidate satisfies the complete encoded bounded specification, without a stored expected answer |
+| `mathcheck-rl` | Integer candidate or complete pair certificate in JSON | The candidate satisfies the complete encoded bounded specification, without a stored expected answer |
 | `native-verify-seq` | Restricted pure Lean definitions | The function agrees with all environment-held observations in the declared finite index range |
 
 The specification environment is the answer-key-free path. The environment
@@ -69,7 +69,7 @@ src/native_verify/
   runner.py                # shared isolated runner integration
   async_cache.py           # exact-input single-flight verdict cache
 environments/
-  native_verify_spec/      # v0/v1 answer-key-free adapter
+  mathcheck_rl/            # public v0/v1 answer-key-free environment
   native_verify_seq/       # v0/v1 finite-observation adapter
 ```
 

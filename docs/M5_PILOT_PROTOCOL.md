@@ -24,7 +24,7 @@ completion reference. Creating this manifest does not authorize or launch M5.
 
 ## Frozen task protocol
 
-- Primary environment: `native-verify-spec`; the legacy sequence environment is
+- Primary environment: `mathcheck-rl`; the legacy sequence environment is
   diagnostic only.
 - Families: bounded count, sum, minimum, and complete pair count.
 - Training split: 10 tasks per family, seed `20260909` (40 total).

@@ -220,7 +220,7 @@ def build_pilot_manifest(
         "schema_version": 1,
         "status": "preregistered_not_started",
         "protocol": PILOT_PROTOCOL,
-        "environment": "native-verify-spec",
+        "environment": "mathcheck-rl",
         "families": list(PILOT_FAMILIES),
         "runtime": _validate_runtime(runtime),
         "inputs": checked_inputs,

@@ -3,7 +3,7 @@ import json
 from types import SimpleNamespace
 
 import native_verify_seq
-import native_verify_spec
+import mathcheck_rl
 
 
 def test_v0_sequence_metrics_share_one_inflight_verdict(monkeypatch):
@@ -43,7 +43,7 @@ def test_environment_rows_bind_disjoint_specs_without_candidate_answers():
     seq_eval = {json.loads(row["info"])["specification_digest"] for row in seq.eval_dataset}
     assert seq_train.isdisjoint(seq_eval)
 
-    spec = native_verify_spec.load_environment(
+    spec = mathcheck_rl.load_environment(
         families="bounded_count", num_per_family=2, eval_num_per_family=1,
         seed=1, eval_seed=1001,
     )

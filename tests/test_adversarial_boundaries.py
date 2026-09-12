@@ -4,7 +4,7 @@ import json
 
 import pytest
 
-import native_verify_spec
+import mathcheck_rl
 from lean_kernel_verifier.certificates import PairCountSpec
 from lean_kernel_verifier.specification import ProblemSpec
 from native_verify.async_cache import AsyncSingleFlight
@@ -135,7 +135,7 @@ def test_operational_verdict_cannot_earn_framework_reward(monkeypatch):
         "t", "bounded_count", "bounded", "prompt",
         ProblemSpec("count", "x%3 == 0", 1, 10),
     )
-    environment = native_verify_spec.load_environment(
+    environment = mathcheck_rl.load_environment(
         families="bounded_count", num_per_family=1, eval_num_per_family=1
     )
     row = environment.dataset[0]
@@ -148,14 +148,14 @@ def test_operational_verdict_cannot_earn_framework_reward(monkeypatch):
         status = "operational_error"
 
     monkeypatch.setattr(
-        native_verify_spec,
+        mathcheck_rl,
         "verify_specification_submission",
         lambda *args, **kwargs: OperationalVerdict(),
     )
 
     async def score():
         state = {}
-        reward = await native_verify_spec.specification_pass(
+        reward = await mathcheck_rl.specification_pass(
             [{"role": "assistant", "content": _fenced_body('{"answer": 3}')}],
             row["answer"],
             state,

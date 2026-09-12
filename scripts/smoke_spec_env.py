@@ -6,10 +6,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-sys.path.insert(0, str(ROOT / "environments" / "native_verify_spec"))
+sys.path.insert(0, str(ROOT / "environments" / "mathcheck_rl"))
 
 from lean_kernel_verifier.specification import ProblemSpec
-import native_verify_spec as environment
+import mathcheck_rl as environment
 
 
 def completion(answer: int):

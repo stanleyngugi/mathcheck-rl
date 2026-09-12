@@ -7,7 +7,7 @@ finite range stated in the prompt.
 
 This contract does not establish correctness for arbitrary `n`. Hidden suffixes
 and wider boundary ranges make hard-coded prefix solutions less useful, but they
-remain finite tests. Use `native-verify-spec` when answer-key-free complete
+remain finite tests. Use `mathcheck-rl` when answer-key-free complete
 bounded checking is required.
 
 Train and evaluation rows are deduplicated and disjoint by a digest over family,

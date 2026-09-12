@@ -24,7 +24,7 @@ v1 scoring reuse one verdict; v1 uses an exact-input single-flight cache.
 
 ## M3 — answer-key-free task type
 
-`native-verify-spec` derives prompts and trusted checkers from one frozen bounded
+`mathcheck-rl` derives prompts and trusted checkers from one frozen bounded
 specification. Runtime reward does not store or compare an expected answer.
 Positive/wrong/minimality/completeness controls execute through real Lean.
 

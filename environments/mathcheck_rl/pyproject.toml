@@ -1,0 +1,29 @@
+[project]
+name = "mathcheck-rl"
+description = "Answer-key-free bounded integer-math RL environment with Lean-checked rewards"
+readme = "README.md"
+tags = ["single-turn", "math", "lean", "verifiable-rewards", "answer-key-free"]
+version = "0.1.0"
+requires-python = ">=3.11,<3.14"
+license = { file = "LICENSE" }
+authors = [{ name = "Stanley Ngugi" }]
+dependencies = [
+    "verifiers==0.3.0",
+    "datasets>=3,<5",
+    "lean-kernel-verifier @ git+https://github.com/stanleyngugi/mathcheck-engine.git@83560d18f779c107d5d35c9de24af90985b71207",
+    "native-verify @ git+https://github.com/stanleyngugi/mathcheck-rl.git@895c243dab3cabdcde455cbcfd247186496869d5",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build]
+include = ["mathcheck_rl.py", "pyproject.toml", "README.md"]
+
+[tool.verifiers.eval]
+num_examples = 16
+rollouts_per_example = 4

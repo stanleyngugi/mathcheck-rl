@@ -17,7 +17,7 @@ EXPECTED_WHEELS = {
     "lean_kernel_verifier-0.3.1-py3-none-any.whl",
     "native_verify-0.2.0-py3-none-any.whl",
     "native_verify_seq-0.2.0-py3-none-any.whl",
-    "native_verify_spec-0.1.0-py3-none-any.whl",
+    "mathcheck_rl-0.1.0-py3-none-any.whl",
 }
 LOCKED_RELEASE_TOOLS = {
     "build": "1.6.0",
@@ -88,7 +88,7 @@ def main() -> int:
         verifier_root,
         native_root,
         native_root / "environments" / "native_verify_seq",
-        native_root / "environments" / "native_verify_spec",
+        native_root / "environments" / "mathcheck_rl",
     )
     build_env = os.environ.copy()
     build_env["SOURCE_DATE_EPOCH"] = SOURCE_DATE_EPOCH
@@ -105,9 +105,18 @@ def main() -> int:
         environment_root = Path(temporary) / "venv"
         venv.EnvBuilder(with_pip=True).create(environment_root)
         python = environment_root / "bin" / "python"
+        hub_wheel = next(wheel for wheel in wheels if wheel.name.startswith("mathcheck_rl-"))
+        dependency_wheels = [wheel for wheel in wheels if wheel != hub_wheel]
         _run([
             str(python), "-m", "pip", "install", "--disable-pip-version-check",
-            *map(str, wheels),
+            *map(str, dependency_wheels),
+        ])
+        # The Hub wheel carries immutable Git requirements so remote installs
+        # are reproducible. Install it without resolving those requirements
+        # again here because the exact locally built wheels are already present.
+        _run([
+            str(python), "-m", "pip", "install", "--disable-pip-version-check",
+            "--no-deps", str(hub_wheel),
         ])
         _run([str(python), "-m", "pip", "check"])
         smoke_env = os.environ.copy()
