@@ -11,7 +11,7 @@ dependencies = [
     "verifiers==0.3.0",
     "datasets>=3,<5",
     "lean-kernel-verifier @ git+https://github.com/stanleyngugi/mathcheck-engine.git@742edec6bdb4f7057780fc54e98fb284b76eedcf",
-    "native-verify @ git+https://github.com/stanleyngugi/mathcheck-rl.git@895c243dab3cabdcde455cbcfd247186496869d5",
+    "native-verify @ git+https://github.com/stanleyngugi/mathcheck-rl.git@d4912c30564e99a3200f77ca7e94a8a3ebe184c7",
 ]
 
 [build-system]
