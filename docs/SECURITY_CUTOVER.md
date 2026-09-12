@@ -2,6 +2,14 @@
 
 Status: **deferred until the active benchmark has finished**.
 
+New API/provider credentials must live outside the repository in an operating
+system credential manager or a local environment file. The repository ignores
+`.env`, `.env.*`, `*.env`, common private-key extensions, and local
+`secrets/`/`credentials/` directories; a sanitized `.env.example` may be
+committed. Ignore rules are preventive only: they do not remove an already
+tracked secret, revoke an exposed token, or apply to a credential embedded in
+the repository-local `.git/config` remote URL.
+
 The native repository's configured origin was reported to contain an embedded
 credential. No command in this work inspected, printed, changed, or exercised
 that remote. Revoking it while another benchmark may depend on it could disrupt
