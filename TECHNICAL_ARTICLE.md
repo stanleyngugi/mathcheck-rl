@@ -27,7 +27,7 @@ environment sends both objects to MathCheck Engine, which generates the Lean
 checker and returns a typed verdict.
 
 The companion article,
-[How We Built a Lean-Backed Verifier for Bounded Mathematical Answers](https://github.com/stanleyngugi/mathcheck-engine/blob/main/TECHNICAL_ARTICLE.md),
+[Building a Lean-Backed Verifier for Bounded Mathematical Answers](https://github.com/stanleyngugi/mathcheck-engine/blob/main/TECHNICAL_ARTICLE.md),
 develops the verifier and trust boundary in detail. This article concentrates
 on the task, reward, evaluation, and distribution layers built on top of it.
 
