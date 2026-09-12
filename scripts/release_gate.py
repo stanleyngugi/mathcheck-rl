@@ -14,10 +14,10 @@ import venv
 
 
 EXPECTED_WHEELS = {
-    "lean_kernel_verifier-0.3.1-py3-none-any.whl",
-    "native_verify-0.2.0-py3-none-any.whl",
-    "native_verify_seq-0.2.0-py3-none-any.whl",
-    "mathcheck_rl-0.1.0-py3-none-any.whl",
+    "lean_kernel_verifier-0.3.2-py3-none-any.whl",
+    "native_verify-0.2.1-py3-none-any.whl",
+    "native_verify_seq-0.2.1-py3-none-any.whl",
+    "mathcheck_rl-0.1.1-py3-none-any.whl",
 }
 LOCKED_RELEASE_TOOLS = {
     "build": "1.6.0",

@@ -23,10 +23,10 @@ def release_manifest():
         "lean_version": "4.23.0",
         "lean_binary_sha256": "a" * 64,
         "wheels": {
-            "lean_kernel_verifier-0.3.1-py3-none-any.whl": "b" * 64,
-            "native_verify-0.2.0-py3-none-any.whl": "c" * 64,
-            "native_verify_seq-0.2.0-py3-none-any.whl": "d" * 64,
-            "mathcheck_rl-0.1.0-py3-none-any.whl": "e" * 64,
+            "lean_kernel_verifier-0.3.2-py3-none-any.whl": "b" * 64,
+            "native_verify-0.2.1-py3-none-any.whl": "c" * 64,
+            "native_verify_seq-0.2.1-py3-none-any.whl": "d" * 64,
+            "mathcheck_rl-0.1.1-py3-none-any.whl": "e" * 64,
         },
     }
 

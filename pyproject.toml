@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "native-verify"
-version = "0.2.0"
+version = "0.2.1"
 description = "MathCheck RL: answer-key-free bounded-math tasks with Lean-checked rewards"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11,<3.14"
 dependencies = [
-    "lean-kernel-verifier>=0.3.1,<0.4",
+    "lean-kernel-verifier>=0.3.2,<0.4",
 ]
 license = "MIT"
 authors = [
@@ -20,9 +20,9 @@ classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering :: Mathematics",
 ]
 
