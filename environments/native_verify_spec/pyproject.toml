@@ -1,9 +1,11 @@
 [project]
 name = "native-verify-spec"
-description = "Answer-key-free bounded specification and complete-certificate RL tasks"
+description = "MathCheck RL answer-key-free bounded specifications and complete certificates"
 tags = ["single-turn", "math", "lean", "verifiable-rewards", "answer-key-free"]
 version = "0.1.0"
 requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [{ name = "Stanley Ngugi" }]
 dependencies = [
     "verifiers==0.3.0",
     "datasets>=3,<5",

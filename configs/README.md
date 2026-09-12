@@ -1,8 +1,9 @@
-# Historical training configurations
+# Configuration policy
 
-These TOML files are preserved experiment inputs. They are not current safe
-launch recipes and must not be silently rewritten to make a new run look like
-the old one.
+The old TOML experiment inputs moved to
+`archive/historical_prime_rl/configs/`. They are preserved evidence, not current
+safe launch recipes, and must not be silently rewritten to make a new run look
+like the old one.
 
 In particular, they point `NATIVE_VERIFY_LEAN` at a direct Lean executable.
 Current native verification requires the shared `lean-isolated` wrapper plus an

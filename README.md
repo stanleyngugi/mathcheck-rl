@@ -1,4 +1,11 @@
-# native-verify
+# MathCheck RL
+
+**Answer-key-free bounded-math tasks and Lean-checked rewards for RL.**
+
+The repository and public project name are **MathCheck RL**. The Python
+distribution, imports, and environment IDs remain `native-verify`,
+`native_verify`, and `native-verify-*` in the 0.x series for compatibility.
+See [BRANDING.md](BRANDING.md) for the naming policy.
 
 RL task and reward layers for bounded computational verification. The shared
 `lean-kernel-verifier` package owns trusted source generation, Lean execution,
@@ -73,6 +80,16 @@ claim that procedural generation eliminates all semantic contamination.
 See `docs/DEFECT_LEDGER.md` for the bounded correction ledger and
 `docs/RUN_RESULTS.md` for historical training evidence. No learning improvement
 is inferred from the historical smoke launch alone.
+
+The blog-ready project narrative is in
+[`TECHNICAL_ARTICLE.md`](TECHNICAL_ARTICLE.md). It explains the answer-key-free
+contract, trust boundary, evaluation discipline, and deliberately bounded claims.
+
+Start with [`examples/specification_quickstart.py`](examples/specification_quickstart.py)
+for a fixed task that demonstrates both a checked answer and a checked rejection.
+Legacy Prime-RL operational experiments are retained under
+[`archive/historical_prime_rl/`](archive/historical_prime_rl/) for provenance;
+they are not the supported public interface.
 
 ## Release-candidate gate
 

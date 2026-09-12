@@ -6,7 +6,8 @@
 > 100%” does not by itself prove absence of degenerate rollout groups. The run
 > establishes end-to-end execution and checkpoint logging, not learning
 > improvement. Current code requires the shared isolated wrapper; the historical
-> direct-Lean configs are intentionally retained unchanged as provenance.
+> direct-Lean configs are intentionally retained unchanged under
+> `archive/historical_prime_rl/configs/` as provenance.
 
 First completed GRPO training run on native-verify-seq.
 

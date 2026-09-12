@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out MathCheck RL
+        uses: actions/checkout@v7
+        with:
+          path: mathcheck-rl
+      - name: Check out MathCheck Engine
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ github.repository_owner }}/mathcheck-engine
+          path: mathcheck-engine
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: mathcheck-rl/requirements-release.lock
+      - name: Install pinned Lean toolchain
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          lake-package-directory: mathcheck-engine
+          use-github-cache: false
+      - name: Install isolation dependency
+        run: sudo apt-get update && sudo apt-get install --yes bubblewrap
+      - name: Install projects
+        run: |
+          python -m pip install -e "./mathcheck-engine[dev]"
+          python -m pip install -e "./mathcheck-rl[dev]"
+      - name: Configure the fail-closed isolated checker
+        shell: bash
+        run: |
+          echo "LKV_SANDBOX_TOOLCHAIN=$(dirname "$(dirname "$(elan which lean)")")" >> "$GITHUB_ENV"
+          echo "NATIVE_VERIFY_LEAN=$(command -v lean-isolated)" >> "$GITHUB_ENV"
+      - name: Run test suite
+        working-directory: mathcheck-rl
+        run: python -m pytest tests -q
+      - name: Run answer-key-free example
+        working-directory: mathcheck-rl
+        run: python examples/specification_quickstart.py --lean-bin "$NATIVE_VERIFY_LEAN"
