@@ -85,6 +85,14 @@ The blog-ready project narrative is in
 [`TECHNICAL_ARTICLE.md`](TECHNICAL_ARTICLE.md). It explains the answer-key-free
 contract, trust boundary, evaluation discipline, and deliberately bounded claims.
 
+The current public GitHub release is
+[`v0.2.1`](https://github.com/stanleyngugi/mathcheck-rl/releases/tag/v0.2.1).
+The primary environment is public on Prime Hub as
+[`stanley-ngugi/mathcheck-rl`](https://app.primeintellect.ai/dashboard/environments/stanley-ngugi/mathcheck-rl)
+version `0.1.1`. Exact local and Hub hashes, consumer-install evidence, and the
+hosted-execution boundary are recorded in
+[`docs/RELEASE_EVIDENCE_0.2.1.md`](docs/RELEASE_EVIDENCE_0.2.1.md).
+
 Start with [`examples/specification_quickstart.py`](examples/specification_quickstart.py)
 for a fixed task that demonstrates both a checked answer and a checked rejection.
 Legacy Prime-RL operational experiments are retained under

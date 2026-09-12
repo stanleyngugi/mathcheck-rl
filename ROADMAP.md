@@ -37,6 +37,14 @@ retry budgets, and input/source digests. All four wheels install together in a
 fresh environment and pass the artifact smoke recorded in
 `docs/BOUNDED_MILESTONE_VALIDATION.md`.
 
+The public release is MathCheck RL `v0.2.1`. Its primary Verifiers v1
+environment is also public on Prime Hub as `stanley-ngugi/mathcheck-rl` version
+`0.1.1`. A fresh consumer installation resolved the immutable Engine 0.3.2 and
+RL 0.2.1 commits and passed local subprocess setup validation. Prime-hosted
+model execution is not claimed: the attempted authenticated inference path
+stopped before a rollout because the account had insufficient balance, and no
+solver quota was borrowed.
+
 ## M5 — separately authorized experiment
 
 Prepared but not started. `docs/M5_PILOT_PROTOCOL.md` freezes recommended splits,
