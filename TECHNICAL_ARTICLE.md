@@ -1,4 +1,9 @@
-# Training on Mathematical Specifications Instead of Hidden Answers
+# How MathCheck RL Replaces Hidden Answer Keys with Lean-Checked Rewards
+
+> Inside an answer-key-free math RL environment that turns complete bounded
+> specifications into generated Lean checks, evaluates them with
+> `native_decide`, and asks models for answers or certificates—not proof
+> scripts.
 
 Reinforcement learning needs a reward. Mathematics seems unusually well suited
 to this requirement: answers are often short, exact, and easy to compare. Put a
@@ -22,7 +27,7 @@ environment sends both objects to MathCheck Engine, which generates the Lean
 checker and returns a typed verdict.
 
 The companion article,
-[What It Takes to Trust a Bounded Mathematical Answer](https://github.com/stanleyngugi/mathcheck-engine/blob/main/TECHNICAL_ARTICLE.md),
+[How We Built a Lean-Backed Verifier for Bounded Mathematical Answers](https://github.com/stanleyngugi/mathcheck-engine/blob/main/TECHNICAL_ARTICLE.md),
 develops the verifier and trust boundary in detail. This article concentrates
 on the task, reward, evaluation, and distribution layers built on top of it.
 
