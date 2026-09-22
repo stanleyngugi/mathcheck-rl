@@ -81,8 +81,8 @@ See `docs/DEFECT_LEDGER.md` for the bounded correction ledger and
 `docs/RUN_RESULTS.md` for historical training evidence. No learning improvement
 is inferred from the historical smoke launch alone.
 
-The blog-ready project narrative is in
-[`TECHNICAL_ARTICLE.md`](TECHNICAL_ARTICLE.md). It explains the answer-key-free
+The technical article,
+[`How MathCheck RL Replaces Hidden Answer Keys with Lean-Checked Rewards`](https://stanleyngugi.netlify.app/posts/mathcheck-rl.html), explains the answer-key-free
 contract, trust boundary, evaluation discipline, and deliberately bounded claims.
 
 The current public GitHub release is
