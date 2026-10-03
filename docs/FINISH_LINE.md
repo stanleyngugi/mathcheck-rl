@@ -61,6 +61,12 @@ hashes. Logs retain test skips and failures. Omitting both toolchain arguments
 permits a source-only check and always yields exit 2 when source checks pass.
 That mode is explicitly not the native release gate.
 
+The Engine integration follow-up binds the Hub to immutable Engine and RL core
+commits and preserves its fresh source/artifact report in
+`docs/evidence/engine-integration-20261003/closeout.json`. The native candidate
+workflow also runs when the Hub's `pyproject.toml` changes on `main`. Its Linux
+result, not the trigger or source-only report, must satisfy D6.
+
 ## Work outside this finish line
 
 The existing optional GRPO driver and protocol remain available, but a model

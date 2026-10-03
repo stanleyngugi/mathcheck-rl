@@ -1,0 +1,7 @@
+{
+  "bubblewrap_probe_returncode": 1,
+  "bubblewrap_probe_stderr": "bwrap: Can't read /proc/sys/kernel/overflowuid: No such file or directory",
+  "native_evidence_complete": false,
+  "proc_present": false,
+  "stock_lean_on_path": null
+}

@@ -1,0 +1,70 @@
+* Getting build dependencies for wheel...
+running egg_info
+writing src/native_verify.egg-info/PKG-INFO
+writing dependency_links to src/native_verify.egg-info/dependency_links.txt
+writing requirements to src/native_verify.egg-info/requires.txt
+writing top-level names to src/native_verify.egg-info/top_level.txt
+reading manifest file 'src/native_verify.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'src/native_verify.egg-info/SOURCES.txt'
+* Building wheel...
+running bdist_wheel
+running build
+running build_py
+running egg_info
+writing src/native_verify.egg-info/PKG-INFO
+writing dependency_links to src/native_verify.egg-info/dependency_links.txt
+writing requirements to src/native_verify.egg-info/requires.txt
+writing top-level names to src/native_verify.egg-info/top_level.txt
+reading manifest file 'src/native_verify.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'src/native_verify.egg-info/SOURCES.txt'
+installing to build/bdist.linux-x86_64/wheel
+running install
+running install_lib
+creating build/bdist.linux-x86_64/wheel
+creating build/bdist.linux-x86_64/wheel/native_verify
+copying build/lib/native_verify/extract.py -> build/bdist.linux-x86_64/wheel/./native_verify
+copying build/lib/native_verify/reference_checks.py -> build/bdist.linux-x86_64/wheel/./native_verify
+copying build/lib/native_verify/tasks.py -> build/bdist.linux-x86_64/wheel/./native_verify
+copying build/lib/native_verify/template.py -> build/bdist.linux-x86_64/wheel/./native_verify
+copying build/lib/native_verify/pilot_manifest.py -> build/bdist.linux-x86_64/wheel/./native_verify
+copying build/lib/native_verify/local_pilot.py -> build/bdist.linux-x86_64/wheel/./native_verify
+copying build/lib/native_verify/specification_tasks.py -> build/bdist.linux-x86_64/wheel/./native_verify
+copying build/lib/native_verify/runner.py -> build/bdist.linux-x86_64/wheel/./native_verify
+copying build/lib/native_verify/security.py -> build/bdist.linux-x86_64/wheel/./native_verify
+copying build/lib/native_verify/sanitizer.py -> build/bdist.linux-x86_64/wheel/./native_verify
+copying build/lib/native_verify/__init__.py -> build/bdist.linux-x86_64/wheel/./native_verify
+copying build/lib/native_verify/async_cache.py -> build/bdist.linux-x86_64/wheel/./native_verify
+copying build/lib/native_verify/grpo.py -> build/bdist.linux-x86_64/wheel/./native_verify
+copying build/lib/native_verify/types.py -> build/bdist.linux-x86_64/wheel/./native_verify
+copying build/lib/native_verify/dataset_import.py -> build/bdist.linux-x86_64/wheel/./native_verify
+copying build/lib/native_verify/canonical.py -> build/bdist.linux-x86_64/wheel/./native_verify
+running install_egg_info
+Copying src/native_verify.egg-info to build/bdist.linux-x86_64/wheel/./native_verify-0.2.2-py3.12.egg-info
+running install_scripts
+creating build/bdist.linux-x86_64/wheel/native_verify-0.2.2.dist-info/WHEEL
+creating '/workspace/scratch/402e0f94d80c/joint-final-20261003/wheels/.tmp-ei5m27o2/native_verify-0.2.2-py3-none-any.whl' and adding 'build/bdist.linux-x86_64/wheel' to it
+adding 'native_verify/__init__.py'
+adding 'native_verify/async_cache.py'
+adding 'native_verify/canonical.py'
+adding 'native_verify/dataset_import.py'
+adding 'native_verify/extract.py'
+adding 'native_verify/grpo.py'
+adding 'native_verify/local_pilot.py'
+adding 'native_verify/pilot_manifest.py'
+adding 'native_verify/reference_checks.py'
+adding 'native_verify/runner.py'
+adding 'native_verify/sanitizer.py'
+adding 'native_verify/security.py'
+adding 'native_verify/specification_tasks.py'
+adding 'native_verify/tasks.py'
+adding 'native_verify/template.py'
+adding 'native_verify/types.py'
+adding 'native_verify-0.2.2.dist-info/licenses/LICENSE'
+adding 'native_verify-0.2.2.dist-info/METADATA'
+adding 'native_verify-0.2.2.dist-info/WHEEL'
+adding 'native_verify-0.2.2.dist-info/top_level.txt'
+adding 'native_verify-0.2.2.dist-info/RECORD'
+removing build/bdist.linux-x86_64/wheel
+Successfully built native_verify-0.2.2-py3-none-any.whl

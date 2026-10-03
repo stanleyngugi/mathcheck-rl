@@ -1,0 +1,168 @@
+{
+  "engine": {
+    "commit": "dce2fc88cee1e98ed3136ac89a4b40eba0d1ada7",
+    "files": [
+      {
+        "path": "lean_kernel_verifier/__init__.py",
+        "sha": "6f831216903467bc1d4bca65da2846dc64c46009"
+      },
+      {
+        "path": "lean_kernel_verifier/__main__.py",
+        "sha": "bf372558857623075cddc978972d765ad9dd1edf"
+      },
+      {
+        "path": "lean_kernel_verifier/certificates.py",
+        "sha": "ab08bfe8c6335673fb1123e675684ead302f2d43"
+      },
+      {
+        "path": "lean_kernel_verifier/consensus/__init__.py",
+        "sha": "b520b735f5ec4fb32e6767ce6f6d83fceaa7ce8f"
+      },
+      {
+        "path": "lean_kernel_verifier/consensus/trace_consensus.py",
+        "sha": "973a3969f3aa9942da5a339b9f8ddf35a285a137"
+      },
+      {
+        "path": "lean_kernel_verifier/core/__init__.py",
+        "sha": "4345c8110067efdf988e8d5cad4ed13758b6b4f1"
+      },
+      {
+        "path": "lean_kernel_verifier/core/contracts.py",
+        "sha": "3dc40e015e2bed8250022cc919819874760eb322"
+      },
+      {
+        "path": "lean_kernel_verifier/core/failure_taxonomy.py",
+        "sha": "0ab7ca71399b07d723215fb9734f10095fcf9c33"
+      },
+      {
+        "path": "lean_kernel_verifier/core/types.py",
+        "sha": "640d2745f49a2b8f882246c583c58a9070994dd5"
+      },
+      {
+        "path": "lean_kernel_verifier/gating/__init__.py",
+        "sha": "5c477e349d4049bb7f8c7089fbe02543b3859e9d"
+      },
+      {
+        "path": "lean_kernel_verifier/gating/structural.py",
+        "sha": "c3f909185bcedc74528d254cdc5f98932385fa26"
+      },
+      {
+        "path": "lean_kernel_verifier/gating/trace_checks.py",
+        "sha": "acff472940cae28e6226fd4b4d3d2c313d30d884"
+      },
+      {
+        "path": "lean_kernel_verifier/isolation.py",
+        "sha": "6d93bca070c500882240c1a455110675dacad4fb"
+      },
+      {
+        "path": "lean_kernel_verifier/runner/__init__.py",
+        "sha": "0647235f1d4787c52f0e61e856aa30289972079f"
+      },
+      {
+        "path": "lean_kernel_verifier/runner/checker_runner.py",
+        "sha": "6296793960de9ed1f361cba053d803007cd9ec18"
+      },
+      {
+        "path": "lean_kernel_verifier/sanitizer/__init__.py",
+        "sha": "68c745352a54a320ce79e34e03e1a30df27acb39"
+      },
+      {
+        "path": "lean_kernel_verifier/sanitizer/sanitizer.py",
+        "sha": "f2a4c2d7b496609d603ec83054fbfedc76f01710"
+      },
+      {
+        "path": "lean_kernel_verifier/sanitizer/template.py",
+        "sha": "951823bc0391db9642def1e7ad1420fada00c05a"
+      },
+      {
+        "path": "lean_kernel_verifier/specification.py",
+        "sha": "63626493483e04f541d71b6269a9167b1245b8c0"
+      },
+      {
+        "path": "lean_kernel_verifier/symbolic/__init__.py",
+        "sha": "b1e56013c2cb6db56f9a766c39536f55b303fb57"
+      },
+      {
+        "path": "lean_kernel_verifier/symbolic/geometry_wu.py",
+        "sha": "cc2ed99c194939c9ed3fdeb8e43776cadfc7036b"
+      },
+      {
+        "path": "lean_kernel_verifier/symbolic/holonomic_lite.py",
+        "sha": "a965e564a92fd058dc63c5528a255a5ba8552943"
+      },
+      {
+        "path": "lean_kernel_verifier/symbolic/mining.py",
+        "sha": "b6e439de87b41e2e22e0f8b1752a1c78c6ef8dc4"
+      }
+    ]
+  },
+  "core": {
+    "commit": "d7158c411f0e00122f86bbd56949839b86284923",
+    "files": [
+      {
+        "path": "src/native_verify/__init__.py",
+        "sha": "c8bda7d5f8d375fed446a6740a3aeeb868de604b"
+      },
+      {
+        "path": "src/native_verify/async_cache.py",
+        "sha": "f56af3bf3db691d0ed310ca3c74706cefb9e699b"
+      },
+      {
+        "path": "src/native_verify/canonical.py",
+        "sha": "cdb5ebedfd159fb35351bc6e0c148d655b99c4c0"
+      },
+      {
+        "path": "src/native_verify/dataset_import.py",
+        "sha": "b9f6917fc9a945a05393d7998ace273b7923442b"
+      },
+      {
+        "path": "src/native_verify/extract.py",
+        "sha": "4931da87de1f1ab09dfa0849cae98bba44102738"
+      },
+      {
+        "path": "src/native_verify/grpo.py",
+        "sha": "738be24f5d33ac7b0e2684f5f8da6561de23d60a"
+      },
+      {
+        "path": "src/native_verify/local_pilot.py",
+        "sha": "9f52fc4060cf9fe0ff3313baf1a450759b72338f"
+      },
+      {
+        "path": "src/native_verify/pilot_manifest.py",
+        "sha": "81dc433da4040961c3e4187351ad6330e9312171"
+      },
+      {
+        "path": "src/native_verify/reference_checks.py",
+        "sha": "b30778791a8af8f3329b0d6d217aa0051f2b4bae"
+      },
+      {
+        "path": "src/native_verify/runner.py",
+        "sha": "4aecbf551e3b6bfecc457397610065c630147122"
+      },
+      {
+        "path": "src/native_verify/sanitizer.py",
+        "sha": "e4b498d9fca5eaf6ff3fda8bac567134bd48f58b"
+      },
+      {
+        "path": "src/native_verify/security.py",
+        "sha": "92210b420c92f8c2208fc1e32b006ee21fb65d64"
+      },
+      {
+        "path": "src/native_verify/specification_tasks.py",
+        "sha": "ec9d0bc24bae8ba8f83cb2df3a551d34a589a53a"
+      },
+      {
+        "path": "src/native_verify/tasks.py",
+        "sha": "d676bdd76a7a827231753fe0b1cf83427699dad9"
+      },
+      {
+        "path": "src/native_verify/template.py",
+        "sha": "f98a4552dc07b15689e9e96d65fd09e2c85ad26a"
+      },
+      {
+        "path": "src/native_verify/types.py",
+        "sha": "9b5dbdb7e83bab81f94b1dd9d137a2f735f945ac"
+      }
+    ]
+  }
+}

@@ -30,10 +30,10 @@ def test_environment_packages_share_supported_python_range() -> None:
     assert hub["version"] == "0.1.2"
     assert sequence["requires-python"] == hub["requires-python"] == ">=3.11,<3.14"
     assert any(
-        dependency.endswith("mathcheck-engine.git@10138fb522f262742f2888a86cdbb2d5083fffc9")
+        dependency.endswith("mathcheck-engine.git@dce2fc88cee1e98ed3136ac89a4b40eba0d1ada7")
         for dependency in hub["dependencies"]
     )
     assert any(
-        dependency.endswith("mathcheck-rl.git@5bf3313ffb34d8944ba6ce8cbde585ae4174e733")
+        dependency.endswith("mathcheck-rl.git@d7158c411f0e00122f86bbd56949839b86284923")
         for dependency in hub["dependencies"]
     )

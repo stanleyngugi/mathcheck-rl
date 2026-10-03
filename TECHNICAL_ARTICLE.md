@@ -421,11 +421,11 @@ code passed native validation.
 | Record | What it supports | Boundary |
 | --- | --- | --- |
 | Published RL 0.2.1 / Hub 0.1.1 | Preserved source tests, repeatable wheel builds, consumer installation and isolated Lean acceptance/rejection controls | Evidence for those historical artifacts |
-| Current candidate, recorded 2026-10-03 | 173 RL tests; 63 Engine tests plus 38 subtests; four wheel builds; fresh dependency and installed-package checks | 14 RL and 10 Engine live/platform skips; native validation blocked |
+| Current integration candidate, recorded 2026-10-03 | 178 RL tests; 85 Engine tests plus 40 subtests; four wheel builds; fresh dependency and installed-package checks | 14 RL and 10 Engine live/platform skips; native validation blocked |
 | Optional trainer smoke | Actual gradient updates, frozen-reference integrity and a tiny checkpoint round trip | Random model fixture, not mathematical learning evidence |
 
 The [current validation record](docs/CURRENT_VALIDATION.md) links the logs
-and [closeout report](docs/evidence/closeout-20261003.json). Candidate versions
+and [integration closeout report](docs/evidence/engine-integration-20261003/closeout.json). Candidate versions
 are Engine 0.3.3, RL core/sequence 0.2.2 and Hub 0.1.2; they have not replaced
 the public releases. The available execution surface lacks the `/proc` access
 needed by stock Lean and bubblewrap. Installing the official toolchain did

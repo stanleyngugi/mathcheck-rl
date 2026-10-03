@@ -1,0 +1,123 @@
+{
+  "checks": {
+    "candidate_wheels": {
+      "sha256": {
+        "lean_kernel_verifier-0.3.3-py3-none-any.whl": "64a0467c818b88d71c1b73f60f60cad93f094913c4db07dd438fd24dd84355b1",
+        "mathcheck_rl-0.1.2-py3-none-any.whl": "f8b8cd4384589ac6cac251f73040047f583b6781a7f0763f0cfee05da1d54377",
+        "native_verify-0.2.2-py3-none-any.whl": "e90ccb32cea790c42705c8c02d932a3fbf63933d8339032f3b8faa6da24d932a",
+        "native_verify_seq-0.2.2-py3-none-any.whl": "430f9df43389d04f4286b994c5c21d8d4a9cee1a3714d332033160ba25a171f8"
+      },
+      "status": "passed"
+    },
+    "consumer_dependencies": {
+      "log": "consumer_dependencies.log",
+      "returncode": 0,
+      "seconds": 0.518,
+      "status": "passed"
+    },
+    "consumer_hub_install": {
+      "log": "consumer_hub_install.log",
+      "returncode": 0,
+      "seconds": 0.471,
+      "status": "passed"
+    },
+    "consumer_install": {
+      "log": "consumer_install.log",
+      "returncode": 0,
+      "seconds": 77.661,
+      "status": "passed"
+    },
+    "engine_live_tests": {
+      "reason": "explicit_native_toolchain_not_supplied",
+      "status": "blocked"
+    },
+    "engine_source_tests": {
+      "log": "engine_source_tests.log",
+      "returncode": 0,
+      "seconds": 0.971,
+      "status": "passed"
+    },
+    "gsm8k_demo_controls": {
+      "reason": "explicit_native_toolchain_not_supplied",
+      "status": "blocked"
+    },
+    "gsm8k_development_controls": {
+      "reason": "explicit_native_toolchain_not_supplied",
+      "status": "blocked"
+    },
+    "installed_structural_smoke": {
+      "log": "installed_structural_smoke.log",
+      "returncode": 0,
+      "seconds": 3.784,
+      "status": "passed"
+    },
+    "native_release_gate": {
+      "reason": "explicit_native_toolchain_not_supplied",
+      "status": "blocked"
+    },
+    "procedural_controls": {
+      "reason": "explicit_native_toolchain_not_supplied",
+      "status": "blocked"
+    },
+    "quickstart": {
+      "reason": "explicit_native_toolchain_not_supplied",
+      "status": "blocked"
+    },
+    "rl_live_tests": {
+      "reason": "explicit_native_toolchain_not_supplied",
+      "status": "blocked"
+    },
+    "rl_source_tests": {
+      "log": "rl_source_tests.log",
+      "returncode": 0,
+      "seconds": 11.571,
+      "status": "passed"
+    },
+    "wheel_build_0": {
+      "log": "wheel_build_0.log",
+      "returncode": 0,
+      "seconds": 0.768,
+      "status": "passed"
+    },
+    "wheel_build_1": {
+      "log": "wheel_build_1.log",
+      "returncode": 0,
+      "seconds": 0.819,
+      "status": "passed"
+    },
+    "wheel_build_2": {
+      "log": "wheel_build_2.log",
+      "returncode": 0,
+      "seconds": 0.367,
+      "status": "passed"
+    },
+    "wheel_build_3": {
+      "log": "wheel_build_3.log",
+      "returncode": 0,
+      "seconds": 0.367,
+      "status": "passed"
+    }
+  },
+  "details": {
+    "native_integrations_disabled_for_source_phase": true,
+    "source_date_epoch": "1704067200",
+    "source_file_sha256": {
+      "scripts/closeout_gate.py": "f2578e58231078beb45304f18af4aa1c61d4fb2e8d37e3a6384c1b35b26bb768",
+      "scripts/wheel_smoke.py": "20dbfb1c7dcdd53e1265451e57dd90250d6488eedc24d0fcd5d1265bfc257d28"
+    }
+  },
+  "elapsed_seconds": 99.621,
+  "exit_code": 2,
+  "native_validation_complete": false,
+  "optional_work": [
+    "pretrained_policy_training",
+    "learning_gain_measurement",
+    "automatic_formalization",
+    "broader_dataset_coverage"
+  ],
+  "release_ready": false,
+  "rl_learning_results_required": false,
+  "schema": "mathcheck-audit-closeout-v1",
+  "source_delivery_complete": true,
+  "status": "source_delivery_complete_native_blocked"
+}

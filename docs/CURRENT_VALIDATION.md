@@ -3,8 +3,10 @@
 **Source delivery is complete. Current native validation remains blocked.
 RL training results are optional and are not a completion requirement.**
 The finite criteria and one-command gate are in [FINISH_LINE.md](FINISH_LINE.md).
-The latest closeout report is
-[evidence/closeout-20261003.json](evidence/closeout-20261003.json).
+The latest follow-up records **178 RL tests and 85 Engine tests plus 40 subtests**.
+Its [source/artifact closeout report](evidence/engine-integration-20261003/closeout.json)
+passes with native validation blocked. The earlier tables below preserve the
+previous checkpoint; the final section records the updated immutable pins.
 
 The audited work is pushed directly to `main`. Candidate versions are Engine
 **0.3.3**, RL core/sequence **0.2.2**, and Hub **0.1.2**. No replacement release
@@ -128,7 +130,52 @@ Credential revocation/cutover remains unconfirmed owner-controlled account work;
 no secret, quota or benchmark changes are made by the closeout command. Website
 publication remains with the owner.
 
-Remaining design limits include unidentified infrastructure failures returning
-exit 1, trusted expression translation, process-local rather than independent
+At this earlier checkpoint, design limits included unidentified infrastructure
+failures returning exit 1, trusted expression translation, process-local rather than independent
 confirmatory custody, and production isolation beyond per-process limits.
 The website is left for the owner to update separately.
+
+## Engine integration follow-up — 2026-10-03
+
+This section supersedes the source counts and dependency identities above for
+current candidate source. Earlier records remain historical.
+
+Engine is pinned to `dce2fc88cee1e98ed3136ac89a4b40eba0d1ada7`. The Hub's RL core dependency is
+`d7158c411f0e00122f86bbd56949839b86284923`; its Python source is the same core built in this gate.
+Candidate versions remain Engine 0.3.3, RL core/sequence 0.2.2 and Hub 0.1.2.
+No release or Hub publication occurred.
+
+| Fresh check | Result |
+| --- | --- |
+| Engine source suite | 85 passed, 10 live/platform skips, 40 subtests passed |
+| RL source suite, including installed optional trainer dependencies | 178 passed, 14 live/platform skips |
+| Four candidate wheels | Built with the fixed source-date epoch; hashes recorded |
+| Wheel Python source | All packaged Python files match their current source |
+| Immutable source identities | All 23 Engine and 16 RL core Python files match the pinned Git blobs |
+| Fresh consumer installation | Four wheels install; `pip check` passes |
+| Installed framework smoke | v1 environment construction and invalid-input zero reward pass outside source trees |
+| Current local native gate | Blocked: this worker lacks `/proc`; stock Lean is not on PATH and bubblewrap fails its capability probe |
+
+The unmodified closeout report and its logs are in
+[evidence/engine-integration-20261003/closeout.json](evidence/engine-integration-20261003/closeout.json).
+Its exit is **2**, with source delivery complete, native validation incomplete
+and release readiness false. No native toolchain was supplied to that source/artifact
+run; the separately recorded platform probe explains why this worker cannot
+provide D6. Wheel/source comparisons and the platform probe are retained beside
+that report. Installed wheels were used in the consumer gate; this follow-up does
+not claim a new remote Git-resolved consumer installation.
+
+The remaining exit-1 ambiguity is now handled conservatively: mathematical
+rejection requires complete recognized Lean native false-decision diagnostics.
+Unknown, truncated or mixed output is operational. The classifier scans lines
+without nested multiline regex backtracking. Engine's JSON CLI now rejects
+repeated keys at every object depth, matching the RL candidate parser's policy.
+Structured and legacy RL paths preserve the revised negative-decision boundary.
+Specification serialization, arithmetic semantics and result fields did not change.
+
+Ordinary RL CI now checks out its immutable Engine dependency. The existing
+**Native release candidate gate** also runs when Hub dependency metadata changes
+on `main`, as well as manually. That Linux workflow runs D6 without publishing
+or training. Its outcome must be inspected independently; a scheduled job is not
+a successful gate. Training, autoformalization and broader mathematics remain
+outside the required delivery.
