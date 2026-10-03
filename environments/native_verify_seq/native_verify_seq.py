@@ -1,6 +1,7 @@
 import asyncio
 import hashlib
 import json
+import os
 
 import verifiers as vf
 from datasets import Dataset
@@ -86,23 +87,25 @@ async def _get_verdict(completion, answer, state):
         response_text = last.get("content") or "" if isinstance(last, dict) else str(last)
     artifact = extract_artifact(response_text)
     async def run_once():
-        if artifact is None:
-            return _ExtractFailure("no_lean_fence")
-        if len(artifact) > 10000:
-            return _ExtractFailure("artifact_too_large")
-        case_data = json.loads(answer)
-        return await asyncio.to_thread(
-            verify, canonicalize_unicode(artifact), case_data["train"],
-            case_data["holdout"], timeout_seconds=90.0,
-        )
+        try:
+            if artifact is None:
+                verdict = _ExtractFailure("no_lean_fence")
+            elif len(artifact) > 10000:
+                verdict = _ExtractFailure("artifact_too_large")
+            else:
+                case_data = json.loads(answer)
+                verdict = await asyncio.to_thread(
+                    verify, canonicalize_unicode(artifact), case_data["train"],
+                    case_data["holdout"], timeout_seconds=90.0,
+                )
+            state["nv_verdict"] = verdict
+            return verdict
+        finally:
+            state.pop("nv_verdict_task", None)
     task = asyncio.create_task(run_once())
+    task.add_done_callback(lambda done: None if done.cancelled() else done.exception())
     state["nv_verdict_task"] = task
-    try:
-        verdict = await asyncio.shield(task)
-    finally:
-        state.pop("nv_verdict_task", None)
-    state["nv_verdict"] = verdict
-    return verdict
+    return await asyncio.shield(task)
 
 
 async def lean_pass(completion, answer, state) -> float:
@@ -182,11 +185,17 @@ try:
             if len(artifact) > 10000:
                 return _ExtractFailure("artifact_too_large")
             canonical = canonicalize_unicode(artifact)
+            lean_bin = (
+                self.config.lean_bin
+                or os.getenv("NATIVE_VERIFY_LEAN")
+                or os.getenv("LEAN_BIN")
+            )
             payload = json.dumps({
                 "artifact": canonical,
                 "train": self.data.train_values,
                 "holdout": self.data.holdout_values,
-                "lean_bin": self.config.lean_bin,
+                "lean_bin": lean_bin,
+                "toolchain": os.getenv("LKV_SANDBOX_TOOLCHAIN"),
                 "timeout": self.config.verify_timeout,
             }, sort_keys=True, separators=(",", ":"))
             key = hashlib.sha256(payload.encode()).hexdigest()
@@ -194,11 +203,14 @@ try:
             async def run_once():
                 return await asyncio.to_thread(
                     verify, canonical, self.data.train_values, self.data.holdout_values,
-                    lean_bin=self.config.lean_bin,
+                    lean_bin=lean_bin,
                     timeout_seconds=self.config.verify_timeout,
                 )
 
-            return await _V1_VERDICTS.get(key, run_once)
+            return await _V1_VERDICTS.get(
+                key, run_once,
+                cache_result=lambda verdict: verdict.status != "operational_error",
+            )
 
         @reward(weight=1.0)
         async def nv_lean_pass(self, trace: Trace, runtime: Runtime) -> float:

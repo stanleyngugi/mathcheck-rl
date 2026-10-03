@@ -2,6 +2,16 @@
 
 Status: **prepared, not authorized to execute while the other benchmark is active**.
 
+The protocol also needs a frozen training procedure and a feasible call
+allocation before execution. Primary pre/post evaluation consumes 160 calls.
+If the confirmatory split also uses paired pre/post measurements to establish
+improvement, evaluation alone consumes 320 calls, exceeding the 300-call cap
+before training. The confirmatory baseline is currently unspecified. Do not
+silently omit it, change split sizes, or raise the cap during a run: resolve
+these choices in a versioned protocol amendment before any provider call.
+The offline manifest builder validates the recorded fields and commitments;
+it does not establish that the experimental call allocation is feasible.
+
 ## Preconditions
 
 All conditions must be recorded before the first provider call:

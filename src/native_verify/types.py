@@ -26,7 +26,7 @@ class Verdict:
     accepted: bool
     stage: str
     reason: str | None
-    diagnostics: list[str] = field(default_factory=list)
+    diagnostics: tuple[str, ...] = ()
     duration_ms: int = 0
     backend: str = ""
     status: VerdictStatus = "invalid_input"
@@ -34,3 +34,7 @@ class Verdict:
     specification_digest: str = ""
     artifact_digest: str = ""
     checker_invocations: int = 0
+
+    def __post_init__(self) -> None:
+        # Accept existing callers' lists without retaining mutable shared state.
+        object.__setattr__(self, "diagnostics", tuple(self.diagnostics))

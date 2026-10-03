@@ -1,22 +1,24 @@
-# How MathCheck RL Replaces Hidden Answer Keys with Lean-Checked Rewards
+# Grading Mathematical Answers Without Precomputed Answer Keys
 
 > Inside an answer-key-free math RL environment that turns complete bounded
 > specifications into generated Lean checks, evaluates them with
 > `native_decide`, and asks models for answers or certificates—not proof
 > scripts.
 
-Reinforcement learning needs a reward. Mathematics seems unusually well suited
-to this requirement: answers are often short, exact, and easy to compare. Put a
-number in a dataset, ask a model to solve the problem, and return 1 when the
-strings agree.
+Reinforcement learning needs a reward. For many mathematical tasks, that reward
+compares a model's answer with a stored reference. Modern graders such as
+[Math-Verify](https://github.com/huggingface/Math-Verify) already normalize
+representations and check numeric or symbolic equivalence: `33` and `33.00`
+need not be different answers. Fixing string comparison is not the motivation
+for this project.
 
-That works until the answer is written as `33.0`, the problem admits several
-equivalent forms, or the task asks for a structured object rather than a scalar.
-It becomes more fragile when the reference program encodes the wrong boundary,
-when a hidden test suite covers only familiar cases, or when the verifier times
-out and the training system records “wrong answer.” Most importantly, the
-answer key says what output was expected but often hides the contract that made
-that output correct.
+The question here is different: can we grade a mathematical answer when we
+have the problem's precise specification but have not supplied its solution
+as an answer key? For a restricted class of decidable tasks, we can check the
+candidate directly against that specification. Supervision moves from a stored
+result to an executable mathematical contract. Writing and reviewing that
+contract remains work; removing an answer column does not remove the need for
+ground truth.
 
 MathCheck RL explores a different arrangement for a deliberately bounded slice
 of mathematics. Each task stores a complete machine-readable specification: a
@@ -109,9 +111,44 @@ data because the framework passes it privately to the rubric. It contains no
 expected candidate and is never rendered into the model prompt. Every row also
 records `contains_expected_answer: false` so the unusual use is inspectable.
 
-The distinction is between hiding a result and hiding a rule. MathCheck RL
-hides neither from its own reward system: it retains the rule, exposes the rule
-in the prompt, and asks the model to produce the result.
+The current procedural prompts expose the mathematical rule and ask the model
+to produce its result. The checker may compute the whole result internally to
+validate a submission. “No precomputed answer key” therefore describes the
+task and reward interface, not an algorithmic shortcut that avoids solving the
+finite computation.
+
+## Why use Lean when Python could compute the answer?
+
+Python could implement the same answer-key-free reward for every current
+family. It could enumerate an interval, compute a sum, establish leastness, or
+compare a submitted relation with all satisfying pairs. Exhaustive coverage
+comes from checking the whole declared domain, not from the programming
+language. Lean is not necessary to remove reference answers, and this project
+has not established a speed or cost advantage over a Python checker.
+
+Lean is a deliberate choice for representing the checking obligation. The
+generated artifact states a typed mathematical proposition: equality for
+evaluation, feasibility and leastness for minima, or equality with the entire
+finite relation for pair certificates. These claims can be inspected alongside
+their bounds and reused with formal mathematical definitions. That makes Lean
+a useful foundation for exploring richer certificate checks, although such
+extensions are future work rather than evidence from the current families.
+
+The execution method matters. In the project's pinned Lean 4.23.0,
+[`native_decide`](https://lean-lang.org/doc/reference/4.23.0/Tactic-Proofs/Tactic-Reference/#native_decide)
+evaluates a decidable proposition using compiled code and relies on
+`Lean.ofReduceBool`. Its trust boundary includes the compiler and native
+execution; it is not a result justified solely by kernel reduction. The
+specification author, expression translation, generated template, and sandbox
+remain part of the wider trusted pipeline. Lean does not establish that a
+natural-language question was translated faithfully.
+
+For now, the useful comparison is an ordinary Python implementation of the
+same frozen specifications. A future backend comparison should measure
+agreement on boundary cases and deliberately wrong candidates, checker
+latency, throughput, and infrastructure failures. The current contribution is
+an explicit specification-to-reward pipeline, with Lean as its checking
+backend; backend superiority remains an empirical question.
 
 ## One source for the prompt and the checker
 
@@ -195,6 +232,71 @@ could be asked to produce a Lean proof for an environment-fixed theorem, and
 that would be a valid but different contract. MathCheck RL instead asks the
 model to solve the mathematical task and leaves formal checker construction to
 trusted code.
+
+More precisely, the model does not synthesize a proof. The environment does
+generate a Lean proposition containing the candidate and attempts to discharge
+it by native computation. Saying that the system does “no proving” would hide
+this generated formal claim.
+
+Theorem-proving RL usually asks a model for a proof of a fixed statement and
+rewards successful proof checking. It does not require a reference proof, but
+it still requires the target statement. Answer-finding tasks complicate that
+analogy: the
+[AlphaProof paper](https://www.nature.com/articles/s41586-025-09833-y)
+describes injecting plausible answers during formalization for some such
+problems. The shared principle is checking against a formal contract without
+requiring a stored reference artifact. The model's required artifact differs:
+a proof in a proof-synthesis environment, answer data in MathCheck RL.
+
+Answer-label-free mathematical RL is also an existing research direction.
+[JURY-RL](https://arxiv.org/abs/2604.25419), a 2026 preprint, uses rollout votes
+to propose an answer, a Lean proof pipeline to gate positive rewards, and a
+fallback when verification is inconclusive. MathCheck RL's present path instead
+freezes a restricted, independently specified decidable task and checks each
+submission computationally. It is a smaller engineering experiment in this
+space, not a claim to have invented learning without answer labels.
+
+## Could these tasks come from an existing math dataset?
+
+Yes, for a selected subset whose statements can be faithfully represented by
+the current contracts. The procedural generator is the implemented source of
+tasks today; it is not a requirement of the reward interface. A
+`SpecificationTask` can carry a dataset question as its prompt and an
+independently reviewed specification as its private checker input.
+
+Consider the first question in the
+[GSM8K test file](https://github.com/openai/grade-school-math/blob/master/grade_school_math/data/test.jsonl).
+Paraphrased, a seller receives 16 eggs, uses 3 and 4, and sells the remainder
+for 2 dollars each. A statement-derived specification is:
+
+```json
+{"kind": "evaluate", "expression": "(16-3-4)*2"}
+```
+
+The model can receive the word problem plus the JSON response schema, while
+the checker privately receives this expression. No expected candidate needs
+to be copied from GSM8K's solution field. The expression does encode the
+mathematical interpretation of the question; constructing it is trusted
+formalization work, not free supervision. Replacing it with a constant copied
+from the solution would merely disguise an answer key.
+
+A careful demonstration would select eligible questions, exclude their
+solution fields from specification construction, review the translation, and
+freeze the question provenance and specification digest before sampling model
+answers. Source dataset labels may optionally be consulted afterward for QA,
+but that is a weaker claim—answer-key-free reward time—than answer-blind
+specification construction. The two should be reported separately.
+
+This does not support the whole of GSM8K or MATH. Rational and real answers,
+algebraic equivalence, geometry, and unbounded claims require richer contracts.
+An arbitrary finite search bound must not silently replace an unbounded
+question. Eligibility and exclusions are part of the experiment.
+
+Existing datasets can illustrate the grading mechanism even when they are
+well studied. They would not, by themselves, demonstrate uncontaminated
+generalization or improved reasoning. The immediate useful experiment is a
+small reviewed dataset slice with valid, wrong, nonminimal, and incomplete
+controls where applicable; broader training claims can wait.
 
 ## The complete reward path
 

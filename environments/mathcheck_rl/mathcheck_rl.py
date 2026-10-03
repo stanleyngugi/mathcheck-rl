@@ -2,6 +2,7 @@
 import asyncio
 import hashlib
 import json
+import os
 
 import verifiers as vf
 from datasets import Dataset
@@ -75,16 +76,20 @@ async def _get_verdict(completion, answer, state):
         specification=specification,
     )
     response_text = _completion_text(completion)
-    running = asyncio.create_task(asyncio.to_thread(
-        verify_specification_submission, response_text, task,
-    ))
+    async def run_once():
+        try:
+            verdict = await asyncio.to_thread(
+                verify_specification_submission, response_text, task,
+            )
+            state["nv_spec_verdict"] = verdict
+            return verdict
+        finally:
+            state.pop("nv_spec_verdict_task", None)
+
+    running = asyncio.create_task(run_once())
+    running.add_done_callback(lambda done: None if done.cancelled() else done.exception())
     state["nv_spec_verdict_task"] = running
-    try:
-        verdict = await asyncio.shield(running)
-    finally:
-        state.pop("nv_spec_verdict_task", None)
-    state["nv_spec_verdict"] = verdict
-    return verdict
+    return await asyncio.shield(running)
 
 
 async def specification_pass(completion, answer, state) -> float:
@@ -157,10 +162,16 @@ try:
                 prompt="",
                 specification=specification,
             )
+            lean_bin = (
+                self.config.lean_bin
+                or os.getenv("NATIVE_VERIFY_LEAN")
+                or os.getenv("LEAN_BIN")
+            )
             payload = json.dumps({
                 "response": trace.last_reply,
                 "specification": self.data.specification,
-                "lean_bin": self.config.lean_bin,
+                "lean_bin": lean_bin,
+                "toolchain": os.getenv("LKV_SANDBOX_TOOLCHAIN"),
                 "timeout": self.config.verify_timeout,
             }, sort_keys=True, separators=(",", ":"))
             key = hashlib.sha256(payload.encode()).hexdigest()
@@ -170,10 +181,13 @@ try:
                     verify_specification_submission,
                     trace.last_reply,
                     task,
-                    lean_bin=self.config.lean_bin,
+                    lean_bin=lean_bin,
                     timeout_seconds=self.config.verify_timeout,
                 )
-            return await _V1_VERDICTS.get(key, run_once)
+            return await _V1_VERDICTS.get(
+                key, run_once,
+                cache_result=lambda verdict: verdict.status != "operational_error",
+            )
 
         @reward(weight=1.0)
         async def nv_specification_pass(self, trace: Trace, runtime: Runtime) -> float:
@@ -182,11 +196,21 @@ try:
             trace.info["nv_stage"] = verdict.stage
             trace.info["nv_reason"] = verdict.reason
             trace.info["nv_specification_digest"] = verdict.specification_digest
+            trace.info["nv_artifact_digest"] = verdict.artifact_digest
+            trace.info["nv_duration_ms"] = verdict.duration_ms
+            trace.info["nv_backend"] = verdict.backend
+            trace.info["nv_scope"] = verdict.scope
+            trace.info["nv_checker_invocations"] = verdict.checker_invocations
+            trace.info["nv_diagnostics"] = list(verdict.diagnostics)
             return 1.0 if verdict.accepted else 0.0
 
         @reward(weight=0.0)
         async def nv_stage_rank(self, trace: Trace, runtime: Runtime) -> float:
             return float(STAGE_RANK.get((await self._run(trace)).stage, 0.0))
+
+        @reward(weight=0.0)
+        async def nv_verify_seconds(self, trace: Trace, runtime: Runtime) -> float:
+            return (await self._run(trace)).duration_ms / 1000.0
 
     class NativeSpecificationTasksetConfig(TasksetConfig):
         families: str = "all"
