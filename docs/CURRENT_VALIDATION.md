@@ -195,3 +195,25 @@ sources in [website commit 05a9960](https://github.com/stanleyngugi/website-1/co
 The site renderer now supports display formulas through native MathML, with
 scrollable formula regions on narrow screens. Source hashes, links, anchors
 and deterministic rendering were checked before the website commit.
+
+
+## Native retry and Hub publication boundary — 2026-10-03
+
+The requested native retry was executed as attempt **2** of
+[run 37130137846](https://github.com/stanleyngugi/mathcheck-rl/actions/runs/37130137846).
+It again completed with zero steps and no assigned runner. The signed-in GitHub
+run summary now provides the reason: **the account is locked due to a billing
+issue**. This confirms the current retry's cause; the earlier metadata-only
+observations remain historical. The billing/account condition was not changed.
+
+The current worker still has no `/proc`, no Lean executable on PATH and a failing
+bubblewrap probe. No current native acceptance was established. Prime Hub was
+also inspected directly: latest is **0.1.1**, still pinned to Engine
+`742edec6bdb4f7057780fc54e98fb284b76eedcf` and core
+`d4912c30564e99a3200f77ca7e94a8a3ebe184c7`. The browser was not signed in to Prime,
+and this worker had no configured `PRIME_API_KEY`.
+
+The [retry observation](evidence/native-closeout-retry-20261003.json) retains these
+facts. [CANDIDATE_PUBLICATION.md](CANDIDATE_PUBLICATION.md) specifies the finite
+native gate, Hub 0.1.2 upload and independent installed-version checks. No new
+release or Hub upload occurred: D6 remains required before publication.

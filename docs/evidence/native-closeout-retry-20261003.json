@@ -1,0 +1,41 @@
+{
+  "schema": "mathcheck-native-closeout-observation-v1",
+  "observed_date": "2026-10-03",
+  "source": {
+    "engine": "dce2fc88cee1e98ed3136ac89a4b40eba0d1ada7",
+    "rl": "17f857d4c4984a740cdb14fab5aefb46555810bf"
+  },
+  "local_worker": {
+    "proc_available": false,
+    "lean_on_path": false,
+    "bubblewrap_probe": {
+      "returncode": 1,
+      "stderr": "bwrap: Can't read /proc/sys/kernel/overflowuid: No such file or directory"
+    },
+    "prime_cli_available": false,
+    "prime_api_key_configured": false
+  },
+  "native_retry": {
+    "run_id": 37130137846,
+    "attempt": 2,
+    "job_id": 111280177711,
+    "head_sha": "a5ec918c75c3330d9ce6735b1b79507f37fc51ab",
+    "conclusion": "failure",
+    "steps": [],
+    "runner_name": "",
+    "url": "https://github.com/stanleyngugi/mathcheck-rl/actions/runs/37130137846",
+    "annotation": "The job was not started because your account is locked due to a billing issue.",
+    "annotation_source": "Signed-in GitHub Actions run summary, observed through the browser"
+  },
+  "hub_observation": {
+    "url": "https://app.primeintellect.ai/dashboard/environments/stanley-ngugi/mathcheck-rl",
+    "latest_version": "0.1.1",
+    "runtime": "v1",
+    "engine_pin": "742edec6bdb4f7057780fc54e98fb284b76eedcf",
+    "core_pin": "d4912c30564e99a3200f77ca7e94a8a3ebe184c7",
+    "browser_signed_in": false
+  },
+  "native_validation_complete": false,
+  "publication_performed": false,
+  "required_next": "Supported Linux native gate, followed by authenticated Hub 0.1.2 publication and independent installed-version checks"
+}
