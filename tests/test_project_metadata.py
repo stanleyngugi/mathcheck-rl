@@ -34,6 +34,6 @@ def test_environment_packages_share_supported_python_range() -> None:
         for dependency in hub["dependencies"]
     )
     assert any(
-        dependency.endswith("mathcheck-rl.git@d4912c30564e99a3200f77ca7e94a8a3ebe184c7")
+        dependency.endswith("mathcheck-rl.git@5bf3313ffb34d8944ba6ce8cbde585ae4174e733")
         for dependency in hub["dependencies"]
     )
