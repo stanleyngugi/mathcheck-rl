@@ -23,8 +23,13 @@ Keep split conventions explicit. OpenAI's PRM800K uses a nonstandard MATH
 can contaminate evaluation. Numina sources can overlap GSM8K/MATH, so upstream
 train labels alone do not establish independence from our chosen tests.
 
-Current priorities remain the procedural instrument and pilot first, the small
-[GSM8K demonstration](GSM8K_DEMONSTRATION.md) last, then any broader import.
+The bounded [GSM8K demonstration](GSM8K_DEMONSTRATION.md) is complete as a
+disclosed source demonstration: three admitted development contracts, one known
+public-test example and two exclusions. Current native validation remains the
+single required gate in [FINISH_LINE.md](FINISH_LINE.md). The procedural
+learning pilot and broader dataset imports are optional, separately scoped
+work; neither is a prerequisite for this delivery.
+
 No dataset supplies faithful checker specifications merely because it supplies
 questions and solutions. Construct specs from questions, disclose review and
 label access, freeze accepted contracts, and count unsupported items separately.

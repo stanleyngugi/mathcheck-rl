@@ -37,9 +37,16 @@ as:
 {"answer": 17}
 ```
 
+Scalar candidates must be nonnegative integers smaller than `10**1000`.
+Booleans and JSON floating-point values do not satisfy this schema. Negative
+intermediate arithmetic is supported, but negative final answers and “no
+solution” for a minimum are not representable submissions. The procedural
+minimum generator creates satisfiable instances.
+
 Pair tasks require the complete bounded relation and its cardinality in the
-schema shown by that task. Extra prose, replacement specifications, malformed
-JSON, incomplete relations, duplicates, and out-of-bounds pairs are rejected.
+schema shown by that task. Pairs must be sorted lexicographically with no
+duplicates. Extra prose, replacement specifications, malformed JSON,
+incomplete relations and out-of-bounds pairs are rejected.
 
 ## Reward and metrics
 

@@ -22,8 +22,12 @@ Two contracts are intentionally separate:
 The specification environment is the answer-key-free path. The environment
 freezes an arithmetic predicate/objective before generation; the model cannot
 submit or weaken it. Scalar tasks cover exact evaluation, bounded sums, bounded
-counts, and bounded minima. Pair certificates must enumerate the entire
-satisfying relation in the declared rectangle, not merely valid witnesses.
+counts, and bounded minima. Submitted scalar answers must be nonnegative
+integers smaller than `10**1000`; integer expressions may have negative
+intermediate values. Negative final answers and a minimum's “no solution”
+result have no submission representation in this version. Pair certificates
+must enumerate the entire satisfying relation in the declared rectangle,
+not merely valid witnesses.
 
 The legacy sequence environment is useful for executable-program RL, but it is
 finite observation testing. It does not prove a function correct for every
@@ -100,9 +104,11 @@ See `docs/DEFECT_LEDGER.md` for the bounded correction ledger and
 `docs/RUN_RESULTS.md` for historical training evidence. No learning improvement
 is inferred from the historical smoke launch alone.
 
-The technical article,
-[`Grading Mathematical Answers Without Precomputed Answer Keys`](https://stanleyngugi.netlify.app/posts/mathcheck-rl.html), explains the answer-key-free
-contract, trust boundary, evaluation discipline, and deliberately bounded claims.
+The current repository article,
+[Grading Mathematical Answers Without Precomputed Answer Keys](TECHNICAL_ARTICLE.md),
+walks through leastness and completeness, explains the answer-key-free contract
+and its trust boundary, and separates current validation from historical
+release evidence. Website publication is managed separately.
 
 The current public GitHub release is
 [`v0.2.1`](https://github.com/stanleyngugi/mathcheck-rl/releases/tag/v0.2.1).
