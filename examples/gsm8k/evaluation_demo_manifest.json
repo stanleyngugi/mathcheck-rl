@@ -1,0 +1,40 @@
+{
+  "contains_expected_answers": false,
+  "exclusions": [],
+  "fidelity": "review_attestation_not_formal_proof",
+  "manifest_sha256": "b4a39e5008617d59e7d645a6b62b04a89360e9f604972a00372e329c1379d184",
+  "questions_selected": 1,
+  "role": "evaluation_demonstration",
+  "schema": "mathcheck-gsm8k-import-v1",
+  "status": "frozen_not_native_verified",
+  "tasks": [
+    {
+      "contains_expected_answer": false,
+      "dataset": "openai/gsm8k",
+      "family": "imported_evaluate",
+      "prompt": "Janet’s ducks lay 16 eggs per day. She eats three for breakfast every morning and bakes muffins for her friends every day with four. She sells the remainder at the farmers' market daily for $2 per fresh duck egg. How much in dollars does she make every day at the farmers' market? Submit exactly one fenced JSON object of the form `{\"answer\": <nonnegative integer>}`. The candidate is checked by computation against the full stated bounded specification. Do not include or alter the checker specification.",
+      "question": "Janet’s ducks lay 16 eggs per day. She eats three for breakfast every morning and bakes muffins for her friends every day with four. She sells the remainder at the farmers' market daily for $2 per fresh duck egg. How much in dollars does she make every day at the farmers' market?",
+      "question_sha256": "2b2e3f9639f6fa282a0b0c1d622e0c75cc03797b43268945f32b134da4fee344",
+      "review": {
+        "answer_blind_construction": true,
+        "fidelity_review_passed": true,
+        "rationale": "Subtract eggs eaten at breakfast and used for muffins from the daily total, then multiply remaining eggs by the per-egg sales price. The question asks daily revenue, not profit after unstated costs.",
+        "review_context": "Same assistant construction and review. This public test question was already discussed in the project audit; it is an instrumentation example, not a fresh held-out measurement. No source solution was supplied during construction.",
+        "reviewer": "Codex, question-only inspection on 2026-10-03"
+      },
+      "revision": "3101c7d5072418e28b9008a6636bde82a006892c",
+      "source_file_sha256": "3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14",
+      "source_id": "GSM8K:test:0",
+      "source_index": 0,
+      "source_split": "test",
+      "specification": {
+        "expression": "(16-3-4)*2",
+        "kind": "evaluate",
+        "start": 0,
+        "stop": 0
+      },
+      "specification_digest": "87faedba2d28313bb4be0c59770660229f5c27cf6ecc4f9638698da423da7c69",
+      "task_id": "GSM8K:test:0:87faedba2d28"
+    }
+  ]
+}

@@ -9,6 +9,7 @@ from pathlib import Path
 from native_verify.pilot_manifest import (
     PilotInputs,
     PilotRuntime,
+    PilotTrainingPlan,
     build_pilot_manifest,
     canonical_json_sha256,
 )
@@ -18,6 +19,8 @@ def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Prepare M5 inputs without making provider calls"
     )
+    parser.add_argument("--training-plan", type=Path, required=True,
+                        help="JSON object with frozen GRPO configuration and artifact identities")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--release-manifest", type=Path, required=True)
     parser.add_argument("--native-commit", required=True)
@@ -53,7 +56,8 @@ def main() -> int:
         release_manifest_canonical_sha256=canonical_json_sha256(release_manifest),
         benchmark_completion_reference=args.benchmark_completion_reference,
     )
-    manifest = build_pilot_manifest(runtime, inputs, release_manifest)
+    training_plan = PilotTrainingPlan(**json.loads(args.training_plan.read_text(encoding="utf-8")))
+    manifest = build_pilot_manifest(runtime, inputs, release_manifest, training_plan=training_plan)
     output = args.output.resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("x", encoding="utf-8") as stream:

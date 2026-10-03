@@ -1,0 +1,136 @@
+{
+  "contains_expected_answers": false,
+  "exclusions": [
+    {
+      "dataset": "openai/gsm8k",
+      "exclusion_reason": "Year-to-weeks convention is not explicit in the source question. Exclude from the strict demonstration until that interpretation receives independent review.",
+      "question": "James writes a 3-page letter to 2 different friends twice a week.  How many pages does he write a year?",
+      "question_sha256": "d38bacc8724a241927dec39e1459b3c17295f79d244c7ec4a518303968c9dc01",
+      "revision": "3101c7d5072418e28b9008a6636bde82a006892c",
+      "source_file_sha256": "17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465",
+      "source_id": "GSM8K:train:4",
+      "source_index": 4,
+      "source_split": "train"
+    }
+  ],
+  "fidelity": "review_attestation_not_formal_proof",
+  "manifest_sha256": "d85c3f5c313cfd9c7555613167f41dc9dc583f9e6cba80ce59ca4c5cf7b2b930",
+  "questions_selected": 5,
+  "role": "development",
+  "schema": "mathcheck-gsm8k-import-v1",
+  "status": "frozen_not_native_verified",
+  "tasks": [
+    {
+      "contains_expected_answer": false,
+      "dataset": "openai/gsm8k",
+      "family": "imported_evaluate",
+      "prompt": "Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May? Submit exactly one fenced JSON object of the form `{\"answer\": <nonnegative integer>}`. The candidate is checked by computation against the full stated bounded specification. Do not include or alter the checker specification.",
+      "question": "Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May?",
+      "question_sha256": "73429d562982300e6643d83a84428a22e0656773b67dad037d2de2f8bc0b45b9",
+      "review": {
+        "answer_blind_construction": true,
+        "fidelity_review_passed": true,
+        "rationale": "April contributes 48 clips; May contributes half of April. Add the two monthly amounts. Division by two is exact.",
+        "review_context": "Same assistant performed construction and review; no independent model or human audit is claimed. Source answer fields were withheld from assistant-visible input.",
+        "reviewer": "Codex, question-only inspection on 2026-10-03"
+      },
+      "revision": "3101c7d5072418e28b9008a6636bde82a006892c",
+      "source_file_sha256": "17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465",
+      "source_id": "GSM8K:train:0",
+      "source_index": 0,
+      "source_split": "train",
+      "specification": {
+        "expression": "48+48//2",
+        "kind": "evaluate",
+        "start": 0,
+        "stop": 0
+      },
+      "specification_digest": "ece01b5ac55690f7d7129e23c749b85d5a04d54fbead901ef6ff48f84665b2c8",
+      "task_id": "GSM8K:train:0:ece01b5ac556"
+    },
+    {
+      "contains_expected_answer": false,
+      "dataset": "openai/gsm8k",
+      "family": "imported_evaluate",
+      "prompt": "Weng earns $12 an hour for babysitting. Yesterday, she just did 50 minutes of babysitting. How much did she earn? Submit exactly one fenced JSON object of the form `{\"answer\": <nonnegative integer>}`. The candidate is checked by computation against the full stated bounded specification. Do not include or alter the checker specification.",
+      "question": "Weng earns $12 an hour for babysitting. Yesterday, she just did 50 minutes of babysitting. How much did she earn?",
+      "question_sha256": "3f23a7d4df7cb484dc2414bb2632f29e51a580a202d5968f1dbca00ed0f210bc",
+      "review": {
+        "answer_blind_construction": true,
+        "fidelity_review_passed": true,
+        "rationale": "Multiply the hourly rate by minutes worked and divide by 60 minutes per hour. The intermediate product is divisible by 60; floor division therefore expresses the exact dollar amount for this instance.",
+        "review_context": "Same assistant performed construction and review; no independent model or human audit is claimed. Source answer fields were withheld from assistant-visible input.",
+        "reviewer": "Codex, question-only inspection on 2026-10-03"
+      },
+      "revision": "3101c7d5072418e28b9008a6636bde82a006892c",
+      "source_file_sha256": "17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465",
+      "source_id": "GSM8K:train:1",
+      "source_index": 1,
+      "source_split": "train",
+      "specification": {
+        "expression": "(12*50)//60",
+        "kind": "evaluate",
+        "start": 0,
+        "stop": 0
+      },
+      "specification_digest": "81e75bbbbc77780b3ed9689b56967c2aa6192b18370ed2339a2f27889659fa14",
+      "task_id": "GSM8K:train:1:81e75bbbbc77"
+    },
+    {
+      "contains_expected_answer": false,
+      "dataset": "openai/gsm8k",
+      "family": "imported_evaluate",
+      "prompt": "Betty is saving money for a new wallet which costs $100. Betty has only half of the money she needs. Her parents decided to give her $15 for that purpose, and her grandparents twice as much as her parents. How much more money does Betty need to buy the wallet? Submit exactly one fenced JSON object of the form `{\"answer\": <nonnegative integer>}`. The candidate is checked by computation against the full stated bounded specification. Do not include or alter the checker specification.",
+      "question": "Betty is saving money for a new wallet which costs $100. Betty has only half of the money she needs. Her parents decided to give her $15 for that purpose, and her grandparents twice as much as her parents. How much more money does Betty need to buy the wallet?",
+      "question_sha256": "9eea4e53dec08963ef76fdee76346277a0ae3356c2c1bb67223507ebd6340740",
+      "review": {
+        "answer_blind_construction": true,
+        "fidelity_review_passed": true,
+        "rationale": "Subtract existing savings (half the price), the parent gift and twice that gift from the wallet price. Gifts add to savings; the objective is the remaining shortfall.",
+        "review_context": "Same assistant performed construction and review; no independent model or human audit is claimed. Source answer fields were withheld from assistant-visible input.",
+        "reviewer": "Codex, question-only inspection on 2026-10-03"
+      },
+      "revision": "3101c7d5072418e28b9008a6636bde82a006892c",
+      "source_file_sha256": "17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465",
+      "source_id": "GSM8K:train:2",
+      "source_index": 2,
+      "source_split": "train",
+      "specification": {
+        "expression": "100-100//2-15-2*15",
+        "kind": "evaluate",
+        "start": 0,
+        "stop": 0
+      },
+      "specification_digest": "f621295c9748287fcc3996b0686f0a3dccabc0c0e4e5fca8a19d5672522313e2",
+      "task_id": "GSM8K:train:2:f621295c9748"
+    },
+    {
+      "contains_expected_answer": false,
+      "dataset": "openai/gsm8k",
+      "family": "imported_evaluate",
+      "prompt": "Julie is reading a 120-page book. Yesterday, she was able to read 12 pages and today, she read twice as many pages as yesterday. If she wants to read half of the remaining pages tomorrow, how many pages should she read? Submit exactly one fenced JSON object of the form `{\"answer\": <nonnegative integer>}`. The candidate is checked by computation against the full stated bounded specification. Do not include or alter the checker specification.",
+      "question": "Julie is reading a 120-page book. Yesterday, she was able to read 12 pages and today, she read twice as many pages as yesterday. If she wants to read half of the remaining pages tomorrow, how many pages should she read?",
+      "question_sha256": "4ed90b091532ab4071ce410731d178b500525d6700568f1e94035e7694c22d23",
+      "review": {
+        "answer_blind_construction": true,
+        "fidelity_review_passed": true,
+        "rationale": "Subtract yesterday and twice yesterday from total pages, then take half of the unread pages. Both divisions in this instance are exact.",
+        "review_context": "Same assistant performed construction and review; no independent model or human audit is claimed. Source answer fields were withheld from assistant-visible input.",
+        "reviewer": "Codex, question-only inspection on 2026-10-03"
+      },
+      "revision": "3101c7d5072418e28b9008a6636bde82a006892c",
+      "source_file_sha256": "17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465",
+      "source_id": "GSM8K:train:3",
+      "source_index": 3,
+      "source_split": "train",
+      "specification": {
+        "expression": "(120-12-2*12)//2",
+        "kind": "evaluate",
+        "start": 0,
+        "stop": 0
+      },
+      "specification_digest": "b6885fd5fb2d91b0c846a1de92eb1d93fed377729e97e1ac67d28df6a1ad71e7",
+      "task_id": "GSM8K:train:3:b6885fd5fb2d"
+    }
+  ]
+}

@@ -46,8 +46,12 @@ JSON, incomplete relations, duplicates, and out-of-bounds pairs are rejected.
 - `nv_specification_pass`: reward `1.0` only for an accepted complete result;
   otherwise `0.0`.
 - `nv_stage_rank`: zero-weight diagnostic metric for checker progress.
-- Verification status, stage, reason, and specification digest are recorded in
-  trace metadata.
+- `nv_verify_seconds`: zero-weight native verification wall-time metric.
+- Trace metadata records status, stage, reason, specification and submission
+  digests, duration, backend, scope, checker invocation count, and diagnostics.
+- Concurrent reward and metric requests share one verification. The v1 cache
+  includes resolved launcher and toolchain settings, keeps immutable verdicts,
+  and retries operational failures on later requests.
 
 Timeouts and backend failures fail closed with zero reward and an operational
 status. They are not reported as mathematical counterexamples.

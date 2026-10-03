@@ -1,6 +1,6 @@
 # MathCheck RL
 
-**Answer-key-free bounded-math tasks and Lean-checked rewards for RL.**
+**Formal verification of bounded mathematical submissions, used as answer-key-free RL rewards.**
 
 The repository and public project name are **MathCheck RL**. The Python
 distribution, imports, and environment IDs remain `native-verify`,
@@ -28,6 +28,25 @@ satisfying relation in the declared rectangle, not merely valid witnesses.
 The legacy sequence environment is useful for executable-program RL, but it is
 finite observation testing. It does not prove a function correct for every
 natural number, even when the prose describes a universal rule.
+
+## Start with a complete check
+
+Install the two source projects and configure the isolated Lean runtime as shown
+below, then run:
+
+```bash
+python examples/specification_quickstart.py --lean-bin "$NATIVE_VERIFY_LEAN"
+```
+
+The walkthrough checks a count, a minimum with a feasible-but-nonminimal
+control, and complete versus incomplete pair certificates. It exits nonzero
+if any expected control outcome fails. No model or provider account is needed.
+
+The formal claim concerns the encoded contract. The specification author,
+Python-to-Lean expression translation, generated template, and native compiler
+remain trusted. The solving model supplies data; trusted code constructs and
+discharges the Lean obligation. See the [article](TECHNICAL_ARTICLE.md) for the
+comparison with Python checking and proof-synthesis RL.
 
 ## Result model
 
@@ -82,7 +101,7 @@ See `docs/DEFECT_LEDGER.md` for the bounded correction ledger and
 is inferred from the historical smoke launch alone.
 
 The technical article,
-[`How MathCheck RL Replaces Hidden Answer Keys with Lean-Checked Rewards`](https://stanleyngugi.netlify.app/posts/mathcheck-rl.html), explains the answer-key-free
+[`Grading Mathematical Answers Without Precomputed Answer Keys`](https://stanleyngugi.netlify.app/posts/mathcheck-rl.html), explains the answer-key-free
 contract, trust boundary, evaluation discipline, and deliberately bounded claims.
 
 The current public GitHub release is
@@ -93,8 +112,6 @@ version `0.1.1`. Exact local and Hub hashes, consumer-install evidence, and the
 hosted-execution boundary are recorded in
 [`docs/RELEASE_EVIDENCE_0.2.1.md`](docs/RELEASE_EVIDENCE_0.2.1.md).
 
-Start with [`examples/specification_quickstart.py`](examples/specification_quickstart.py)
-for a fixed task that demonstrates both a checked answer and a checked rejection.
 Legacy Prime-RL operational experiments are retained under
 [`archive/historical_prime_rl/`](archive/historical_prime_rl/) for provenance;
 they are not the supported public interface.
@@ -109,12 +126,29 @@ builds all four versioned wheels with a fixed source-date epoch, installs them i
 a disposable environment, runs `pip check`, and performs the answer-key-free
 real-Lean smoke outside both source trees.
 
-The separately authorized M5 pilot has an offline preregistration gate in
+The versioned M5 pilot amendment has an offline preregistration gate in
 `scripts/prepare_m5_manifest.py`. It binds the exact release manifest and Git
-commits, reproduces all 200 frozen task specifications and their commitments,
+commits, reproduces all 120 frozen task specifications and their commitments,
 enforces pairwise split disjointness, and rejects unset runtime fields. It does
 not contact a provider or start training.
 
 After the active benchmark finishes and credential rotation is coordinated,
 `scripts/check_remote_credentials.py` provides a read-only origin check whose
 output never includes the remote URL.
+
+## Current source work and next experiments
+
+`main` includes fixes beyond the frozen public release. Source validation and
+runtime blockers are recorded in [CURRENT_VALIDATION.md](docs/CURRENT_VALIDATION.md);
+those changes have not been published as replacement Hub or release wheels.
+
+The next learning experiment is the [procedural M5 pilot](docs/M5_PILOT_PROTOCOL.md).
+Its 280 planned rollouts fit inside the unchanged 300-call cap. Exact training
+artifacts and native gates must be frozen before execution.
+The [bounded control profiler](scripts/profile_specification_checks.py) compares
+a separate Python oracle with native checking and records all operational failures.
+[GSM8K import](docs/GSM8K_DEMONSTRATION.md) comes afterward: the offline importer
+accepts question-only source rows and reviewed specifications, never source solutions.
+
+Distribution commands and historical evidence live in
+[REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md).

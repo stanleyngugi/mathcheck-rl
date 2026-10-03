@@ -1,4 +1,11 @@
-# Prime Intellect verifiers - research notes
+# Historical Prime Intellect Verifiers research notes
+
+> Captured 2026-08-21 for the earlier sequence-program experiment. The stage
+> shaping and agreement proposals below are historical ideas, not current
+> reward behavior or a supported launch recipe. The primary `mathcheck-rl`
+> contract is documented in [the environment README](../environments/mathcheck_rl/README.md).
+> It uses binary specification acceptance and zero-weight stage/timing metrics.
+> Current v1 source behavior is tested against Verifiers 0.3.0.
 
 Notes from the official docs (docs.primeintellect.ai), captured so Phase 2
 packaging follows the platform contract exactly. Checked 2026-08-21.

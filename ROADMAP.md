@@ -45,11 +45,20 @@ model execution is not claimed: the attempted authenticated inference path
 stopped before a rollout because the account had insufficient balance, and no
 solver quota was borrowed.
 
-## M5 — separately authorized experiment
+## M5 — procedural learning experiment
 
-Prepared but not started. `docs/M5_PILOT_PROTOCOL.md` freezes recommended splits,
-hard call/cost/time limits, retry policy, stopping rules, and equal pre/post
-evaluation. Execution remains gated on the active benchmark finishing,
-credential cutover, reviewed merges, and filling the exact provider/model fields.
-The offline manifest builder and redaction-safe remote check are implemented and
-tested; they prepare those transitions but do not authorize or perform them.
+Protocol v2 supersedes the infeasible v1 allocation without changing its
+300-call / USD 20 / 60-minute limits. It uses 40 training, 40 primary and
+40 confirmatory tasks; paired evaluation consumes 160 calls and training
+uses at most 120. The offline builder verifies the allocation and requires
+a frozen GRPO training plan and checkpoint identity. Execution is not started.
+Exact model/trainer identities, native wheel gates and benchmark-completion
+evidence remain required; see `docs/M5_PILOT_PROTOCOL.md`.
+
+## M6 — answer-blind dataset demonstration (after M5 preparation)
+
+An offline GSM8K import path accepts question-only inputs and independently
+reviewed specifications. It binds source provenance and split roles, rejects
+reference-answer fields, and records unsupported questions as exclusions.
+No automatic faithful formalizer, full-dataset coverage, training result or
+native dataset verification is claimed. See `docs/GSM8K_DEMONSTRATION.md`.

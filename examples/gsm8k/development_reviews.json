@@ -1,0 +1,59 @@
+[
+  {
+    "source_id": "GSM8K:train:0",
+    "question_sha256": "73429d562982300e6643d83a84428a22e0656773b67dad037d2de2f8bc0b45b9",
+    "specification": {
+      "kind": "evaluate",
+      "expression": "48+48//2"
+    },
+    "reviewer": "Codex, question-only inspection on 2026-10-03",
+    "review_context": "Same assistant performed construction and review; no independent model or human audit is claimed. Source answer fields were withheld from assistant-visible input.",
+    "rationale": "April contributes 48 clips; May contributes half of April. Add the two monthly amounts. Division by two is exact.",
+    "answer_blind_construction": true,
+    "fidelity_review_passed": true
+  },
+  {
+    "source_id": "GSM8K:train:1",
+    "question_sha256": "3f23a7d4df7cb484dc2414bb2632f29e51a580a202d5968f1dbca00ed0f210bc",
+    "specification": {
+      "kind": "evaluate",
+      "expression": "(12*50)//60"
+    },
+    "reviewer": "Codex, question-only inspection on 2026-10-03",
+    "review_context": "Same assistant performed construction and review; no independent model or human audit is claimed. Source answer fields were withheld from assistant-visible input.",
+    "rationale": "Multiply the hourly rate by minutes worked and divide by 60 minutes per hour. The intermediate product is divisible by 60; floor division therefore expresses the exact dollar amount for this instance.",
+    "answer_blind_construction": true,
+    "fidelity_review_passed": true
+  },
+  {
+    "source_id": "GSM8K:train:2",
+    "question_sha256": "9eea4e53dec08963ef76fdee76346277a0ae3356c2c1bb67223507ebd6340740",
+    "specification": {
+      "kind": "evaluate",
+      "expression": "100-100//2-15-2*15"
+    },
+    "reviewer": "Codex, question-only inspection on 2026-10-03",
+    "review_context": "Same assistant performed construction and review; no independent model or human audit is claimed. Source answer fields were withheld from assistant-visible input.",
+    "rationale": "Subtract existing savings (half the price), the parent gift and twice that gift from the wallet price. Gifts add to savings; the objective is the remaining shortfall.",
+    "answer_blind_construction": true,
+    "fidelity_review_passed": true
+  },
+  {
+    "source_id": "GSM8K:train:3",
+    "question_sha256": "4ed90b091532ab4071ce410731d178b500525d6700568f1e94035e7694c22d23",
+    "specification": {
+      "kind": "evaluate",
+      "expression": "(120-12-2*12)//2"
+    },
+    "reviewer": "Codex, question-only inspection on 2026-10-03",
+    "review_context": "Same assistant performed construction and review; no independent model or human audit is claimed. Source answer fields were withheld from assistant-visible input.",
+    "rationale": "Subtract yesterday and twice yesterday from total pages, then take half of the unread pages. Both divisions in this instance are exact.",
+    "answer_blind_construction": true,
+    "fidelity_review_passed": true
+  },
+  {
+    "source_id": "GSM8K:train:4",
+    "question_sha256": "d38bacc8724a241927dec39e1459b3c17295f79d244c7ec4a518303968c9dc01",
+    "exclusion_reason": "Year-to-weeks convention is not explicit in the source question. Exclude from the strict demonstration until that interpretation receives independent review."
+  }
+]

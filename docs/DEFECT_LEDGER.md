@@ -20,3 +20,30 @@ possible defect is eliminated.
 Deferred outside this bounded implementation: arbitrary prose formalization,
 production multi-tenant isolation/cgroups, new GPU training, checkpoint recovery,
 and publication. None is needed to interpret the completed local contracts.
+
+## Follow-up audit corrections
+
+The following corrections are covered by source regression tests. They are not
+new release-gate or live native-check evidence.
+
+| Issue | Correction | Validation |
+|---|---|---|
+| Sandbox exits 124/125 and signals could appear as mathematical rejection | Engine classifies process failures as operational; RL also guards older compatible Engine results | Fake successful preflight followed by process failure; reward-boundary regressions |
+| Cancelling the initiating v0 metric could remove still-running shared work | Work owns publication and cleanup; consumers await shielded work | Cancel the initiator, then join from another consumer; one check |
+| v1 operational failures were retained and effective environment configuration was omitted from cache keys | Share in-flight work, retain only non-operational results, bind effective launcher and sandbox toolchain; keep state per event loop | Retry after failure, change launcher/toolchain, cross-loop and LRU checks |
+| JSON decoder recursion failure could escape as an exception | Return a structured invalid-input verdict before invoking Lean | Real nested input and simulated decoder-limit error |
+| Shared frozen verdicts still carried mutable diagnostics | Store diagnostic lines as a tuple, copy to trace metadata | Caller-list mutation cannot change verdict; real Verifiers 0.3.0 scoring records metadata and duration with one check |
+
+Open before any learning run: the M5 training procedure and confirmation-call
+allocation remain unresolved; see `M5_PILOT_PROTOCOL.md`. This patch preserves
+the existing split commitments and budget rather than changing the experiment.
+
+## Direct source update — 2026-10-03
+
+The fixes above are included directly on `main`, together with the article/doc
+alignment, independent Python control profiler, versioned M5 allocation
+amendment and final question-only GSM8K demonstration. The Engine CI step now
+exports its Lean path before running tests. This does not remove the GitHub
+account billing lock or supply a native runtime. See
+[CURRENT_VALIDATION.md](CURRENT_VALIDATION.md) for source results and outstanding
+native/release/experiment gates; previous release artifacts remain immutable.

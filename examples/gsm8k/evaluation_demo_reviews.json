@@ -1,0 +1,15 @@
+[
+  {
+    "source_id": "GSM8K:test:0",
+    "question_sha256": "2b2e3f9639f6fa282a0b0c1d622e0c75cc03797b43268945f32b134da4fee344",
+    "specification": {
+      "kind": "evaluate",
+      "expression": "(16-3-4)*2"
+    },
+    "reviewer": "Codex, question-only inspection on 2026-10-03",
+    "review_context": "Same assistant construction and review. This public test question was already discussed in the project audit; it is an instrumentation example, not a fresh held-out measurement. No source solution was supplied during construction.",
+    "rationale": "Subtract eggs eaten at breakfast and used for muffins from the daily total, then multiply remaining eggs by the per-egg sales price. The question asks daily revenue, not profit after unstated costs.",
+    "answer_blind_construction": true,
+    "fidelity_review_passed": true
+  }
+]

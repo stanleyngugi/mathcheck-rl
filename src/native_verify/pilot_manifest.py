@@ -9,6 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import hashlib
 import json
+import math
 import re
 from typing import Any
 
@@ -18,7 +19,7 @@ from .specification_tasks import (
 )
 
 
-PILOT_PROTOCOL = "native-verify-m5-bounded-spec-v1"
+PILOT_PROTOCOL = "native-verify-m5-bounded-spec-v2"
 PILOT_FAMILIES = (
     "bounded_count",
     "bounded_sum",
@@ -35,17 +36,17 @@ PILOT_SPLITS = (
     ),
     (
         "primary_evaluation",
-        20,
+        10,
         20270909,
-        "34148fde00892e68abac3997856ba49f9a003e8ac5547e95820af3555cdd1249",
+        "8984a2fb724f4d58e204a7644bc5de89cfd200ff24caa4019de182dad1740880",
         "evaluation_only",
     ),
     (
         "confirmatory",
-        20,
+        10,
         20280909,
-        "e0a208362d56742c1703be5d5ac02dd30d38db757e9d2da24c1246d5fb7a9a28",
-        "sealed_until_primary_analysis_final",
+        "1fbd92a0bfc26bf857a4649dfa7c6e6c54bc63bab3ae64eb8b184be99bfb8120",
+        "results_sealed_until_primary_analysis_final",
     ),
 )
 PILOT_BUDGETS = {
@@ -79,6 +80,60 @@ class PilotInputs:
     benchmark_completion_reference: str
 
 
+
+@dataclass(frozen=True, slots=True)
+class PilotTrainingPlan:
+    algorithm: str
+    group_size: int
+    epochs: int
+    maximum_optimizer_steps: int
+    learning_rate: float
+    kl_coefficient: float
+    initial_checkpoint_sha256: str
+    trainer_configuration_sha256: str
+    trainer_source_commit: str
+
+
+def _validate_training(plan: PilotTrainingPlan) -> dict[str, Any]:
+    if plan.algorithm != "GRPO":
+        raise ValueError("v2 requires an actual GRPO policy-update procedure")
+    for name, expected in (("group_size", 3), ("epochs", 1),
+                           ("maximum_optimizer_steps", 40)):
+        if type(getattr(plan, name)) is not int or getattr(plan, name) != expected:
+            raise ValueError(f"v2 freezes {name} at {expected}")
+    for name in ("learning_rate", "kl_coefficient"):
+        value = getattr(plan, name)
+        if type(value) not in (int, float) or not math.isfinite(value) or value < 0:
+            raise ValueError(f"{name} must be a finite nonnegative number")
+    if plan.learning_rate <= 0:
+        raise ValueError("learning_rate must be positive")
+    for name in ("initial_checkpoint_sha256", "trainer_configuration_sha256"):
+        if not isinstance(getattr(plan, name), str) or _SHA256_RE.fullmatch(getattr(plan, name)) is None:
+            raise ValueError(f"{name} must bind the exact training artifact")
+    if not isinstance(plan.trainer_source_commit, str) or _COMMIT_RE.fullmatch(plan.trainer_source_commit) is None:
+        raise ValueError("trainer_source_commit must be an immutable full commit")
+    return {
+        name: getattr(plan, name) for name in plan.__dataclass_fields__
+    } | {
+        "sampling_order": "seeded_family_balanced_round_robin",
+        "optimizer_steps_per_group": 1,
+        "degenerate_group_policy": "record_and_skip_zero_advantage_update",
+        "policy_selection": "final_checkpoint_no_evaluation_selection",
+        "reference_policy": "frozen_initial_checkpoint",
+    }
+
+
+def call_allocation(training_count: int, primary_count: int, confirmatory_count: int) -> dict[str, int]:
+    paired_evaluation = 2 * (primary_count + confirmatory_count)
+    training = training_count * PILOT_BUDGETS["maximum_training_attempts_per_task"]
+    total = paired_evaluation + training
+    if total > PILOT_BUDGETS["maximum_provider_calls"]:
+        raise ValueError("paired evaluation plus training exceeds the frozen call cap")
+    return {"primary_pre": primary_count, "confirmatory_pre": confirmatory_count,
+            "training": training, "primary_post": primary_count,
+            "confirmatory_post": confirmatory_count, "planned_total": total,
+            "unused_headroom": PILOT_BUDGETS["maximum_provider_calls"] - total}
+
 def _require_frozen_text(name: str, value: object) -> str:
     if not isinstance(value, str) or not value.strip() or value.strip().upper() == "UNSET":
         raise ValueError(f"{name} must be frozen before manifest creation")
@@ -96,7 +151,7 @@ def _validate_runtime(runtime: PilotRuntime) -> dict[str, Any]:
     )
     if isinstance(runtime.temperature, bool) or not isinstance(
         runtime.temperature, (int, float)
-    ) or runtime.temperature < 0:
+    ) or not math.isfinite(runtime.temperature) or runtime.temperature < 0:
         raise ValueError("temperature must be a nonnegative number")
     if isinstance(runtime.top_p, bool) or not isinstance(runtime.top_p, (int, float)):
         raise ValueError("top_p must be a number")
@@ -185,6 +240,8 @@ def build_pilot_manifest(
     runtime: PilotRuntime,
     inputs: PilotInputs,
     release_manifest: object,
+    *,
+    training_plan: PilotTrainingPlan,
 ) -> dict[str, Any]:
     """Return a complete, deterministic preregistration or fail closed."""
     checked_release = _validate_release_manifest(release_manifest)
@@ -216,13 +273,24 @@ def build_pilot_manifest(
             "tasks": tasks,
         }
 
+    allocation = call_allocation(*(split_records[name]["task_count"] for name in
+                                   ("training", "primary_evaluation", "confirmatory")))
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "status": "preregistered_not_started",
         "protocol": PILOT_PROTOCOL,
         "environment": "mathcheck-rl",
         "families": list(PILOT_FAMILIES),
         "runtime": _validate_runtime(runtime),
+        "training_plan": _validate_training(training_plan),
+        "call_allocation": allocation,
+        "analysis": {
+            "primary_minimum_gain_percentage_points": 10,
+            "maximum_invalid_input_increase_percentage_points": 5,
+            "maximum_operational_error_percentage": 1,
+            "confirmatory_requirement": "paired_gain_greater_than_zero",
+            "report": "family_rates_paired_transitions_and_operational_failures",
+        },
         "inputs": checked_inputs,
         "budgets": dict(PILOT_BUDGETS),
         "splits": split_records,

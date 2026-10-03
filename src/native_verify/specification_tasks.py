@@ -216,6 +216,8 @@ def parse_specification_submission(
         )
     except json.JSONDecodeError as exc:
         raise ValueError("submission contains invalid JSON") from exc
+    except RecursionError as exc:
+        raise ValueError("submission JSON is nested too deeply") from exc
     if not isinstance(payload, dict):
         raise ValueError("submission JSON must be an object")
     if isinstance(specification, PairCountSpec):
@@ -277,9 +279,13 @@ def verify_specification_submission(
     finally:
         runner.close()
     checker = result.checker
-    if result.status == "checked_success":
+    status = result.status
+    # Preserve the boundary even with an older compatible Engine installation.
+    if checker.timed_out or checker.backend_error or checker.returncode not in (0, 1):
+        status = "operational_error"
+    if status == "checked_success":
         stage, reason = "verified", None
-    elif result.status == "mathematical_rejection":
+    elif status == "mathematical_rejection":
         stage, reason = "specification_check", "candidate_does_not_satisfy_specification"
     elif checker.timed_out:
         stage, reason = "timeout", "checker_timeout"
@@ -291,13 +297,13 @@ def verify_specification_submission(
         if line.strip()
     ][-10:]
     return Verdict(
-        result.verified,
+        result.verified and status == "checked_success",
         stage,
         reason,
         diagnostics=diagnostics,
         duration_ms=_elapsed_ms(started),
         backend=checker.backend_mode,
-        status=result.status,
+        status=status,
         scope=result.scope,
         specification_digest=result.specification_digest,
         artifact_digest=_submission_digest(response_text),
