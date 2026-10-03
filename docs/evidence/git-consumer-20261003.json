@@ -1,0 +1,21 @@
+{
+  "artifact_smoke": "four installed imports, v1 environment construction, invalid-input reward zero and checker invocations zero",
+  "date": "2026-10-03",
+  "fresh_venv": true,
+  "hub_install_resolved_git_dependencies": true,
+  "native_evidence_complete": false,
+  "packages": {
+    "lean-kernel-verifier": {
+      "git_commit": "10138fb522f262742f2888a86cdbb2d5083fffc9",
+      "python_source_files_match_candidate_wheel": 23,
+      "version": "0.3.3"
+    },
+    "native-verify": {
+      "git_commit": "5bf3313ffb34d8944ba6ce8cbde585ae4174e733",
+      "python_source_files_match_candidate_wheel": 16,
+      "version": "0.2.2"
+    }
+  },
+  "pip_check_passed": true,
+  "schema_version": 1
+}

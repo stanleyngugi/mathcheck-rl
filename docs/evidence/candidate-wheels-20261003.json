@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-03",
+  "evidence_schema": "mathcheck-candidate-build-v1",
+  "full_native_release_gate_passed": false,
+  "hub_dependency_commits": {
+    "engine": "10138fb522f262742f2888a86cdbb2d5083fffc9",
+    "rl_core": "5bf3313ffb34d8944ba6ce8cbde585ae4174e733"
+  },
+  "publishable_release_manifest": false,
+  "source_date_epoch": "1704067200",
+  "wheel_sha256": {
+    "lean_kernel_verifier-0.3.3-py3-none-any.whl": "204e23a949466caacf6f452f8c1a9acc4c893c3345692c0c4a84114a5590046b",
+    "mathcheck_rl-0.1.2-py3-none-any.whl": "84fb5ea322a485978882c2f7025d4b7bf3ca5763e0379f91a27e971dfe66a8e6",
+    "native_verify-0.2.2-py3-none-any.whl": "b61919f751ff6251c6973061d627adfbd7b285e216177fd426a46640bd664a39",
+    "native_verify_seq-0.2.2-py3-none-any.whl": "430f9df43389d04f4286b994c5c21d8d4a9cee1a3714d332033160ba25a171f8"
+  }
+}
