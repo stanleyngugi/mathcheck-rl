@@ -17,10 +17,23 @@ jobs:
         uses: actions/checkout@v7
         with:
           path: mathcheck-rl
+      - name: Resolve immutable Engine dependency
+        id: engine
+        working-directory: mathcheck-rl
+        run: |
+          python - <<'PY'
+          import os, tomllib
+          from pathlib import Path
+          dependencies = tomllib.loads(Path('environments/mathcheck_rl/pyproject.toml').read_text())['project']['dependencies']
+          pin = next(d.rsplit('@', 1)[1] for d in dependencies if 'mathcheck-engine.git@' in d)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write(f'commit={pin}\n')
+          PY
       - name: Check out MathCheck Engine
         uses: actions/checkout@v7
         with:
           repository: ${{ github.repository_owner }}/mathcheck-engine
+          ref: ${{ steps.engine.outputs.commit }}
           path: mathcheck-engine
       - uses: actions/setup-python@v7
         with:

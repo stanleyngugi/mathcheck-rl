@@ -19,7 +19,7 @@ from lean_kernel_verifier.certificates import (
     verify_pair_certificate,
 )
 from lean_kernel_verifier.runner.checker_runner import CheckerRunConfig, LeanCheckerRunner
-from lean_kernel_verifier.specification import ProblemSpec, verify_answer
+from lean_kernel_verifier.specification import ProblemSpec, checker_status, verify_answer
 
 from .runner import PINNED_LEAN_VERSION, locate_lean
 from .types import Verdict
@@ -279,10 +279,8 @@ def verify_specification_submission(
     finally:
         runner.close()
     checker = result.checker
-    status = result.status
-    # Preserve the boundary even with an older compatible Engine installation.
-    if checker.timed_out or checker.backend_error or checker.returncode not in (0, 1):
-        status = "operational_error"
+    # Reclassify the actual diagnostic, including unconfirmed exit-1 failures.
+    status = checker_status(checker)
     if status == "checked_success":
         stage, reason = "verified", None
     elif status == "mathematical_rejection":

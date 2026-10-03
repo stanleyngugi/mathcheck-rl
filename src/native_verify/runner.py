@@ -10,8 +10,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Sequence
 
-from lean_kernel_verifier.runner.checker_runner import CheckerRunConfig, LeanCheckerRunner
+from lean_kernel_verifier.runner.checker_runner import CheckerRunConfig, CheckerRunResult, LeanCheckerRunner
 from lean_kernel_verifier.sanitizer.sanitizer import SanitizerConfig
+from lean_kernel_verifier.specification import checker_status
 
 from .sanitizer import sanitize_model_code
 from .template import build_checker_source
@@ -133,7 +134,7 @@ def verify(
             status="operational_error", specification_digest=specification_digest,
             artifact_digest=artifact_digest, checker_invocations=invocations,
         )
-    if checked.backend_error or checked.returncode in (124, 125) or checked.returncode is None:
+    if checked.backend_error or checked.returncode not in (0, 1):
         diagnostics = [line.strip() for line in output.splitlines() if line.strip()][-10:]
         return Verdict(
             accepted=False, stage="internal", reason="checker_backend_error",
@@ -155,6 +156,14 @@ def verify(
             checker_invocations=invocations,
         )
     stage, reason = classify_failure(output, markers)
+    if stage in {"train_check", "holdout_check"}:
+        status = checker_status(checked)
+    elif reason == "model_or_template_error":
+        status = "invalid_input"
+    else:
+        status = "operational_error"
+    if status == "operational_error":
+        stage, reason = "internal", "unconfirmed_checker_failure"
     diagnostics = error_lines[:10] or [line.strip() for line in output.splitlines() if line.strip()][-5:]
     return Verdict(
         accepted=False,
@@ -163,7 +172,7 @@ def verify(
         diagnostics=diagnostics,
         duration_ms=elapsed_ms(),
         backend=checked.backend_mode,
-        status="mathematical_rejection" if stage in {"train_check", "holdout_check"} else "invalid_input",
+        status=status,
         specification_digest=specification_digest,
         artifact_digest=artifact_digest,
         checker_invocations=invocations,
@@ -175,6 +184,10 @@ def classify_failure(output: str, markers: dict[str, int]) -> tuple[str, str]:
     if match is None:
         return "compile", "unknown_failure"
     line_no = int(match.group(1))
+    if line_no >= markers["verify_train"]:
+        result = CheckerRunResult(False, 1, output, '', 0, False)
+        if checker_status(result) != "mathematical_rejection":
+            return "compile", "unconfirmed_checker_failure"
     if line_no >= markers["verify_holdout"]:
         return "holdout_check", "holdout_mismatch"
     if line_no >= markers["verify_train"]:

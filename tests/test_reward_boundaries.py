@@ -41,7 +41,7 @@ def test_verdict_diagnostics_cannot_mutate_shared_cached_result():
     assert verdict.diagnostics == ("first",)
 
 
-@pytest.mark.parametrize("returncode", [124, 125, -9, 2])
+@pytest.mark.parametrize("returncode", [1, 124, 125, -9, 2])
 def test_older_engine_wrapper_exit_is_still_operational_in_reward(monkeypatch, returncode):
     import native_verify.specification_tasks as submission
     from lean_kernel_verifier.runner.checker_runner import CheckerRunResult
@@ -59,6 +59,20 @@ def test_older_engine_wrapper_exit_is_still_operational_in_reward(monkeypatch, r
     assert verdict.status == "operational_error"
     assert verdict.stage == "internal"
     assert not verdict.accepted
+
+
+def test_legacy_unknown_exit_one_is_operational(monkeypatch):
+    import native_verify.runner as legacy
+    from lean_kernel_verifier.runner.checker_runner import CheckerRunResult
+
+    monkeypatch.setattr(legacy, 'locate_lean', lambda *args, **kwargs: SimpleNamespace(executable='wrapper'))
+    checked = CheckerRunResult(False, 1, '', 'error: failed to locate application', 1, False)
+    monkeypatch.setattr(legacy, 'LeanCheckerRunner', lambda _: SimpleNamespace(
+        run_source=lambda *args: checked, close=lambda: None,
+    ))
+    verdict = legacy.verify('def f (n : Nat) : Nat := n', [0], [1])
+    assert verdict.status == 'operational_error'
+    assert verdict.stage == 'internal'
 
 
 def test_singleflight_survives_all_consumers_cancelling_and_reuses_completion():

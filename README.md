@@ -57,7 +57,7 @@ comparison with Python checking and proof-synthesis RL.
 Verdicts distinguish:
 
 - `checked_success`: the encoded checker accepted;
-- `mathematical_rejection`: a well-formed candidate failed the encoded check;
+- `mathematical_rejection`: a complete recognized native diagnostic reports a false encoded check;
 - `invalid_input`: extraction, language, or compilation was malformed;
 - `unsupported_task`: outside the declared task contract;
 - `operational_error`: timeout, missing/mismatched toolchain, or backend failure.
@@ -65,6 +65,9 @@ Verdicts distinguish:
 Operational failures deny reward but are not reported as mathematical
 counterexamples. Verdicts bind SHA-256 digests of the exact specification and
 artifact/submission.
+Exit 1 alone is inconclusive: unrecognized, truncated or mixed checker errors
+remain operational. The legacy sequence adapter also requires an explicit
+negative decision before labeling a train/holdout mismatch.
 
 ## Isolation and toolchain
 
@@ -171,6 +174,7 @@ future projects outside this audit.
 Distribution commands and historical evidence live in
 [REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md). Candidate versions are Engine
 0.3.3, RL core/sequence 0.2.2 and Hub 0.1.2. Public releases remain unchanged
-until the native gate passes. The manual **Native release candidate gate**
-workflow runs the finite checking and packaging gates without policy training
-or automatic publication.
+until the native gate passes. The **Native release candidate gate** workflow
+runs manually or when the Hub's dependency metadata changes on `main`. It
+checks the immutable Engine dependency and runs the finite checking and packaging
+gates without policy training or automatic publication.

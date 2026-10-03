@@ -2,6 +2,10 @@ name: Native release candidate gate
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - environments/mathcheck_rl/pyproject.toml
 
 permissions:
   contents: read

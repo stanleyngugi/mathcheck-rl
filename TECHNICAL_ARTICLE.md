@@ -309,12 +309,13 @@ evidence of a weaker policy. Traces retain status, stage, reason, timing,
 backend, scope, specification and submission digests, invocation count and
 diagnostics. Evaluation should report operational failures separately.
 
-Process classification still has a known limit. Exit code 1 can indicate Lean
-rejection or an unidentified infrastructure failure; the current classifier
-treats an otherwise unclassified exit 1 as rejection. Timeouts, wrapper failure
-codes, signals and launch errors are explicitly operational. A rejection status
-therefore needs its diagnostics and runtime context; it is not itself a
-machine-readable mathematical counterexample.
+Exit code 1 alone does not establish a mathematical rejection. Current candidate
+source requires the complete recognized `native_decide` diagnostic that its
+proposition evaluated to false. Unrecognized, truncated or mixed error output,
+timeouts, wrapper failure codes, signals and launch errors are operational.
+This is conservative interpretation of trusted checker diagnostics, not an
+exported mathematical counterexample. A changed diagnostic format can require
+an adapter update; the current candidate still needs its live validation gate.
 
 The native path requires Lean 4.23.0 and an explicitly configured
 `lean-isolated` launcher. Missing isolation fails closed, with no silent host

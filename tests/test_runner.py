@@ -33,12 +33,12 @@ MARKERS = {"model_start": 3, "verify_train": 10, "verify_holdout": 14}
 
 
 def test_classify_holdout_error():
-    output = "checker.lean:15:31: error: unsolved goals"
+    output = "checker.lean:15:31: error: Tactic `native_decide` evaluated that the proposition\n  False\nis false"
     assert classify_failure(output, MARKERS) == ("holdout_check", "holdout_mismatch")
 
 
 def test_classify_train_error():
-    output = "checker.lean:11:3: error: unsolved goals"
+    output = "checker.lean:11:3: error: Tactic `native_decide` evaluated that the proposition\n  False\nis false"
     assert classify_failure(output, MARKERS) == ("train_check", "train_mismatch")
 
 
@@ -49,6 +49,13 @@ def test_classify_model_compile_error():
 
 def test_classify_unknown_failure():
     assert classify_failure("some fatal crash", MARKERS) == ("compile", "unknown_failure")
+
+
+@pytest.mark.parametrize('message', ['unsolved goals', 'unknown identifier',
+    'Tactic `native_decide` failed: Could not evaluate decidable instance'])
+def test_theorem_location_alone_does_not_establish_a_mismatch(message):
+    output = 'checker.lean:15:31: error: ' + message
+    assert classify_failure(output, MARKERS) == ('compile', 'unconfirmed_checker_failure')
 
 
 LEAN = locate_lean()
