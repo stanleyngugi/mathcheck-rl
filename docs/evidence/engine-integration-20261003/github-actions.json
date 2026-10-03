@@ -1,0 +1,37 @@
+{
+  "observed_date": "2026-10-03",
+  "native_evidence_complete": false,
+  "interpretation": "The workflows concluded failure without any job steps or an assigned runner. This is not a native test result. The reason is not exposed in the inspected job metadata.",
+  "workflows": [
+    {
+      "label": "Engine CI",
+      "run_id": 37129582149,
+      "url": "https://github.com/stanleyngugi/mathcheck-engine/actions/runs/37129582149/job/111221849553",
+      "head_sha": "dce2fc88cee1e98ed3136ac89a4b40eba0d1ada7",
+      "conclusion": "failure",
+      "runner_name": "",
+      "runner_id": 0,
+      "steps": []
+    },
+    {
+      "label": "RL CI",
+      "run_id": 37130137867,
+      "url": "https://github.com/stanleyngugi/mathcheck-rl/actions/runs/37130137867/job/111223441043",
+      "head_sha": "a5ec918c75c3330d9ce6735b1b79507f37fc51ab",
+      "conclusion": "failure",
+      "runner_name": "",
+      "runner_id": 0,
+      "steps": []
+    },
+    {
+      "label": "Joint native gate",
+      "run_id": 37130137846,
+      "url": "https://github.com/stanleyngugi/mathcheck-rl/actions/runs/37130137846/job/111223441139",
+      "head_sha": "a5ec918c75c3330d9ce6735b1b79507f37fc51ab",
+      "conclusion": "failure",
+      "runner_name": "",
+      "runner_id": 0,
+      "steps": []
+    }
+  ]
+}

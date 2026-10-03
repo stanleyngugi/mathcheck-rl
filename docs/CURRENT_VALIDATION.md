@@ -127,13 +127,14 @@ before a future independent dataset-evaluation claim, not before closing this
 small demonstration. Earlier records remain historical and are not relabeled.
 
 Credential revocation/cutover remains unconfirmed owner-controlled account work;
-no secret, quota or benchmark changes are made by the closeout command. Website
-publication remains with the owner.
+no secret, quota or benchmark changes are made by the closeout command. At this
+earlier checkpoint, website publication remained with the owner; the follow-up
+below records the article synchronization.
 
 At this earlier checkpoint, design limits included unidentified infrastructure
 failures returning exit 1, trusted expression translation, process-local rather than independent
 confirmatory custody, and production isolation beyond per-process limits.
-The website is left for the owner to update separately.
+At that checkpoint, the website was left for the owner to update separately.
 
 ## Engine integration follow-up — 2026-10-03
 
@@ -179,3 +180,18 @@ on `main`, as well as manually. That Linux workflow runs D6 without publishing
 or training. Its outcome must be inspected independently; a scheduled job is not
 a successful gate. Training, autoformalization and broader mathematics remain
 outside the required delivery.
+
+The dependency update triggered the current Linux native workflow, but
+[run 37130137846](https://github.com/stanleyngugi/mathcheck-rl/actions/runs/37130137846)
+concluded failure with **zero steps and no assigned runner**. The associated RL
+CI run and current Engine CI run also concluded failure with zero steps. The
+inspected job metadata does not expose the reason; the historical billing lock
+is not assumed to explain these new runs. The compact
+[Actions observation](evidence/engine-integration-20261003/github-actions.json)
+records those outcomes. None is a native test pass or a failed mathematical control.
+
+Both website articles were synchronized verbatim from the audited repository
+sources in [website commit 05a9960](https://github.com/stanleyngugi/website-1/commit/05a9960aa63d64352c0803d949e34f41619e8691).
+The site renderer now supports display formulas through native MathML, with
+scrollable formula regions on narrow screens. Source hashes, links, anchors
+and deterministic rendering were checked before the website commit.
