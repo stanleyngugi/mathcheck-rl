@@ -1,0 +1,5 @@
+Map:   0%|          | 0/5 [00:00<?, ? examples/s]Map: 100%|██████████| 5/5 [00:00<00:00, 1727.19 examples/s]
+Map:   0%|          | 0/5 [00:00<?, ? examples/s]Map: 100%|██████████| 5/5 [00:00<00:00, 2254.27 examples/s]
+Map:   0%|          | 0/1 [00:00<?, ? examples/s]Map: 100%|██████████| 1/1 [00:00<00:00, 500.93 examples/s]
+Map:   0%|          | 0/1 [00:00<?, ? examples/s]Map: 100%|██████████| 1/1 [00:00<00:00, 512.00 examples/s]
+{"controls": [], "invalid_input": {"checker_invocations": 0, "reward": 0.0, "status": "invalid_input"}, "native_evidence_complete": false, "sequence_rows": [5, 5], "specification_rows": [1, 1], "versions": {"datasets": "4.8.5", "lean-kernel-verifier": "0.3.3", "mathcheck-rl": "0.1.2", "native-verify": "0.2.2", "native-verify-seq": "0.2.2", "verifiers": "0.3.0"}}

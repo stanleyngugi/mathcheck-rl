@@ -1,5 +1,8 @@
 # M5 procedural pilot: protocol v2
 
+This is an optional experiment. Training results are not required for the
+project’s audit delivery or release; see [FINISH_LINE.md](FINISH_LINE.md).
+
 Status: **amended before execution; local trainer implemented, pilot not started**. Identifier:
 `native-verify-m5-bounded-spec-v2`.
 

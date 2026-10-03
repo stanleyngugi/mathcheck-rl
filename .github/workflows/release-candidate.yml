@@ -44,8 +44,6 @@ jobs:
           sudo apt-get update && sudo apt-get install --yes bubblewrap
           python -m pip install -r mathcheck-rl/requirements-release.lock
           python -m pip install --no-deps -e ./mathcheck-engine -e ./mathcheck-rl
-          python -m pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cpu
-          python -m pip install transformers==4.57.6
       - name: Provision independently owned read-only toolchain
         run: |
           source_toolchain="$(dirname "$(dirname "$(elan which lean)")")"
@@ -54,25 +52,11 @@ jobs:
           sudo chown -R root:root "$toolchain"
           sudo chmod -R a-w "$toolchain"
           echo "LKV_SANDBOX_TOOLCHAIN=$toolchain" >> "$GITHUB_ENV"
-          echo "LEAN_BIN=$toolchain/bin/lean" >> "$GITHUB_ENV"
-          echo "NATIVE_VERIFY_LEAN=$(command -v lean-isolated)" >> "$GITHUB_ENV"
-      - name: Run complete suites and native controls
-        env:
-          OMP_NUM_THREADS: '2'
-        run: |
-          python -m pytest mathcheck-engine/tests -q
-          cd mathcheck-rl
-          python -m pytest tests -q
-          python examples/specification_quickstart.py --lean-bin "$NATIVE_VERIFY_LEAN"
-          mkdir -p artifacts/native-controls
-          python scripts/profile_specification_checks.py --lean-bin "$NATIVE_VERIFY_LEAN" --output artifacts/native-controls/procedural.jsonl
-          python scripts/profile_specification_checks.py --lean-bin "$NATIVE_VERIFY_LEAN" --import-manifest examples/gsm8k/development_manifest.json --output artifacts/native-controls/gsm8k-development.jsonl
-          python scripts/profile_specification_checks.py --lean-bin "$NATIVE_VERIFY_LEAN" --import-manifest examples/gsm8k/evaluation_demo_manifest.json --output artifacts/native-controls/gsm8k-demo.jsonl
-      - name: Gate all four candidate wheels
+      - name: Run the finite source, artifact and native closeout
         working-directory: mathcheck-rl
         run: |
-          lean_sha="$(sha256sum "$LEAN_BIN" | cut -d ' ' -f 1)"
-          python scripts/release_gate.py --verifier-root ../mathcheck-engine --toolchain "$LKV_SANDBOX_TOOLCHAIN" --toolchain-sha256 "$lean_sha" --output artifacts/release-candidate
+          lean_sha="$(sha256sum "$LKV_SANDBOX_TOOLCHAIN/bin/lean" | cut -d ' ' -f 1)"
+          python scripts/closeout_gate.py --verifier-root ../mathcheck-engine --toolchain "$LKV_SANDBOX_TOOLCHAIN" --toolchain-sha256 "$lean_sha" --output artifacts/closeout
       - name: Preserve reviewable candidate artifacts
         if: always()
         uses: actions/upload-artifact@v7

@@ -281,7 +281,8 @@ fidelity separately from solver success on accepted specifications.
 
 An [offline GSM8K demonstration](docs/GSM8K_DEMONSTRATION.md) now accepts
 question-only inputs and reviewed specifications, after the procedural
-foundation. It includes four development tasks and one public test example;
+foundation. It includes three admitted development tasks, two exclusions and one public
+test example;
 its current review comes from the same assistant that constructed the specs,
 so independent fidelity review remains outstanding. It has no native or
 learning result. The known public test example illustrates the interface.
@@ -315,19 +316,22 @@ insufficient balance. Hosted model execution and learning gains remain
 unestablished. [Reproducibility notes](docs/REPRODUCIBILITY.md) retain the
 installation details and historical records without interrupting this argument.
 
-The next empirical question is modest: can optimizing this reward improve
+A separate optional empirical question is modest: can optimizing this reward improve
 performance on different frozen instances of the implemented families? The
 [procedural pilot](docs/M5_PILOT_PROTOCOL.md) defines paired pre/post evaluation,
 a separate confirmatory split, family-balanced training, explicit policy
-updates, and a feasible call allocation. Its revised protocol is a planning
-artifact, not a completed experiment. Exact model, trainer, checkpoint and
+updates, and a feasible call allocation. Its revised protocol and implemented local driver support a future experiment.
+No experiment has started. Learning results are optional and are not a
+completion condition for delivering the checking environment. Exact model, trainer, checkpoint and
 runtime identities must be frozen, and native release checks and quota
 availability must be established before execution.
 
-The order matters: stabilize the current contract and instrument, check their
-behavior, measure a bounded procedural pilot, then demonstrate a reviewed
-dataset import. Larger autoformalization and richer mathematical contracts can
-follow evidence rather than stand in for it.
+The delivery has a finite [finish line](docs/FINISH_LINE.md): explicit contracts,
+passing source checks, reproducible installed packages, a disclosed small
+dataset demonstration and current native checking evidence. An RL pilot,
+larger autoformalization and richer mathematical contracts are separate
+optional projects. They are unnecessary to establish the environment’s
+implemented checking behavior.
 
 MathCheck RL's useful claim is concrete: a model can submit ordinary answer data
 and receive a mechanically checked reward against a complete formalized

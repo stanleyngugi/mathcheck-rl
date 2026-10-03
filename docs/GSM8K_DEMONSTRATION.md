@@ -1,7 +1,8 @@
 # Answer-blind GSM8K demonstration
 
-Status: **offline import implemented; independent fidelity review, native
-verification and policy evaluation not completed**. This extension was prepared
+Status: **bounded source demonstration complete; current native verification
+remains blocked**. Independent research review and policy evaluation are outside
+this demonstration; see [FINISH_LINE.md](FINISH_LINE.md). This extension was prepared
 last, after the current contract, documentation and procedural pilot amendment.
 It does not replace that pilot or demonstrate learning improvement.
 
@@ -17,15 +18,16 @@ This is a process/provenance statement, not proof that a model's pretraining
 never contained these public questions or answers.
 
 The five first official training questions are a **development** slice.
-Four have arithmetic contracts. One is explicitly excluded because converting
-“a year” into exactly 52 weeks adds a convention not stated in the question.
+Three have admitted arithmetic contracts. Two are excluded: train:0 counts
+friends without specifying clips per friend, and train:4 does not state an
+exact year-to-weeks convention. See [the semantic audit](GSM8K_SPEC_AUDIT.md).
 The first official test question is an **evaluation demonstration**, not a fresh
 held-out performance measurement: it was already discussed in the audit.
 No source solution or expected candidate is stored in either task manifest.
 
 | Source item | Frozen interpretation | Role |
 | --- | --- | --- |
-| train:0 | April sales plus half as many May sales: `48+48//2` | Development |
+| train:0 | Friends-to-clips quantity correspondence unstated | Excluded |
 | train:1 | Hourly pay times minutes / minutes per hour: `(12*50)//60` | Development |
 | train:2 | Wallet shortfall after savings and both gifts: `100-100//2-15-2*15` | Development |
 | train:3 | Half the unread pages after two reading sessions: `(120-12-2*12)//2` | Development |

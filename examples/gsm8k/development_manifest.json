@@ -3,6 +3,17 @@
   "exclusions": [
     {
       "dataset": "openai/gsm8k",
+      "exclusion_reason": "The question gives a count of friends, not an explicit count of clips. The former contract assumed one clip sold per friend. Exclude from the strict demonstration because that quantity correspondence is unstated.",
+      "question": "Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May?",
+      "question_sha256": "73429d562982300e6643d83a84428a22e0656773b67dad037d2de2f8bc0b45b9",
+      "revision": "3101c7d5072418e28b9008a6636bde82a006892c",
+      "source_file_sha256": "17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465",
+      "source_id": "GSM8K:train:0",
+      "source_index": 0,
+      "source_split": "train"
+    },
+    {
+      "dataset": "openai/gsm8k",
       "exclusion_reason": "Year-to-weeks convention is not explicit in the source question. Exclude from the strict demonstration until that interpretation receives independent review.",
       "question": "James writes a 3-page letter to 2 different friends twice a week.  How many pages does he write a year?",
       "question_sha256": "d38bacc8724a241927dec39e1459b3c17295f79d244c7ec4a518303968c9dc01",
@@ -14,40 +25,12 @@
     }
   ],
   "fidelity": "review_attestation_not_formal_proof",
-  "manifest_sha256": "d85c3f5c313cfd9c7555613167f41dc9dc583f9e6cba80ce59ca4c5cf7b2b930",
+  "manifest_sha256": "ba0437c9519c90a1f599b128e7145162126982e3c39c359095eac452a213d4dd",
   "questions_selected": 5,
   "role": "development",
   "schema": "mathcheck-gsm8k-import-v1",
   "status": "frozen_not_native_verified",
   "tasks": [
-    {
-      "contains_expected_answer": false,
-      "dataset": "openai/gsm8k",
-      "family": "imported_evaluate",
-      "prompt": "Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May? Submit exactly one fenced JSON object of the form `{\"answer\": <nonnegative integer>}`. The candidate is checked by computation against the full stated bounded specification. Do not include or alter the checker specification.",
-      "question": "Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May?",
-      "question_sha256": "73429d562982300e6643d83a84428a22e0656773b67dad037d2de2f8bc0b45b9",
-      "review": {
-        "answer_blind_construction": true,
-        "fidelity_review_passed": true,
-        "rationale": "April contributes 48 clips; May contributes half of April. Add the two monthly amounts. Division by two is exact.",
-        "review_context": "Same assistant performed construction and review; no independent model or human audit is claimed. Source answer fields were withheld from assistant-visible input.",
-        "reviewer": "Codex, question-only inspection on 2026-10-03"
-      },
-      "revision": "3101c7d5072418e28b9008a6636bde82a006892c",
-      "source_file_sha256": "17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465",
-      "source_id": "GSM8K:train:0",
-      "source_index": 0,
-      "source_split": "train",
-      "specification": {
-        "expression": "48+48//2",
-        "kind": "evaluate",
-        "start": 0,
-        "stop": 0
-      },
-      "specification_digest": "ece01b5ac55690f7d7129e23c749b85d5a04d54fbead901ef6ff48f84665b2c8",
-      "task_id": "GSM8K:train:0:ece01b5ac556"
-    },
     {
       "contains_expected_answer": false,
       "dataset": "openai/gsm8k",
@@ -114,7 +97,7 @@
       "review": {
         "answer_blind_construction": true,
         "fidelity_review_passed": true,
-        "rationale": "Subtract yesterday and twice yesterday from total pages, then take half of the unread pages. Both divisions in this instance are exact.",
+        "rationale": "Subtract yesterday and twice yesterday from total pages, then take half of the unread pages. Division by two is exact for the unread-page count in this instance.",
         "review_context": "Same assistant performed construction and review; no independent model or human audit is claimed. Source answer fields were withheld from assistant-visible input.",
         "reviewer": "Codex, question-only inspection on 2026-10-03"
       },

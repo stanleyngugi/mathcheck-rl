@@ -35,8 +35,8 @@ new release-gate or live native-check evidence.
 | Shared frozen verdicts still carried mutable diagnostics | Store diagnostic lines as a tuple, copy to trace metadata | Caller-list mutation cannot change verdict; real Verifiers 0.3.0 scoring records metadata and duration with one check |
 
 The M5 confirmation allocation is amended to 280 feasible calls and a local
-GRPO driver is implemented. Remaining launch gates are actual native validation,
-gated release artifacts and frozen real model/runtime/benchmark inputs; see
+GRPO driver is implemented. The pilot is optional. Its future launch gates include native validation,
+gated artifacts and frozen real model/runtime/benchmark inputs; see
 `M5_PILOT_PROTOCOL.md` and `LOCAL_TRAINING.md`. No pilot result is claimed.
 
 ## Direct source update — 2026-10-03
@@ -48,3 +48,11 @@ exports its Lean path before running tests. This does not remove the GitHub
 account billing lock or supply a native runtime. See
 [CURRENT_VALIDATION.md](CURRENT_VALIDATION.md) for source results and outstanding
 native/release/experiment gates; previous release artifacts remain immutable.
+
+## Finite closeout scope
+
+[FINISH_LINE.md](FINISH_LINE.md) separates completed source delivery from the
+current native validation gate. RL learning results, broader dataset coverage
+and automatic formalization are outside this delivery. The strict dataset
+demonstration now excludes the friends-to-clips ambiguity as well as the
+year-to-weeks convention; see `GSM8K_SPEC_AUDIT.md`.

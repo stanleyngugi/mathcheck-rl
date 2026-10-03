@@ -2,15 +2,7 @@
   {
     "source_id": "GSM8K:train:0",
     "question_sha256": "73429d562982300e6643d83a84428a22e0656773b67dad037d2de2f8bc0b45b9",
-    "specification": {
-      "kind": "evaluate",
-      "expression": "48+48//2"
-    },
-    "reviewer": "Codex, question-only inspection on 2026-10-03",
-    "review_context": "Same assistant performed construction and review; no independent model or human audit is claimed. Source answer fields were withheld from assistant-visible input.",
-    "rationale": "April contributes 48 clips; May contributes half of April. Add the two monthly amounts. Division by two is exact.",
-    "answer_blind_construction": true,
-    "fidelity_review_passed": true
+    "exclusion_reason": "The question gives a count of friends, not an explicit count of clips. The former contract assumed one clip sold per friend. Exclude from the strict demonstration because that quantity correspondence is unstated."
   },
   {
     "source_id": "GSM8K:train:1",
@@ -47,7 +39,7 @@
     },
     "reviewer": "Codex, question-only inspection on 2026-10-03",
     "review_context": "Same assistant performed construction and review; no independent model or human audit is claimed. Source answer fields were withheld from assistant-visible input.",
-    "rationale": "Subtract yesterday and twice yesterday from total pages, then take half of the unread pages. Both divisions in this instance are exact.",
+    "rationale": "Subtract yesterday and twice yesterday from total pages, then take half of the unread pages. Division by two is exact for the unread-page count in this instance.",
     "answer_blind_construction": true,
     "fidelity_review_passed": true
   },

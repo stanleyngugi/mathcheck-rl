@@ -1,4 +1,9 @@
-# Bounded milestone status
+# Delivery status and optional roadmap
+
+The finite audit criteria are in [FINISH_LINE.md](docs/FINISH_LINE.md).
+Source delivery is complete; current native validation remains blocked by
+execution capabilities. **RL training results are optional and are not an
+issue or completion requirement.** M5 and broader contracts are future work.
 
 ## M0 — isolated reproducible state
 
@@ -45,7 +50,7 @@ model execution is not claimed: the attempted authenticated inference path
 stopped before a rollout because the account had insufficient balance, and no
 solver quota was borrowed.
 
-## M5 — procedural learning experiment
+## M5 — optional procedural learning experiment
 
 Protocol v2 supersedes the infeasible v1 allocation without changing its
 300-call / USD 20 / 60-minute limits. It uses 40 training, 40 primary and
@@ -56,10 +61,12 @@ smoke are implemented. Execution of the learning pilot is not started.
 Exact model/trainer identities, native wheel gates and benchmark-completion
 evidence remain required; see `docs/M5_PILOT_PROTOCOL.md`.
 
-## M6 — answer-blind dataset demonstration (after M5 preparation)
+## M6 — bounded answer-blind dataset demonstration
 
-An offline GSM8K import path accepts question-only inputs and independently
-reviewed specifications. It binds source provenance and split roles, rejects
+An offline GSM8K import path accepts question-only inputs and explicitly
+reviewed specifications. The delivered demonstration has three development
+contracts, one public-test example and two exclusions; its review is same-context
+and disclosed in `docs/GSM8K_SPEC_AUDIT.md`. It binds source provenance and split roles, rejects
 reference-answer fields, and records unsupported questions as exclusions.
 No automatic faithful formalizer, full-dataset coverage, training result or
 native dataset verification is claimed. See `docs/GSM8K_DEMONSTRATION.md`.

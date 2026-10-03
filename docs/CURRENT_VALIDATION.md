@@ -1,4 +1,10 @@
-# Candidate source validation — 2026-10-03
+# Candidate source validation and audit closeout — 2026-10-03
+
+**Source delivery is complete. Current native validation remains blocked.
+RL training results are optional and are not a completion requirement.**
+The finite criteria and one-command gate are in [FINISH_LINE.md](FINISH_LINE.md).
+The latest closeout report is
+[evidence/closeout-20261003.json](evidence/closeout-20261003.json).
 
 The audited work is pushed directly to `main`. Candidate versions are Engine
 **0.3.3**, RL core/sequence **0.2.2**, and Hub **0.1.2**. No replacement release
@@ -22,9 +28,11 @@ assets and their historical evidence remain unchanged.
   Evaluation verdicts never enter optimizer updates. Zero-variance groups are
   skipped; operational errors abort; primary analysis is finalized before
   confirmatory scores are opened. See [LOCAL_TRAINING.md](LOCAL_TRAINING.md).
-- GSM8K question-only import freezes four development specifications and one
-  known public-test demonstration with explicit provenance and exclusions.
-  Same-context review is not independent fidelity review.
+- GSM8K question-only import now freezes three development specifications and
+  one known public-test demonstration, with two explicit exclusions. The final
+  semantic audit found an unstated friends-to-clips quantity correspondence in
+  train:0 and removed its earlier contract. Same-context review is disclosed in
+  [GSM8K_SPEC_AUDIT.md](GSM8K_SPEC_AUDIT.md); no independent evaluation is claimed.
 - A manual **Native release candidate gate** workflow prepares a supported
   Linux worker, runs both complete suites, procedural/dataset native controls
   and the locked four-wheel gate, then retains artifacts without publishing.
@@ -36,9 +44,10 @@ PyTorch 2.8.0+cpu and Transformers 4.57.6:
 
 | Check | Result |
 | --- | --- |
-| RL complete source suite with optional training dependencies | 167 passed, 14 live/platform skips |
+| RL complete source suite with optional training dependencies | 173 passed, 14 live/platform skips |
 | Engine source suite | 63 passed, 10 live/platform skips, 38 subtests passed |
-| Standalone gradient/checkpoint/orchestration controls | 18 passed; included in the RL total above |
+| Optional gradient/checkpoint/orchestration controls | 18 passed; included in the RL total above; not a mandatory training-result gate |
+| Finite closeout status/artifact regressions | 6 passed; included in the RL total above |
 | Real Transformers update | Tiny random GPT-2 weights change, frozen reference stays unchanged, final safetensors checkpoint reloads with identical tensor digest |
 | Candidate wheel builds | Engine 0.3.3, RL core/sequence 0.2.2 and Hub 0.1.2 build with fixed source-date epoch |
 | Fresh consumer installation | Dependencies resolved in a new venv; candidate wheels install; `pip check` passes, including optional training dependencies |
@@ -59,7 +68,8 @@ and packaged Python bytes are verified in
 [evidence/git-consumer-20261003.json](evidence/git-consumer-20261003.json).
 Candidate wheel hashes are recorded in
 [evidence/candidate-wheels-20261003.json](evidence/candidate-wheels-20261003.json);
-that record is explicitly not a successful release-gate manifest.
+that earlier build record is historical and is not a successful release-gate
+manifest. Current wheel hashes are in the latest closeout report.
 
 ## Native attempts: blocked, not passed
 
@@ -77,7 +87,7 @@ required for the present bounded checkers and cannot repair these OS limits.
 | --- | --- |
 | Six-control quickstart | All 6 operational errors |
 | Procedural Python/Lean profile | All 29 native attempts operational errors |
-| GSM8K development controls | All 8 native attempts operational errors |
+| Earlier GSM8K four-contract development controls | All 8 native attempts operational errors; source slice superseded by the final semantic audit |
 | GSM8K public-test demonstration | Both native attempts operational errors |
 | Full release gate | Stops at stock `lean --version`, before its build/install/native smoke |
 
@@ -86,25 +96,37 @@ records these attempts with `native_evidence_complete=false`. Zero recorded
 mathematical disagreements in an all-operational-error run supplies no agreement
 evidence. No unisolated reward fallback or weakened gate was introduced.
 Earlier Actions runs were prevented from starting by a GitHub billing lock;
-source workflow changes cannot resolve that account condition. The most recent
+source workflow changes cannot resolve that account condition. The recorded
 candidate CI jobs also fail with zero steps started:
 [Engine](https://github.com/stanleyngugi/mathcheck-engine/actions/runs/37114767685)
 and [RL](https://github.com/stanleyngugi/mathcheck-rl/actions/runs/37115380434).
 Their current failure reason was not exposed by the available job metadata;
 no native CI pass is claimed.
 
-## Remaining execution gates
+## Finite remaining gate and optional work
 
-1. Run complete live suites, quickstart, profiler and full release gate on
-   supported Linux. The independent Git consumer installation passes already;
-   publish candidate releases/Hub only after the native artifact gate passes.
-2. Freeze an actual pretrained model/checkpoint and exact config/runtime,
-   genuine benchmark-completion evidence and the confirmatory access mechanism.
-   Launch the procedural pilot only after native gates pass. No real M5 run,
-   provider inference, quota borrowing or credential changes occurred here.
-   Credential revocation/cutover remains unconfirmed owner-dependent work.
-3. Obtain independent fidelity review of the GSM8K interpretations and run
-   their native controls before using that extension for evaluation or training.
+The single remaining required validation gate is D6: execute the closeout
+command on supported Linux and pass its native checklist and installed-wheel
+release gate. Then publish requested candidate distributions. The latest run
+passes source suites, wheel builds, fresh dependency resolution and installed
+structural smoke, then records stock Lean startup as blocked with exit 2.
+It makes no native acceptance claim.
+
+The following do not keep this delivery open: choosing a pretrained model,
+freezing an experimental configuration, obtaining benchmark-completion evidence,
+launching a procedural learning pilot, measuring gains, automatic formalization
+or expanding dataset coverage. They belong to a separately requested experiment.
+The optional driver/protocol remain implemented and have their smoke evidence.
+
+The bounded GSM8K demonstration is complete as a disclosed same-context manual
+interpretation. Its current development slice has six Python-only candidate
+controls, with no native claim. Independent fidelity review remains required
+before a future independent dataset-evaluation claim, not before closing this
+small demonstration. Earlier records remain historical and are not relabeled.
+
+Credential revocation/cutover remains unconfirmed owner-controlled account work;
+no secret, quota or benchmark changes are made by the closeout command. Website
+publication remains with the owner.
 
 Remaining design limits include unidentified infrastructure failures returning
 exit 1, trusted expression translation, process-local rather than independent

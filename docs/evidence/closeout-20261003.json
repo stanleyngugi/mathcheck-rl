@@ -1,0 +1,147 @@
+{
+  "checks": {
+    "candidate_wheels": {
+      "sha256": {
+        "lean_kernel_verifier-0.3.3-py3-none-any.whl": "204e23a949466caacf6f452f8c1a9acc4c893c3345692c0c4a84114a5590046b",
+        "mathcheck_rl-0.1.2-py3-none-any.whl": "84fb5ea322a485978882c2f7025d4b7bf3ca5763e0379f91a27e971dfe66a8e6",
+        "native_verify-0.2.2-py3-none-any.whl": "ef079455ad22e31d23f69f6ae055882b321c14f6f50b255d5dfe0b2fe304c43b",
+        "native_verify_seq-0.2.2-py3-none-any.whl": "430f9df43389d04f4286b994c5c21d8d4a9cee1a3714d332033160ba25a171f8"
+      },
+      "status": "passed"
+    },
+    "consumer_dependencies": {
+      "log": "consumer_dependencies.log",
+      "log_sha256": "9261363b733079a641c2e4cc9bc46ffa1d8336945a87f807b6cf68847dbc9b09",
+      "returncode": 0,
+      "seconds": 0.416,
+      "status": "passed"
+    },
+    "consumer_hub_install": {
+      "log": "consumer_hub_install.log",
+      "log_sha256": "e20f834d87fd2ad0a965eba0c6c96863561ff9be7ba4ff731608e97409dec228",
+      "returncode": 0,
+      "seconds": 0.316,
+      "status": "passed"
+    },
+    "consumer_install": {
+      "log": "consumer_install.log",
+      "log_sha256": "dd3fe7a0fc7df77ca3412da627625753f8e0e363c7d46521f7a4c380522f1430",
+      "returncode": 0,
+      "seconds": 73.728,
+      "status": "passed"
+    },
+    "engine_live_tests": {
+      "reason": "stock_lean_startup_failed",
+      "status": "blocked"
+    },
+    "engine_source_tests": {
+      "log": "engine_source_tests.log",
+      "log_sha256": "07bc1c89fa73434c4c6ca5bfb501b0d5cb43367d1d8f856f25ed11a0a0d1abc9",
+      "returncode": 0,
+      "seconds": 0.667,
+      "status": "passed"
+    },
+    "gsm8k_demo_controls": {
+      "reason": "stock_lean_startup_failed",
+      "status": "blocked"
+    },
+    "gsm8k_development_controls": {
+      "reason": "stock_lean_startup_failed",
+      "status": "blocked"
+    },
+    "installed_structural_smoke": {
+      "log": "installed_structural_smoke.log",
+      "log_sha256": "291761b9061ab6d5217dc3498b89f02b7d92246e58d586e61abca3c128ae3de1",
+      "returncode": 0,
+      "seconds": 3.624,
+      "status": "passed"
+    },
+    "lean_startup": {
+      "log": "lean_startup.log",
+      "log_sha256": "c82df870ca9b5c1f3b845ad4db1390a1c2eb49cdd84e15c5945db5e5dc20089d",
+      "returncode": 1,
+      "seconds": 0.065,
+      "status": "blocked"
+    },
+    "native_release_gate": {
+      "reason": "stock_lean_startup_failed",
+      "status": "blocked"
+    },
+    "procedural_controls": {
+      "reason": "stock_lean_startup_failed",
+      "status": "blocked"
+    },
+    "quickstart": {
+      "reason": "stock_lean_startup_failed",
+      "status": "blocked"
+    },
+    "rl_live_tests": {
+      "reason": "stock_lean_startup_failed",
+      "status": "blocked"
+    },
+    "rl_source_tests": {
+      "log": "rl_source_tests.log",
+      "log_sha256": "1a02a6cc41c2c1256978c6ae8d6344bea5e4067a66321f9573c74dea39c24293",
+      "returncode": 0,
+      "seconds": 8.593,
+      "status": "passed"
+    },
+    "wheel_build_0": {
+      "log": "wheel_build_0.log",
+      "log_sha256": "73282cfaf0b3da4dacce2b3d3aaf28b94da1de382ad8fcb522bfaf7d0947e96b",
+      "returncode": 0,
+      "seconds": 0.517,
+      "status": "passed"
+    },
+    "wheel_build_1": {
+      "log": "wheel_build_1.log",
+      "log_sha256": "a17d92fe64ef9e542af6995ca2a9c59fb0b9e5bc9b916a4aa40a42094ecece10",
+      "returncode": 0,
+      "seconds": 0.516,
+      "status": "passed"
+    },
+    "wheel_build_2": {
+      "log": "wheel_build_2.log",
+      "log_sha256": "37fe2d927180d5ffa276ae55e637a35b6f26be6aa4534ad1b6818f8f388b14ca",
+      "returncode": 0,
+      "seconds": 0.266,
+      "status": "passed"
+    },
+    "wheel_build_3": {
+      "log": "wheel_build_3.log",
+      "log_sha256": "9a3dcb51856bd8d91cff9a8729a6e45a53a828fc6399a8a0ed6632fdb3ce7db2",
+      "returncode": 0,
+      "seconds": 0.266,
+      "status": "passed"
+    }
+  },
+  "details": {
+    "native_integrations_disabled_for_source_phase": true,
+    "source_date_epoch": "1704067200",
+    "source_file_sha256": {
+      "scripts/closeout_gate.py": "f2578e58231078beb45304f18af4aa1c61d4fb2e8d37e3a6384c1b35b26bb768",
+      "scripts/wheel_smoke.py": "20dbfb1c7dcdd53e1265451e57dd90250d6488eedc24d0fcd5d1265bfc257d28"
+    }
+  },
+  "elapsed_seconds": 90.889,
+  "exit_code": 2,
+  "native_validation_complete": false,
+  "optional_work": [
+    "pretrained_policy_training",
+    "learning_gain_measurement",
+    "automatic_formalization",
+    "broader_dataset_coverage"
+  ],
+  "release_ready": false,
+  "rl_learning_results_required": false,
+  "schema": "mathcheck-audit-closeout-v1",
+  "scope": {
+    "gsm8k_development_admitted": 3,
+    "gsm8k_development_excluded": 2,
+    "gsm8k_evaluation_demonstration": 1,
+    "rl_training_required": false,
+    "website_managed_by_owner": true
+  },
+  "source_delivery_complete": true,
+  "status": "source_delivery_complete_native_blocked"
+}

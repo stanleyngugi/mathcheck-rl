@@ -136,25 +136,35 @@ After the active benchmark finishes and credential rotation is coordinated,
 `scripts/check_remote_credentials.py` provides a read-only origin check whose
 output never includes the remote URL.
 
-## Current source work and next experiments
+## Audit finish line and optional experiments
 
-`main` includes fixes beyond the frozen public release. Source validation and
-runtime blockers are recorded in [CURRENT_VALIDATION.md](docs/CURRENT_VALIDATION.md);
-those changes have not been published as replacement Hub or release wheels.
+[FINISH_LINE.md](docs/FINISH_LINE.md) fixes the delivery scope and completion
+criteria. Source delivery covers explicit contracts, corrected source behavior,
+honest writing, installed packages and the disclosed question-only demonstration.
+Validated delivery adds the current native gate. **RL training results are
+optional and are not a project-completion requirement.**
 
-The next learning experiment is the [procedural M5 pilot](docs/M5_PILOT_PROTOCOL.md).
-Its 280 planned rollouts fit inside the unchanged 300-call cap. The [optional local GRPO driver](docs/LOCAL_TRAINING.md) performs real policy
-updates and paired evaluation; its checkpoint smoke passes. Exact training
-artifacts and native gates must be frozen before execution.
-The [bounded control profiler](scripts/profile_specification_checks.py) compares
-a separate Python oracle with native checking and records all operational failures.
-[GSM8K import](docs/GSM8K_DEMONSTRATION.md) comes afterward: the offline importer
-accepts question-only source rows and reviewed specifications, never source solutions.
+Run `scripts/closeout_gate.py --help` for the finite closeout command. It builds
+and installs all four wheels, runs source suites and installed-package checks,
+and executes the native checklist when a healthy toolchain is supplied.
+Its report distinguishes source completion, failed checks and blocked native
+validation. [CURRENT_VALIDATION.md](docs/CURRENT_VALIDATION.md) records evidence.
+
+The [GSM8K demonstration](docs/GSM8K_DEMONSTRATION.md) admits three development
+contracts and one known public-test example, with two explicit exclusions.
+[The semantic audit](docs/GSM8K_SPEC_AUDIT.md) records their interpretation and
+same-context review limits. This is a small interface demonstration, not a
+whole-dataset or held-out performance claim.
+
+The [procedural M5 pilot](docs/M5_PILOT_PROTOCOL.md) and
+[local GRPO driver](docs/LOCAL_TRAINING.md) are available for a separately
+requested experiment. Their implementation and tiny checkpoint smoke do not
+make training mandatory. Broader contracts and automatic formalization are
+future projects outside this audit.
 
 Distribution commands and historical evidence live in
-[REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md).
-
-Candidate source versions are Engine 0.3.3, RL core/sequence 0.2.2 and Hub
-0.1.2. They are not published releases. The manual **Native release candidate
-gate** workflow runs complete native suites, controls and the locked four-wheel
-gate, then retains artifacts for review; it does not publish them.
+[REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md). Candidate versions are Engine
+0.3.3, RL core/sequence 0.2.2 and Hub 0.1.2. Public releases remain unchanged
+until the native gate passes. The manual **Native release candidate gate**
+workflow runs the finite checking and packaging gates without policy training
+or automatic publication.

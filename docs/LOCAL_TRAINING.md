@@ -1,5 +1,8 @@
 # Local procedural trainer
 
+Optional extension: neither a training run nor learning gains are required for
+the bounded project delivery. See [FINISH_LINE.md](FINISH_LINE.md).
+
 The optional trainer performs real causal-language-model parameter updates.
 It has not produced an M5 learning result. Native execution and frozen launch
 inputs remain prerequisites; the website is managed separately by its owner.
