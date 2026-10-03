@@ -175,6 +175,6 @@ Distribution commands and historical evidence live in
 [REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md). Candidate versions are Engine
 0.3.3, RL core/sequence 0.2.2 and Hub 0.1.2. Public releases remain unchanged
 until the native gate passes. The **Native release candidate gate** workflow
-runs manually or when the Hub's dependency metadata changes on `main`. It
-checks the immutable Engine dependency and runs the finite checking and packaging
+runs manually or when the Hub's dependency metadata or the gate workflow
+changes on `main`. It checks the immutable Engine dependency and runs the finite checking and packaging
 gates without policy training or automatic publication.

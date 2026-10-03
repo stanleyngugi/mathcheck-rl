@@ -64,8 +64,11 @@ That mode is explicitly not the native release gate.
 The Engine integration follow-up binds the Hub to immutable Engine and RL core
 commits and preserves its fresh source/artifact report in
 `docs/evidence/engine-integration-20261003/closeout.json`. The native candidate
-workflow also runs when the Hub's `pyproject.toml` changes on `main`. Its Linux
-result, not the trigger or source-only report, must satisfy D6.
+workflow also runs when the Hub's `pyproject.toml` or the gate workflow changes
+on `main`. Its Linux result, not the trigger or source-only report, must satisfy
+D6. The latest initial attempt and single retry started no steps and received
+no assigned runner; see [the attempt record](evidence/native-gate-retry-20261003.json).
+D6 therefore remains blocked, not failed mathematical validation or a pass.
 
 ## Work outside this finish line
 

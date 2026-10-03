@@ -217,3 +217,35 @@ The [retry observation](evidence/native-closeout-retry-20261003.json) retains th
 facts. [CANDIDATE_PUBLICATION.md](CANDIDATE_PUBLICATION.md) specifies the finite
 native gate, Hub 0.1.2 upload and independent installed-version checks. No new
 release or Hub upload occurred: D6 remains required before publication.
+
+## Title continuity and final native gate attempt — 2026-10-03
+
+The article is now **Grading Mathematical Answers Without Answer Keys**. Its
+Markdown path and published `/posts/mathcheck-rl.html` URL are unchanged.
+[Website commit 2fc858f](https://github.com/stanleyngugi/website-1/commit/2fc858f18d66552ad308217d45bf97e105e3087a)
+updates the page, homepage, RSS title and citation, and shows the former title
+for readers following previously submitted resumes. Publication dates and the
+RSS permalink are preserved. Source identity, generated metadata, anchors,
+local links and deterministic rendering pass. Upstream website merging and
+deployment remain with the owner.
+
+The unchanged native closeout gate now also triggers when its own workflow
+configuration changes. The title/workflow commit
+`15c33b19470fad151a9f3039d616550cac448d8f` triggered
+[run 37149622162](https://github.com/stanleyngugi/mathcheck-rl/actions/runs/37149622162).
+The initial attempt and one explicit retry both concluded failure with **zero
+steps executed, runner ID 0 and no assigned runner**. No tests, mathematical
+controls or artifact gate ran. The inspected metadata does not expose the
+failure reason; no current billing cause is inferred.
+
+The local capability probe again finds bubblewrap 0.9.0 unable to read
+`/proc/sys/kernel/overflowuid`; stock Lean is not on PATH. This is a platform
+probe, not a new Lean installation or native test result. No fallback,
+isolation bypass, account change or weakened reward was introduced.
+
+[evidence/native-gate-retry-20261003.json](evidence/native-gate-retry-20261003.json)
+records both Actions attempts and the local probe. **D6 remains blocked;
+source delivery is complete and release readiness remains false.** The finite
+remaining action is runner availability followed by one passing execution of
+the existing native closeout gate. Training and broader features remain
+outside the completion criteria.

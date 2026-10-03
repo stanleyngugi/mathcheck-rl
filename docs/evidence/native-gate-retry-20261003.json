@@ -1,0 +1,65 @@
+{
+  "schema": "mathcheck-native-closeout-attempt-v1",
+  "date": "2026-10-03",
+  "status": "native_validation_blocked",
+  "rl_source_commit": "15c33b19470fad151a9f3039d616550cac448d8f",
+  "engine_source_commit": "dce2fc88cee1e98ed3136ac89a4b40eba0d1ada7",
+  "website_commit": "2fc858f18d66552ad308217d45bf97e105e3087a",
+  "article_title": "Grading Mathematical Answers Without Answer Keys",
+  "article_url": "https://stanleyngugi.netlify.app/posts/mathcheck-rl.html",
+  "article_path_unchanged": true,
+  "local_capability_probe": {
+    "bubblewrap_version": "0.9.0",
+    "bubblewrap_returncode": 1,
+    "bubblewrap_stderr": "bwrap: Can't read /proc/sys/kernel/overflowuid: No such file or directory",
+    "stock_lean_on_path": false,
+    "scope": "capability probe only; no native mathematical controls executed"
+  },
+  "github_native_gate": {
+    "run_id": 37149622162,
+    "url": "https://github.com/stanleyngugi/mathcheck-rl/actions/runs/37149622162",
+    "head_sha": "15c33b19470fad151a9f3039d616550cac448d8f",
+    "attempts": [
+      {
+        "attempt": 1,
+        "jobs": [
+          {
+            "id": 111280518217,
+            "name": "gate",
+            "status": "completed",
+            "conclusion": "failure",
+            "steps_executed": 0,
+            "runner_id": 0,
+            "runner_name": "",
+            "started_at": "2026-10-03T19:55:02Z",
+            "completed_at": "2026-10-03T19:55:03Z"
+          }
+        ]
+      },
+      {
+        "attempt": 2,
+        "jobs": [
+          {
+            "id": 111280866438,
+            "name": "gate",
+            "status": "completed",
+            "conclusion": "failure",
+            "steps_executed": 0,
+            "runner_id": 0,
+            "runner_name": "",
+            "started_at": "2026-10-03T19:56:58Z",
+            "completed_at": "2026-10-03T19:57:00Z"
+          }
+        ]
+      }
+    ],
+    "failure_reason": "not exposed by available job metadata; check-run detail endpoint unsupported by connector"
+  },
+  "source_delivery_complete": true,
+  "native_validation_complete": false,
+  "release_ready": false,
+  "rl_learning_results_required": false,
+  "gate_weakened": false,
+  "new_native_acceptance_evidence": false,
+  "release_or_hub_publication_performed": false
+}
