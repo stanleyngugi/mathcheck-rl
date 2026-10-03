@@ -1,0 +1,25 @@
+{
+  "latest_pyproject": {
+    "command": [
+      "/workspace/scratch/cff1035d7206/closeout-vm/.prime-publish-venv/bin/prime",
+      "env",
+      "inspect",
+      "stanley-ngugi/mathcheck-rl@latest",
+      "pyproject.toml"
+    ],
+    "returncode": 0,
+    "stdout": "\nstanley-ngugi/mathcheck-rl@latest\npyproject.toml\n\n[project]\nname = \"mathcheck-rl\"\ndescription = \"Answer-key-free bounded integer-math RL environment with \nLean-checked rewards\"\nreadme = \"README.md\"\ntags = [\"single-turn\", \"math\", \"lean\", \"verifiable-rewards\", \"answer-key-free\"]\nversion = \"0.1.1\"\nrequires-python = \">=3.11,<3.14\"\nlicense = { file = \"LICENSE\" }\nauthors = [{ name = \"Stanley Ngugi\" }]\ndependencies = [\n    \"verifiers==0.3.0\",\n    \"datasets>=3,<5\",\n    \"lean-kernel-verifier @ \ngit+https://github.com/stanleyngugi/mathcheck-engine.git@742edec6bdb4f7057780fc5\n4e98fb284b76eedcf\",\n    \"native-verify @ \ngit+https://github.com/stanleyngugi/mathcheck-rl.git@d4912c30564e99a3200f77ca7e9\n4a8a3ebe184c7\",\n]\n\n[build-system]\nrequires = [\"hatchling\"]\nbuild-backend = \"hatchling.build\"\n\n[tool.hatch.metadata]\nallow-direct-references = true\n\n[tool.hatch.build]\ninclude = [\"mathcheck_rl.py\", \"pyproject.toml\", \"README.md\"]\n\n[tool.verifiers.eval]\nnum_examples = 16\nrollouts_per_example = 4\n\n",
+    "stderr": ""
+  },
+  "candidate_lookup": {
+    "command": [
+      "/workspace/scratch/cff1035d7206/closeout-vm/.prime-publish-venv/bin/prime",
+      "env",
+      "info",
+      "stanley-ngugi/mathcheck-rl@0.1.2"
+    ],
+    "returncode": 1,
+    "stdout": "Fetching stanley-ngugi/mathcheck-rl@0.1.2...\nFailed to get environment details: HTTP 404: Semantic version '0.1.2' not found \nfor this environment\n",
+    "stderr": ""
+  }
+}

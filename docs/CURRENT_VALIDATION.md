@@ -1,3 +1,36 @@
+# Execution-route follow-up — 2026-10-04
+
+The [fresh Engine evidence](https://github.com/stanleyngugi/mathcheck-engine/blob/b28424dc1587d8a6ef83d0a83965277d725ec69e/validation/2026-10-04-linux-attempt/README.md)
+reproduces 85 source passes and 40 subtests, byte-identical candidate wheels,
+and fresh installed-wheel controls. All ten required Engine live entries were
+attempted with the official hashed Lean 4.23.0 distribution, but no native gate
+cleared: the worker lacks `/proc`, stock Lean cannot locate its application,
+and bubblewrap fails. These are operational limitations, not native rejection
+evidence. No runtime or package metadata changed; immutable candidate pins stay
+unchanged.
+
+A [subsequent QEMU attempt](https://github.com/stanleyngugi/mathcheck-engine/blob/b28424dc1587d8a6ef83d0a83965277d725ec69e/validation/2026-10-04-linux-attempt/VM_ATTEMPT.md)
+successfully initializes a paused TCG process. Its Ubuntu guest image could not
+be downloaded, so no guest boot or joint native pass is claimed. The latest
+Engine Actions run also has zero steps and no runner. The
+[publication guide](CANDIDATE_PUBLICATION.md) now gives a documented Windows
+Quicksand/QEMU route without WSL and corrects doubled shell continuation slashes
+in the existing closeout command. Shell syntax, actual closeout-command argv,
+and the guest-preflight Python syntax were checked; that guest snippet is not
+reported as executed.
+
+Prime CLI 0.9.2 is installed in a separate worker environment. Public Hub reads
+work after adding its proxy dependency. A fresh public `pyproject.toml` inspection
+confirms latest is **0.1.1**, pinned to Engine `742edec6bdb4f7057780fc54e98fb284b76eedcf`
+and core `d4912c30564e99a3200f77ca7e94a8a3ebe184c7`; requesting **0.1.2** returns
+HTTP 404. [Actual CLI records](evidence/remaining-execution-20261004/prime-public-status.json)
+and [documentation checks](evidence/remaining-execution-20261004/documentation-checks.json)
+are retained. No Prime API key is configured, and the browser shows Sign In.
+No upload or release publication was attempted. D6 and authenticated owner
+publication access remain required; no training or expanded mathematics is needed.
+
+---
+
 # Candidate source validation and audit closeout — 2026-10-03
 
 **Source delivery is complete. Current native validation remains blocked.

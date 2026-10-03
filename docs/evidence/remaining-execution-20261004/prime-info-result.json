@@ -1,0 +1,11 @@
+{
+  "command": [
+    "/workspace/scratch/cff1035d7206/closeout-vm/.prime-publish-venv/bin/prime",
+    "env",
+    "info",
+    "stanley-ngugi/mathcheck-rl"
+  ],
+  "returncode": 0,
+  "stdout": "Fetching stanley-ngugi/mathcheck-rl@latest...\n\nstanley-ngugi/mathcheck-rl@latest\nAnswer-key-free bounded integer-math RL environment with Lean-checked rewards\n\nInspect\n  $ prime env inspect stanley-ngugi/mathcheck-rl@latest\n  $ prime env inspect stanley-ngugi/mathcheck-rl@latest README.md\n\nInstall (choose one)\n  $ prime env install stanley-ngugi/mathcheck-rl@latest\n  $ uv pip install mathcheck_rl --extra-index-url \nhttps://hub.primeintellect.ai/stanley-ngugi/mathcheck-rl/install/simple/\n  $ uv add mathcheck_rl --index \nhttps://hub.primeintellect.ai/stanley-ngugi/mathcheck-rl/install/simple/\n  $ pip install mathcheck_rl --extra-index-url \nhttps://hub.primeintellect.ai/stanley-ngugi/mathcheck-rl/install/simple/\n\nUsage\n  >>> from verifiers import load_environment\n  >>> env = load_environment('mathcheck-rl')\n\n",
+  "stderr": ""
+}
