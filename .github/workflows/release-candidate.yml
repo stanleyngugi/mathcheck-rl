@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - environments/mathcheck_rl/pyproject.toml
+      - .github/workflows/release-candidate.yml
 
 permissions:
   contents: read

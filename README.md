@@ -108,7 +108,7 @@ See `docs/DEFECT_LEDGER.md` for the bounded correction ledger and
 is inferred from the historical smoke launch alone.
 
 The current repository article,
-[Grading Mathematical Answers Without Precomputed Answer Keys](TECHNICAL_ARTICLE.md),
+[Grading Mathematical Answers Without Answer Keys](TECHNICAL_ARTICLE.md),
 walks through leastness and completeness, explains the answer-key-free contract
 and its trust boundary, and separates current validation from historical
 release evidence. Website publication is managed separately.
