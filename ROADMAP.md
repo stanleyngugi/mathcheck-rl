@@ -51,7 +51,8 @@ Protocol v2 supersedes the infeasible v1 allocation without changing its
 300-call / USD 20 / 60-minute limits. It uses 40 training, 40 primary and
 40 confirmatory tasks; paired evaluation consumes 160 calls and training
 uses at most 120. The offline builder verifies the allocation and requires
-a frozen GRPO training plan and checkpoint identity. Execution is not started.
+a frozen GRPO training plan and checkpoint identity. The optional local Transformers/GRPO driver and actual-gradient/checkpoint
+smoke are implemented. Execution of the learning pilot is not started.
 Exact model/trainer identities, native wheel gates and benchmark-completion
 evidence remain required; see `docs/M5_PILOT_PROTOCOL.md`.
 

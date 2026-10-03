@@ -18,8 +18,8 @@ possible defect is eliminated.
 | F10 | critical | Native Git remote contains an exposed embedded credential | Revoke/rotate with owner, then use a clean URL and credential manager/SSH | Provider confirms revocation and local remote no longer embeds a secret | owner action required |
 
 Deferred outside this bounded implementation: arbitrary prose formalization,
-production multi-tenant isolation/cgroups, new GPU training, checkpoint recovery,
-and publication. None is needed to interpret the completed local contracts.
+production multi-tenant isolation/cgroups, GPU execution evidence, checkpoint
+recovery and release publication. None is needed to interpret the completed local contracts.
 
 ## Follow-up audit corrections
 
@@ -34,9 +34,10 @@ new release-gate or live native-check evidence.
 | JSON decoder recursion failure could escape as an exception | Return a structured invalid-input verdict before invoking Lean | Real nested input and simulated decoder-limit error |
 | Shared frozen verdicts still carried mutable diagnostics | Store diagnostic lines as a tuple, copy to trace metadata | Caller-list mutation cannot change verdict; real Verifiers 0.3.0 scoring records metadata and duration with one check |
 
-Open before any learning run: the M5 training procedure and confirmation-call
-allocation remain unresolved; see `M5_PILOT_PROTOCOL.md`. This patch preserves
-the existing split commitments and budget rather than changing the experiment.
+The M5 confirmation allocation is amended to 280 feasible calls and a local
+GRPO driver is implemented. Remaining launch gates are actual native validation,
+gated release artifacts and frozen real model/runtime/benchmark inputs; see
+`M5_PILOT_PROTOCOL.md` and `LOCAL_TRAINING.md`. No pilot result is claimed.
 
 ## Direct source update — 2026-10-03
 

@@ -14,10 +14,10 @@ import venv
 
 
 EXPECTED_WHEELS = {
-    "lean_kernel_verifier-0.3.2-py3-none-any.whl",
-    "native_verify-0.2.1-py3-none-any.whl",
-    "native_verify_seq-0.2.1-py3-none-any.whl",
-    "mathcheck_rl-0.1.1-py3-none-any.whl",
+    "lean_kernel_verifier-0.3.3-py3-none-any.whl",
+    "native_verify-0.2.2-py3-none-any.whl",
+    "native_verify_seq-0.2.2-py3-none-any.whl",
+    "mathcheck_rl-0.1.2-py3-none-any.whl",
 }
 LOCKED_RELEASE_TOOLS = {
     "build": "1.6.0",
@@ -74,9 +74,13 @@ def main() -> int:
         raise SystemExit("release toolchain root and Lean binary must be read-only")
     if _sha256(lean) != args.toolchain_sha256.lower():
         raise SystemExit("Lean binary digest mismatch")
-    version = subprocess.run(
-        [str(lean), "--version"], check=True, capture_output=True, text=True, timeout=30
-    ).stdout
+    try:
+        version = subprocess.run(
+            [str(lean), "--version"], check=True, capture_output=True, text=True, timeout=30
+        ).stdout
+    except subprocess.CalledProcessError as exc:
+        raise SystemExit("Lean startup failed before release validation: "
+                         + (exc.stderr or exc.stdout or f"exit {exc.returncode}").strip()) from exc
     if "Lean (version 4.23.0," not in version:
         raise SystemExit("release gate requires Lean 4.23.0 exactly")
 

@@ -1,73 +1,101 @@
-# Source audit validation — 2026-10-03
+# Candidate source validation — 2026-10-03
 
-This record concerns the audited source revision and its direct-to-main changes.
-It is separate from the immutable public RL 0.2.1 / Hub 0.1.1 release evidence.
-No replacement release or Hub version was published in this audit.
+The audited work is pushed directly to `main`. Candidate versions are Engine
+**0.3.3**, RL core/sequence **0.2.2**, and Hub **0.1.2**. No replacement release
+or Hub version has been published. Existing public 0.3.2 / 0.2.1 / 0.1.1
+assets and their historical evidence remain unchanged.
 
-## Changes and local results
+## Implementation
 
-- Engine classifies wrapper exits 124/125, signals, unexpected exit codes and
-  process launch errors as operational failures. The RL adapter also guards
-  that boundary with older compatible Engine installations.
-- Verdict diagnostics are immutable. Shared verification survives consumer
-  cancellation, cleans up completed work, isolates event loops and does not
-  retain operational failures in its completed cache. Runtime identity enters
-  the v1 cache key. Primary traces preserve checker evidence and timing.
-- The article is reorganized around a bounded minimum, with precise claims
-  about answer-key-free rewards, generated proofs, native trust and spec fidelity.
-  Operational history is moved into `REPRODUCIBILITY.md`.
-- Pilot v2 binds a feasible 280-call plan, paired confirmatory baseline and
-  actual GRPO update procedure. It preserves v1 as a superseded planning record.
-- Question-only GSM8K import is implemented with split roles, provenance,
-  explicit review and exclusions. Four development contracts and one known
-  public test demonstration are frozen; independent fidelity review remains open.
+- Engine and RL preserve the operational-failure boundary for wrapper exits,
+  signals, timeouts and process launch errors. Shared verification survives
+  consumer cancellation, isolates event loops and does not cache operational
+  failures. Immutable verdict diagnostics and primary trace metadata retain
+  checker status, digests, invocations and timing.
+- The article is framed around grading frozen mathematical specifications
+  without precomputed candidate keys. It distinguishes Python computation,
+  Lean native verification, proof synthesis and prose-to-specification fidelity.
+- Pilot v2 has a feasible 280-completion allocation. The optional local
+  Transformers driver now samples actual policy completions, applies binary
+  GRPO updates, preserves a frozen reference, saves checkpoints and performs
+  paired evaluation. Config/checkpoint/source/release identities are checked.
+  Evaluation verdicts never enter optimizer updates. Zero-variance groups are
+  skipped; operational errors abort; primary analysis is finalized before
+  confirmatory scores are opened. See [LOCAL_TRAINING.md](LOCAL_TRAINING.md).
+- GSM8K question-only import freezes four development specifications and one
+  known public-test demonstration with explicit provenance and exclusions.
+  Same-context review is not independent fidelity review.
+- A manual **Native release candidate gate** workflow prepares a supported
+  Linux worker, runs both complete suites, procedural/dataset native controls
+  and the locked four-wheel gate, then retains artifacts without publishing.
 
-Python 3.12.14, real Verifiers 0.3.0 and Datasets 4.8.5:
+## Passing checks
+
+Fresh Python 3.12.14 dependency resolution, Verifiers 0.3.0, Datasets 4.8.5,
+PyTorch 2.8.0+cpu and Transformers 4.57.6:
 
 | Check | Result |
 | --- | --- |
-| RL source suite | 149 passed, 14 skipped |
-| Engine source suite | 63 passed, 10 skipped, 38 subtests passed |
-| Procedural Python-only control profile | 29 controls; native evidence false |
-| GSM8K Python-only controls | 8 development and 2 demonstration controls; native evidence false |
-| Wheel builds | All four source wheels built with fixed source-date epoch |
-| Installed wheel smoke | Imported all four packages outside source trees; real v1 invalid-input scoring preserved zero reward, metadata and zero checker invocations |
-| Diff hygiene | `git diff --check` passed |
-| Website render | Both articles match source hashes; headings/anchors, links, metadata and XML feeds checked |
+| RL complete source suite with optional training dependencies | 167 passed, 14 live/platform skips |
+| Engine source suite | 63 passed, 10 live/platform skips, 38 subtests passed |
+| Standalone gradient/checkpoint/orchestration controls | 18 passed; included in the RL total above |
+| Real Transformers update | Tiny random GPT-2 weights change, frozen reference stays unchanged, final safetensors checkpoint reloads with identical tensor digest |
+| Candidate wheel builds | Engine 0.3.3, RL core/sequence 0.2.2 and Hub 0.1.2 build with fixed source-date epoch |
+| Fresh consumer installation | Dependencies resolved in a new venv; candidate wheels install; `pip check` passes, including optional training dependencies |
+| Installed artifact smoke outside source trees | All four imports, real v1 environment construction, invalid-input zero reward and zero checker invocations pass |
+| Hygiene | Python compilation, workflow syntax/path checks and `git diff --check` pass |
 
-Wheel builds used build 1.6.0, hatchling 1.32.0, setuptools 84.0.0 and wheel
-0.48.0. The installed smoke used `--no-deps` with an existing dependency target;
-it is not a fresh dependency-resolution or native release-gate claim. Artifact
-versions are unchanged because these are unpublished source builds. Published
-Hub dependencies still point to their previous immutable release commits.
+The orchestration tests use explicitly labeled fixtures. They validate the
+280-call schedule and stop conditions, not learning. The GPT-2 smoke validates
+actual gradients and checkpoint mechanics, not mathematical improvement.
+Consumer dependencies are recorded in
+[evidence/candidate-consumer-packages-20261003.txt](evidence/candidate-consumer-packages-20261003.txt).
+The Hub wheel is installed with `--no-deps` after the exact locally built
+Engine/core/sequence wheels have been resolved and installed, matching the
+release gate's artifact installation strategy. An independent Git-resolved
+Hub consumer installation is a separate remaining gate.
 
-## Runtime limits and remaining gates
+## Native attempts: blocked, not passed
 
-Lean is not installed in this workspace. A direct bubblewrap capability probe
-failed with `Can't read /proc/sys/kernel/overflowuid: No such file or directory`.
-There was no fallback to unisolated reward execution. The skipped tests include
-live native/platform integrations; they must be run on a supported Linux worker
-with separately installed Lean 4.23.0 before claiming current native validation.
+Lean 4.23.0 is installed from the official Linux release. The verified archive
+SHA-256 is `ecd028d6f642b61b451c8687aeeb24dd53789fbfdcb7d4adb8f5cf60eb2022ba`;
+the installed binary SHA-256 is
+`cbf5fd536e142ef1beaccf33f788fd8a7f3f29fb214e75c11319a8d8677b4b2b`.
+Even with the stock shared-library paths configured, `lean --version` exits 1
+with `error: failed to locate application`. Lean's Linux application-path
+lookup needs `/proc/<pid>/exe`; this workspace does not provide it. Bubblewrap
+also fails because `/proc/sys/kernel/overflowuid` is absent. Mathlib is not
+required for the present bounded checkers and cannot repair these OS limits.
 
-Earlier GitHub Actions jobs were prevented from starting by an account billing
-lock. Fixing source CI configuration cannot resolve that account condition.
-The Engine workflow now exports `LEAN_BIN` in the same step as pytest; previously
-writing only to `GITHUB_ENV` did not expose it to that step's test process.
+| Attempt | Observed result |
+| --- | --- |
+| Six-control quickstart | All 6 operational errors |
+| Procedural Python/Lean profile | All 29 native attempts operational errors |
+| GSM8K development controls | All 8 native attempts operational errors |
+| GSM8K public-test demonstration | Both native attempts operational errors |
+| Full release gate | Stops at stock `lean --version`, before its build/install/native smoke |
 
-Remaining work that requires unavailable runtime or owner-dependent facts:
+[evidence/native-attempt-20261003.json](evidence/native-attempt-20261003.json)
+records these attempts with `native_evidence_complete=false`. Zero recorded
+mathematical disagreements in an all-operational-error run supplies no agreement
+evidence. No unisolated reward fallback or weakened gate was introduced.
+Earlier Actions runs were prevented from starting by a GitHub billing lock;
+source workflow changes cannot resolve that account condition.
 
-1. Run both complete native suites, the six-control quickstart and the Python/Lean
-   profiler on a working isolated runtime. Exit-1 infrastructure classification
-   remains a documented limit.
-2. Bump candidate artifact versions and update immutable package pins, then run
-   the full locked release gate and consumer installation before publication.
-   Do not overwrite existing release assets with these source wheels.
-3. Freeze actual pilot model/checkpoint, trainer/config, pricing, quota and
-   benchmark-completion evidence; verify a real policy update before launch.
-   No provider calls, training, credential changes or other benchmark changes
-   were made in this audit.
-4. Independently review the GSM8K interpretations, then run native controls.
-   No full-dataset coverage, independent review or learning-gain claim is made.
+## Remaining execution gates
 
-These are execution gates, not completed results. The checked-in protocol and
-commands make the remaining work concrete without inventing their inputs.
+1. Run complete live suites, quickstart, profiler and full release gate on
+   supported Linux. Then independently resolve the immutable Git dependencies
+   in a fresh consumer environment before publishing candidate releases/Hub.
+2. Freeze an actual pretrained model/checkpoint and exact config/runtime,
+   genuine benchmark-completion evidence and the confirmatory access mechanism.
+   Launch the procedural pilot only after native gates pass. No real M5 run,
+   provider inference, quota borrowing or credential changes occurred here.
+   Credential revocation/cutover remains unconfirmed owner-dependent work.
+3. Obtain independent fidelity review of the GSM8K interpretations and run
+   their native controls before using that extension for evaluation or training.
+
+Remaining design limits include unidentified infrastructure failures returning
+exit 1, trusted expression translation, process-local rather than independent
+confirmatory custody, and production isolation beyond per-process limits.
+The website is left for the owner to update separately.

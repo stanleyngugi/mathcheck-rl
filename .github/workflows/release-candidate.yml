@@ -1,0 +1,82 @@
+name: Native release candidate gate
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          path: mathcheck-rl
+      - name: Resolve immutable Engine dependency
+        id: engine
+        working-directory: mathcheck-rl
+        run: |
+          python - <<'PY'
+          import os, tomllib
+          from pathlib import Path
+          dependencies = tomllib.loads(Path('environments/mathcheck_rl/pyproject.toml').read_text())['project']['dependencies']
+          pin = next(d.rsplit('@', 1)[1] for d in dependencies if 'mathcheck-engine.git@' in d)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write(f'commit={pin}\n')
+          PY
+      - uses: actions/checkout@v7
+        with:
+          repository: ${{ github.repository_owner }}/mathcheck-engine
+          ref: ${{ steps.engine.outputs.commit }}
+          path: mathcheck-engine
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          lake-package-directory: mathcheck-engine
+          use-github-cache: false
+      - name: Install locked validation environment
+        run: |
+          sudo apt-get update && sudo apt-get install --yes bubblewrap
+          python -m pip install -r mathcheck-rl/requirements-release.lock
+          python -m pip install --no-deps -e ./mathcheck-engine -e ./mathcheck-rl
+          python -m pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install transformers==4.57.6
+      - name: Provision independently owned read-only toolchain
+        run: |
+          source_toolchain="$(dirname "$(dirname "$(elan which lean)")")"
+          toolchain="$RUNNER_TEMP/mathcheck-toolchain"
+          sudo cp -a "$source_toolchain" "$toolchain"
+          sudo chown -R root:root "$toolchain"
+          sudo chmod -R a-w "$toolchain"
+          echo "LKV_SANDBOX_TOOLCHAIN=$toolchain" >> "$GITHUB_ENV"
+          echo "LEAN_BIN=$toolchain/bin/lean" >> "$GITHUB_ENV"
+          echo "NATIVE_VERIFY_LEAN=$(command -v lean-isolated)" >> "$GITHUB_ENV"
+      - name: Run complete suites and native controls
+        env:
+          OMP_NUM_THREADS: '2'
+        run: |
+          python -m pytest mathcheck-engine/tests -q
+          cd mathcheck-rl
+          python -m pytest tests -q
+          python examples/specification_quickstart.py --lean-bin "$NATIVE_VERIFY_LEAN"
+          mkdir -p artifacts/native-controls
+          python scripts/profile_specification_checks.py --lean-bin "$NATIVE_VERIFY_LEAN" --output artifacts/native-controls/procedural.jsonl
+          python scripts/profile_specification_checks.py --lean-bin "$NATIVE_VERIFY_LEAN" --import-manifest examples/gsm8k/development_manifest.json --output artifacts/native-controls/gsm8k-development.jsonl
+          python scripts/profile_specification_checks.py --lean-bin "$NATIVE_VERIFY_LEAN" --import-manifest examples/gsm8k/evaluation_demo_manifest.json --output artifacts/native-controls/gsm8k-demo.jsonl
+      - name: Gate all four candidate wheels
+        working-directory: mathcheck-rl
+        run: |
+          lean_sha="$(sha256sum "$LEAN_BIN" | cut -d ' ' -f 1)"
+          python scripts/release_gate.py --verifier-root ../mathcheck-engine --toolchain "$LKV_SANDBOX_TOOLCHAIN" --toolchain-sha256 "$lean_sha" --output artifacts/release-candidate
+      - name: Preserve reviewable candidate artifacts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: mathcheck-native-candidate-${{ github.sha }}
+          path: mathcheck-rl/artifacts/
+          if-no-files-found: ignore

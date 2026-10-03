@@ -143,7 +143,8 @@ runtime blockers are recorded in [CURRENT_VALIDATION.md](docs/CURRENT_VALIDATION
 those changes have not been published as replacement Hub or release wheels.
 
 The next learning experiment is the [procedural M5 pilot](docs/M5_PILOT_PROTOCOL.md).
-Its 280 planned rollouts fit inside the unchanged 300-call cap. Exact training
+Its 280 planned rollouts fit inside the unchanged 300-call cap. The [optional local GRPO driver](docs/LOCAL_TRAINING.md) performs real policy
+updates and paired evaluation; its checkpoint smoke passes. Exact training
 artifacts and native gates must be frozen before execution.
 The [bounded control profiler](scripts/profile_specification_checks.py) compares
 a separate Python oracle with native checking and records all operational failures.
@@ -152,3 +153,8 @@ accepts question-only source rows and reviewed specifications, never source solu
 
 Distribution commands and historical evidence live in
 [REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md).
+
+Candidate source versions are Engine 0.3.3, RL core/sequence 0.2.2 and Hub
+0.1.2. They are not published releases. The manual **Native release candidate
+gate** workflow runs complete native suites, controls and the locked four-wheel
+gate, then retains artifacts for review; it does not publish them.

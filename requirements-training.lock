@@ -1,0 +1,3 @@
+# CPU installs may use PyTorch's official CPU index for the torch wheel.
+torch==2.8.0
+transformers==4.57.6

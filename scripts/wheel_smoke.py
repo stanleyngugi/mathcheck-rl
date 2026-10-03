@@ -14,10 +14,10 @@ from lean_kernel_verifier.specification import ProblemSpec
 
 
 EXPECTED_VERSIONS = {
-    "lean-kernel-verifier": "0.3.2",
-    "native-verify": "0.2.1",
-    "native-verify-seq": "0.2.1",
-    "mathcheck-rl": "0.1.1",
+    "lean-kernel-verifier": "0.3.3",
+    "native-verify": "0.2.2",
+    "native-verify-seq": "0.2.2",
+    "mathcheck-rl": "0.1.2",
     "verifiers": "0.3.0",
     "datasets": "4.8.5",
 }

@@ -1,6 +1,6 @@
 # M5 procedural pilot: protocol v2
 
-Status: **amended offline, not started**. Identifier:
+Status: **amended before execution; local trainer implemented, pilot not started**. Identifier:
 `native-verify-m5-bounded-spec-v2`.
 
 ## Amendment and scope
@@ -51,8 +51,10 @@ No evaluation prompts, candidates or verdicts enter training or checkpoint selec
 | Total planned | 280 |
 
 The confirmatory baseline is sampled from the frozen initial policy **before
-training**, using a separate evaluator. Its results remain unread by the trainer
-and primary analyst until the primary analysis is committed. The final policy
+training**, using an evaluation path excluded from policy updates. Its scores remain
+sealed until the primary analysis is finalized durably. The local driver uses
+a separate mode-0600 journal and excludes evaluation from the update interface;
+it does not claim independent-custodian blinding. The final policy
 is sampled on that split only after primary criteria pass. The specifications
 are public; sealing describes result handling and must be enforced operationally,
 not assumed from a string in the manifest. Record the independent custodian or
@@ -75,10 +77,11 @@ zero-advantage update; do not invent shaping rewards or resample the group.
 
 Freeze learning rate, KL coefficient, optimizer settings, clipping, precision,
 LoRA/full-tuning choice, sampling and random seeds in the full trainer config.
-The builder binds its digest; it does not certify the contents or supply a
-trainer implementation. Resolve the model and trainer first, inspect the pinned
-implementation, and verify a local update/weight-change smoke before allocating
-provider quota. Initial and final checkpoint identities must appear in records.
+The builder binds its digest; it does not certify its contents. The optional
+[local trainer](LOCAL_TRAINING.md) implements full float32 AdamW updates with
+original per-sequence GRPO normalization and a frozen initial reference. Its
+actual-gradient and checkpoint smoke passes on a tiny random model. Resolve the
+real model and inspect the pinned configuration before allocating pilot calls. Initial and final checkpoint identities must appear in records.
 The final checkpoint is the only selected policy; evaluation cannot select it.
 
 Use one completion per evaluation task, with identical decoding settings for
@@ -126,6 +129,8 @@ The pilot is promising only if primary gain is at least 10 percentage points,
 invalid-input rate increases by no more than 5 points, operational-error rate
 is at most 1%, and the paired confirmatory gain is strictly positive. If an
 integrity check fails or primary criteria are missed, stop without scaling.
-Commit the primary analysis before opening confirmatory results. Any subsequent
+Finalize and durably record the primary analysis digest before opening
+confirmatory scores. The local runner writes this commitment into its journal;
+a separate Git publication is not required during an executing trial. Any subsequent
 protocol change receives a new version before new calls. A successful pilot
 supports analysis; it does not establish broad mathematical transfer.

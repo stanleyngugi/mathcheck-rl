@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "native-verify"
-version = "0.2.1"
+version = "0.2.2"
 description = "MathCheck RL: answer-key-free bounded-math tasks with Lean-checked rewards"
 readme = "README.md"
 requires-python = ">=3.11,<3.14"
 dependencies = [
-    "lean-kernel-verifier>=0.3.2,<0.4",
+    "lean-kernel-verifier>=0.3.3,<0.4",
 ]
 license = "MIT"
 authors = [
@@ -27,6 +27,7 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
+training = ["torch==2.8.0", "transformers==4.57.6"]
 dev = [
     "pytest>=8,<10",
     "verifiers==0.3.0",
