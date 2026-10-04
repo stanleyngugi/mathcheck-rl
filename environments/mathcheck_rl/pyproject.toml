@@ -10,7 +10,7 @@ authors = [{ name = "Stanley Ngugi" }]
 dependencies = [
     "verifiers==0.3.0",
     "datasets>=3,<5",
-    "lean-kernel-verifier @ git+https://github.com/stanleyngugi/mathcheck-engine.git@dce2fc88cee1e98ed3136ac89a4b40eba0d1ada7",
+    "lean-kernel-verifier @ git+https://github.com/stanleyngugi/mathcheck-engine.git@fa2f04ce4a1d114f08444944dbf0898515611980",
     "native-verify @ git+https://github.com/stanleyngugi/mathcheck-rl.git@d7158c411f0e00122f86bbd56949839b86284923",
 ]
 
