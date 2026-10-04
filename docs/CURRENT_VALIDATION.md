@@ -1,4 +1,29 @@
-# Execution-route follow-up — 2026-10-04
+# Local closeout handoff — 2026-10-04
+
+The later Engine
+[guest preflight follow-up](https://github.com/stanleyngugi/mathcheck-engine/blob/af26078be4a316f29be8b10cdc17d30ea1651cab/validation/2026-10-04-linux-attempt/VM_PREFLIGHT_FOLLOWUP.md)
+records a successful official Ubuntu image download, guest boot, stock Lean
+4.23.0 startup, and unprivileged bubblewrap namespace probe. These observations
+are transcribed from execution tool results. The transient worker was replaced
+before a full gate or guest-file export; D6 and all candidate publication gates
+remain unfinished. They are not native mathematical acceptance/rejection evidence.
+
+Prime's secure method-choice prompt worked, but Google returned 502 / connection
+refused before loading its credential form. Owner authentication is unconfirmed.
+The [local-agent prompt](LOCAL_CLOSEOUT_PROMPT.md) covers persistent Linux
+execution, user-entered local authentication, complete native validation,
+GitHub/Prime publication and independent installed-consumer verification.
+
+GitHub releases were rechecked on 2026-10-04: Engine 0.3.2 and RL 0.2.1 remain
+the latest published releases in their respective repositories. No Engine
+0.3.3 or RL 0.2.2 release was present. The earlier public Prime observation
+below has not been refreshed during this authentication handoff.
+These updates change documentation only. The existing immutable Engine/core
+pins still match the current runtime files and package metadata.
+
+---
+
+# Initial execution-route follow-up — 2026-10-04
 
 The [fresh Engine evidence](https://github.com/stanleyngugi/mathcheck-engine/blob/b28424dc1587d8a6ef83d0a83965277d725ec69e/validation/2026-10-04-linux-attempt/README.md)
 reproduces 85 source passes and 40 subtests, byte-identical candidate wheels,

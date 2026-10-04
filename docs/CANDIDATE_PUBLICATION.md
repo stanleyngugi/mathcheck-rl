@@ -14,10 +14,13 @@ started zero steps. GitHub's run summary explicitly reports an account billing
 lock. Resolving that account condition is outside the test suite. Alternatively,
 run the same gate on an existing supported Linux host.
 
-The available assistant worker has no `/proc`; bubblewrap's capability probe
-fails before isolation starts. Installing Python packages or weakening the
-isolation requirement cannot satisfy D6. The latest observations are retained in
-[evidence/native-closeout-retry-20261003.json](evidence/native-closeout-retry-20261003.json).
+The outer assistant worker has no `/proc`; its direct bubblewrap probe fails.
+A later Quicksand guest booted Ubuntu, started stock Lean 4.23.0 and passed an
+unprivileged bubblewrap capability probe. The transient worker was replaced
+before the full gate ran or its guest files were exported. D6 remains unfinished.
+See the Engine's
+[transcribed preflight follow-up](https://github.com/stanleyngugi/mathcheck-engine/blob/main/validation/2026-10-04-linux-attempt/VM_PREFLIGHT_FOLLOWUP.md)
+and the [local-agent closeout prompt](LOCAL_CLOSEOUT_PROMPT.md).
 
 ## Run the native gate
 
@@ -91,9 +94,10 @@ this delivery.
 
 ## Windows without WSL: candidate VM route
 
-The 2026-10-04 assistant attempt installed QEMU and started a paused TCG
-process, but could not obtain the Ubuntu guest image. This is a proposed
-local-agent route, **not a completed native validation run**. Microsoft
+The initial 2026-10-04 assistant attempt could not obtain the guest image;
+a later canonical encoded asset URL succeeded and a Linux guest booted.
+The Windows commands below remain a proposed local route, **not a completed
+Windows-host validation run**. Microsoft
 [Quicksand's installation guide](https://github.com/microsoft/quicksand/blob/main/docs/user-guide/01-installation.md)
 describes bundled QEMU/Ubuntu support on Windows and a software-emulation
 fallback without WSL or Docker.
@@ -133,8 +137,9 @@ async def main():
 asyncio.run(main())
 ```
 
-This snippet has been checked syntactically; no booted-guest result is claimed
-here. Provision Python 3.12, Git, bubblewrap, the locked dependencies and the
+This exact snippet was checked syntactically. A separate later Linux-host
+launcher produced the limited boot/preflight observations linked above.
+Provision Python 3.12, Git, bubblewrap, the locked dependencies and the
 verified stock Lean 4.23.0 inside the guest. Make Lean independently owned and
 read-only, then run the checks as a separate unprivileged guest user. Quicksand
 0.10.0 images support creating and selecting guest users. Clone the source
@@ -148,9 +153,11 @@ before discarding the guest, or retain its named save. If software emulation
 hits a required native timeout, report it and use a capable runner; keep the
 acceptance and isolation requirements intact.
 
-Prime CLI 0.9.2 was separately installed in this assistant worker. Public Hub
-reads work after installing its `httpx[socks]` dependency for this worker's
-proxy. There is no configured Prime API key and the browser shows Sign In.
-Authentication to the owner account is therefore still needed for publication,
-in addition to D6. Never include credentials in the source, saved guest logs,
-or publication evidence. No upload was attempted.
+Prime CLI 0.9.2 was separately installed in the earlier assistant worker; public
+Hub reads worked after adding `httpx[socks]` for its configured proxy. No Prime
+API key was configured. The secure method prompt later worked, but Google login
+returned 502 / connection refused before its credential form loaded.
+Authentication to the owner account is still unconfirmed, in addition to D6.
+Use the local browser or supported CLI authentication and let the owner enter
+credentials directly. Never include credentials in source, guest logs or
+publication evidence. No upload was attempted.
