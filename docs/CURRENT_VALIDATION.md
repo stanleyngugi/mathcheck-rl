@@ -307,3 +307,31 @@ source delivery is complete and release readiness remains false.** The finite
 remaining action is runner availability followed by one passing execution of
 the existing native closeout gate. Training and broader features remain
 outside the completion criteria.
+
+## Local closeout and publication hold — 2026-10-05
+
+The user-owned Windows machine has no WSL distribution, SSH Linux target, or
+hardware virtualization available. A persistent Ubuntu 24.04 guest was booted
+with Quicksand/QEMU TCG. It runs Python 3.12.3, genuine read-only Lean 4.23.0
+(binary SHA-256 `cbf5fd536e142ef1beaccf33f788fd8a7f3f29fb214e75c11319a8d8677b4b2b`),
+and bubblewrap 0.9.0; the unprivileged namespace probe passes.
+
+The unchanged joint closeout attempt built all four candidate wheels, passed
+both source suites, clean consumer installation and `pip check`, installed
+structural smoke, Lean startup and quickstart. The Engine live suite exceeded
+the gate's fixed 900-second subprocess limit under TCG (`returncode=-1`,
+900.218 seconds). The gate correctly reports `native_validation_complete=false`
+and `release_ready=false`; later RL live, control and release checks did not
+run. A focused actual-Lean regression test for the reproduced warning-prefixed
+negative-diagnostic case passes, but does not substitute for the joint gate.
+No required skip is counted as a pass.
+
+The machine has no configured existing Linux host. The local closeout prompt
+forbids purchasing cloud compute without explicit authorization, so neither a
+billable runner nor a publication was started. The exact gate report, candidate
+wheel hashes and source script identities are preserved in
+[`evidence/native-closeout-20261005-local.json`](evidence/native-closeout-20261005-local.json).
+The fix is at Engine commit `fa2f04ce4a1d114f08444944dbf0898515611980`; Hub
+candidate 0.1.2 pins that Engine commit and RL core
+`d7158c411f0e00122f86bbd56949839b86284923`. The GitHub releases and Prime Hub
+upload remain withheld until a qualifying native gate exits 0.

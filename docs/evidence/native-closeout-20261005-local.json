@@ -1,0 +1,113 @@
+{
+  "checks": {
+    "candidate_wheels": {
+      "sha256": {
+        "lean_kernel_verifier-0.3.3-py3-none-any.whl": "da94438427e02382c80dcf366c540c3e625e552966d7c873516aaca7790f6782",
+        "mathcheck_rl-0.1.2-py3-none-any.whl": "cc1a8e472240d5b9cbdde442a9a5645e68740eb490508f8f1cbf8588fa4636de",
+        "native_verify-0.2.2-py3-none-any.whl": "6fc894b041dda14b5dbf5c6cdae86bac2926bc6883df8b17ce30381367b7369f",
+        "native_verify_seq-0.2.2-py3-none-any.whl": "430f9df43389d04f4286b994c5c21d8d4a9cee1a3714d332033160ba25a171f8"
+      },
+      "status": "passed"
+    },
+    "consumer_dependencies": {
+      "log": "consumer_dependencies.log",
+      "returncode": 0,
+      "seconds": 47.394,
+      "status": "passed"
+    },
+    "consumer_hub_install": {
+      "log": "consumer_hub_install.log",
+      "returncode": 0,
+      "seconds": 22.88,
+      "status": "passed"
+    },
+    "consumer_install": {
+      "log": "consumer_install.log",
+      "returncode": 0,
+      "seconds": 184.382,
+      "status": "passed"
+    },
+    "engine_live_tests": {
+      "log": "engine_live_tests.log",
+      "returncode": -1,
+      "seconds": 900.218,
+      "status": "failed"
+    },
+    "engine_source_tests": {
+      "log": "engine_source_tests.log",
+      "returncode": 0,
+      "seconds": 32.232,
+      "status": "passed"
+    },
+    "installed_structural_smoke": {
+      "log": "installed_structural_smoke.log",
+      "returncode": 0,
+      "seconds": 275.804,
+      "status": "passed"
+    },
+    "lean_startup": {
+      "log": "lean_startup.log",
+      "returncode": 0,
+      "seconds": 11.047,
+      "status": "passed"
+    },
+    "quickstart": {
+      "log": "quickstart.log",
+      "returncode": 0,
+      "seconds": 223.262,
+      "status": "passed"
+    },
+    "rl_source_tests": {
+      "log": "rl_source_tests.log",
+      "returncode": 0,
+      "seconds": 295.805,
+      "status": "passed"
+    },
+    "wheel_build_0": {
+      "log": "wheel_build_0.log",
+      "returncode": 0,
+      "seconds": 50.645,
+      "status": "passed"
+    },
+    "wheel_build_1": {
+      "log": "wheel_build_1.log",
+      "returncode": 0,
+      "seconds": 41.39,
+      "status": "passed"
+    },
+    "wheel_build_2": {
+      "log": "wheel_build_2.log",
+      "returncode": 0,
+      "seconds": 17.557,
+      "status": "passed"
+    },
+    "wheel_build_3": {
+      "log": "wheel_build_3.log",
+      "returncode": 0,
+      "seconds": 12.723,
+      "status": "passed"
+    }
+  },
+  "details": {
+    "native_integrations_disabled_for_source_phase": true,
+    "source_date_epoch": "1704067200",
+    "source_file_sha256": {
+      "scripts/closeout_gate.py": "f2578e58231078beb45304f18af4aa1c61d4fb2e8d37e3a6384c1b35b26bb768",
+      "scripts/wheel_smoke.py": "20dbfb1c7dcdd53e1265451e57dd90250d6488eedc24d0fcd5d1265bfc257d28"
+    }
+  },
+  "elapsed_seconds": 2274.791,
+  "exit_code": 1,
+  "native_validation_complete": false,
+  "optional_work": [
+    "pretrained_policy_training",
+    "learning_gain_measurement",
+    "automatic_formalization",
+    "broader_dataset_coverage"
+  ],
+  "release_ready": false,
+  "rl_learning_results_required": false,
+  "schema": "mathcheck-audit-closeout-v1",
+  "source_delivery_complete": true,
+  "status": "failed"
+}

@@ -15,9 +15,10 @@ lock. Resolving that account condition is outside the test suite. Alternatively,
 run the same gate on an existing supported Linux host.
 
 The outer assistant worker has no `/proc`; its direct bubblewrap probe fails.
-A later Quicksand guest booted Ubuntu, started stock Lean 4.23.0 and passed an
-unprivileged bubblewrap capability probe. The transient worker was replaced
-before the full gate ran or its guest files were exported. D6 remains unfinished.
+The persistent Quicksand guest now boots Ubuntu, starts stock Lean 4.23.0 and
+passes an unprivileged bubblewrap capability probe. Its QEMU TCG software
+execution is too slow for the fixed 900-second Engine live-suite limit; D6
+remains unfinished. See the 2026-10-05 entry in `docs/CURRENT_VALIDATION.md`.
 See the Engine's
 [transcribed preflight follow-up](https://github.com/stanleyngugi/mathcheck-engine/blob/main/validation/2026-10-04-linux-attempt/VM_PREFLIGHT_FOLLOWUP.md)
 and the [local-agent closeout prompt](LOCAL_CLOSEOUT_PROMPT.md).
@@ -60,7 +61,7 @@ prime env info stanley-ngugi/mathcheck-rl
 Its declared version is **0.1.2**. Do not use automatic version bumping or replace
 the earlier 0.1.1 artifact. The candidate wheel must retain these dependencies:
 
-- Engine: `dce2fc88cee1e98ed3136ac89a4b40eba0d1ada7`
+- Engine: `fa2f04ce4a1d114f08444944dbf0898515611980`
 - RL core: `d7158c411f0e00122f86bbd56949839b86284923`
 
 The package already declares Verifiers 0.3.0 and supports the v1 taskset interface.
