@@ -1,0 +1,89 @@
+{
+  "schema": "mathcheck-native-whpx-diagnostic-v1",
+  "date": "2026-10-05",
+  "status": "blocked_before_gate",
+  "native_validation_complete": false,
+  "release_ready": false,
+  "publication_performed": false,
+  "host": {
+    "os": "Windows 11 Pro build 26200",
+    "hardware": "HP EliteBook 840 G6, Intel Core i7-8665U",
+    "bios_vtx": "Enable",
+    "windows_hypervisor_platform": "Enabled after reboot",
+    "wmi_virtualization_firmware_enabled": false,
+    "wmi_vm_monitor_mode_extensions": false,
+    "wmi_second_level_address_translation_extensions": false,
+    "quicksand_accelerator_detection": "WHPX"
+  },
+  "managed_attempts": [
+    {
+      "guest": "preserved closeout snapshot",
+      "qemu_accelerator": "whpx,kernel-irqchip=off",
+      "cpu_model": "max",
+      "result": "qemu exited with code 0 before guest-agent connection; stderr and serial console were empty",
+      "evidence": "host-side shared/results/guest-status-whpx-snapshot-failure.json"
+    },
+    {
+      "guest": "preserved closeout snapshot",
+      "qemu_accelerator": "whpx,kernel-irqchip=off",
+      "cpu_model": "host",
+      "result": "qemu exited with code 0 before guest-agent connection; stderr and serial console were empty",
+      "evidence": "host-side shared/status-whpx-hostcpu.json"
+    },
+    {
+      "guest": "clean Quicksand Ubuntu 24.04 base",
+      "qemu_accelerator": "whpx,kernel-irqchip=off",
+      "cpu_model": "qemu64",
+      "boot_timeout_seconds": 120,
+      "result": "Quicksand detected WHPX and launched the requested WHPX command, but the guest agent did not authenticate. QEMU remained running; captured console showed only the SeaBIOS boot banner and no Linux kernel output.",
+      "evidence": "host-side shared/status-whpx-qemu64-final-probe.json and shared/whpx-qemu64-final-console.txt"
+    },
+    {
+      "guest": "clean Quicksand Ubuntu 24.04 base",
+      "qemu_accelerator": "whpx,kernel-irqchip=off",
+      "cpu_model": "Skylake-Client",
+      "result": "The managed guest-agent handshake did not complete; QEMU remained running without a ready status.",
+      "evidence": "host-side shared/whpx-console-probe.txt and shared/status-whpx-console-probe.json (status absent)"
+    }
+  ],
+  "direct_qemu_diagnostics": [
+    {
+      "guest": "disposable Ubuntu 24.04 base image",
+      "qemu_accelerator": "whpx,kernel-irqchip=off",
+      "cpu_model": "qemu64",
+      "result": "Linux reached multi-user and started quicksand-guest-agent.service when booted directly with the virtio-serial device. The diagnostic had no host agent client, so the guest logged that the channel was closed. This was not a Quicksand-managed ready guest and is not a validation pass.",
+      "evidence": "host-side logs/qemu-whpx-managed-devices stdout capture"
+    },
+    {
+      "guest": "disposable Ubuntu 24.04 base image",
+      "qemu_accelerator": "whpx,kernel-irqchip=off",
+      "cpu_model": "Skylake-Client",
+      "result": "Direct QEMU boot reached the Ubuntu login prompt within 45 seconds. This was not a Quicksand-managed ready guest and is not a validation pass.",
+      "evidence": "host-side logs/qemu-whpx-clean-skylake-serial.txt"
+    },
+    {
+      "guest": "preserved closeout snapshot, read-only snapshot mode",
+      "cpu_model": "qemu64",
+      "result": "Linux reported ext4 free-cluster bitmap inconsistencies and a deleted inode referenced by another inode, then panicked during init. The saved overlay was not modified by this diagnostic.",
+      "evidence": "host-side logs/qemu-whpx-qemu64-serial.txt"
+    },
+    {
+      "guest": "disposable paused VM",
+      "qemu_accelerator": "WHPX",
+      "cpu_models": ["host", "max", "qemu64"],
+      "result": "Minimal paused VMs remained alive after backend initialization for host, max, and qemu64 CPU models. A direct boot probe with host reported WHPX unexpected VP exit code 4 and a guest crash. qemu64 booted the clean image.",
+      "evidence": "host-side logs/qemu-whpx-*.err and qemu-whpx-*-debug.txt"
+    }
+  ],
+  "previous_native_gate": {
+    "report": "native-closeout-20261005-local.json",
+    "unchanged_gate_scripts": {
+      "scripts/closeout_gate.py": "f2578e58231078beb45304f18af4aa1c61d4fb2e8d37e3a6384c1b35b26bb768",
+      "scripts/wheel_smoke.py": "20dbfb1c7dcdd53e1265455e1a57dd90250d6488eedc24d0fcd5d1265bfc257d28"
+    },
+    "engine_live_tests": "failed at 900.218 seconds under TCG timeout",
+    "separate_engine_suite_diagnostic": "96 tests and 52 subtests passed under TCG in 1488.11 seconds; exceeds the unchanged gate's 900-second stage limit"
+  },
+  "conclusion": "No complete joint native gate ran under WHPX. No required skips were counted as passes. Existing pushed candidate artifacts remain unpublished. The direct WHPX Linux boot shows that a diagnostic VM can run, but the Quicksand-managed guest did not reach ready state on this host during the closeout attempt.",
+  "next_action": "Resolve the Windows/Quicksand managed WHPX boot or use an existing Linux host; then rerun the unchanged joint native gate into a fresh evidence directory. Publish only after every required gate passes."
+}

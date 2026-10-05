@@ -1,0 +1,14 @@
+MathCheck WHPX diagnostic — 2026-10-05
+
+The HP BIOS WMI setting reports VTx enabled, Windows Hypervisor Platform is enabled after reboot, and Quicksand detects WHPX. Its actual managed QEMU arguments included `-accel whpx,kernel-irqchip=off`; there was no silent TCG fallback.
+
+The preserved guest failed to start under WHPX with both `max` and `host` CPU models. A clean-base Quicksand-managed run with `qemu64` timed out after 120 seconds waiting for the guest agent while QEMU remained running. Its captured serial console contained only:
+
+    SeaBIOS (version rel-1.17.0-0-gb52ca86e094d-prebuilt.qemu.org)
+    Booting from ROM...
+
+Direct QEMU diagnostics using WHPX booted a separate clean Ubuntu base to the login prompt (Skylake-Client) and multi-user systemd target (qemu64). They did not establish a ready Quicksand sandbox and are not native-gate passes. The preserved image also reports ext4 metadata inconsistencies in a read-only snapshot diagnostic.
+
+The prior unchanged joint gate remains failed because its Engine live-test stage exceeded 900 seconds under TCG (900.218 seconds). A separate Engine run passed 96 tests and 52 subtests under TCG in 1488.11 seconds, also beyond that gate limit. No full joint native gate has passed. No GitHub release or Prime Hub 0.1.2 artifact was published.
+
+Full structured results: `native-whpx-diagnostic-20261005.json`.
