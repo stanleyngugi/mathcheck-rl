@@ -1,0 +1,14 @@
+{
+  "schema": "mathcheck-engine-live-diagnostic-v1",
+  "date": "2026-10-05",
+  "status": "passed",
+  "exit_code": 0,
+  "duration_seconds": 1488.11,
+  "summary": "96 passed, 52 subtests passed",
+  "runner": "Ubuntu 24.04.4 guest, QEMU TCG software emulation",
+  "python": "3.12.3",
+  "lean_version": "4.23.0",
+  "lean_binary_sha256": "cbf5fd536e142ef1beaccf33f788fd8a7f3f29fb214e75c11319a8d8677b4b2b",
+  "command": "python -m pytest tests -vv --durations=30",
+  "qualification": "Diagnostic only: complete Engine suite passed, but its 1488.11-second duration exceeds the unchanged closeout stage timeout of 900 seconds."
+}

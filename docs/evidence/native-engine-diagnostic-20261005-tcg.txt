@@ -1,0 +1,146 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0 -- /home/validator/validation-venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/validator/mathcheck-engine
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collecting ... collected 96 items
+
+tests/test_berlekamp_massey.py::BerlekampMasseyTests::test_fallback_to_integer_search_on_rational_fit PASSED [  1%]
+tests/test_berlekamp_massey.py::BerlekampMasseyTests::test_fibonacci_recurrence PASSED [  2%]
+tests/test_berlekamp_massey.py::BerlekampMasseyTests::test_lean_definition_generation PASSED [  3%]
+tests/test_berlekamp_massey.py::BerlekampMasseyTests::test_quasi_polynomial_with_negative_coefficients PASSED [  4%]
+tests/test_berlekamp_massey.py::BerlekampMasseyTests::test_rejects_insufficient_terms PASSED [  5%]
+tests/test_berlekamp_massey.py::BerlekampMasseyTests::test_smallest_integer_recurrence PASSED [  6%]
+tests/test_certificate_cli.py::test_cli_routes_pair_certificates_and_rejects_extra_fields PASSED [  7%]
+tests/test_certificate_cli.py::test_cli_rejects_ambiguous_or_deep_json_before_native_execution[{"specification":{"kind":"evaluate","expression":"4"},"answer":4,"answer":5}] PASSED [  8%]
+tests/test_certificate_cli.py::test_cli_rejects_ambiguous_or_deep_json_before_native_execution[{"specification":{"kind":"evaluate","expression":"4","expression":"5"},"answer":4}] PASSED [  9%]
+tests/test_certificate_cli.py::test_cli_rejects_ambiguous_or_deep_json_before_native_execution[{"specification":{"kind":"evaluate","expression":"4"},"specification":{"kind":"evaluate","expression":"5"},"answer":4}] PASSED [ 10%]
+tests/test_certificate_cli.py::test_cli_rejects_ambiguous_or_deep_json_before_native_execution[{"specification":{"kind":"evaluate","expression":"4"},"answer":[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[4]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]}] PASSED [ 11%]
+tests/test_fail_closed.py::FailClosedTests::test_empty_lsp_diagnostics_cannot_override_cli_failure PASSED [ 12%]
+tests/test_fail_closed.py::FailClosedTests::test_executable_commands_rejected 
+tests/test_fail_closed.py::FailClosedTests::test_executable_commands_rejected PASSED [ 13%]
+tests/test_fail_closed.py::FailClosedTests::test_expected_literals_are_nonempty_naturals 
+tests/test_fail_closed.py::FailClosedTests::test_expected_literals_are_nonempty_naturals PASSED [ 14%]
+tests/test_fail_closed.py::FailClosedTests::test_import_prefix_is_not_module_allowlist PASSED [ 15%]
+tests/test_fail_closed.py::FailClosedTests::test_invalid_artifact_types_are_structured_failures 
+tests/test_fail_closed.py::FailClosedTests::test_invalid_artifact_types_are_structured_failures PASSED [ 16%]
+tests/test_fail_closed.py::FailClosedTests::test_transient_preflight_timeout_can_recover PASSED [ 17%]
+tests/test_gating.py::GatingAndStructuralTests::test_boundary_monotonicity_divisibility_pass PASSED [ 18%]
+tests/test_gating.py::GatingAndStructuralTests::test_checks_fail_on_mismatch PASSED [ 19%]
+tests/test_gating.py::GatingAndStructuralTests::test_counting_check_rejects_negative_trace PASSED [ 20%]
+tests/test_gating.py::GatingAndStructuralTests::test_detects_floor_affine PASSED [ 21%]
+tests/test_gating.py::GatingAndStructuralTests::test_detects_gcd_shift_mod PASSED [ 22%]
+tests/test_gating.py::GatingAndStructuralTests::test_inconclusive_when_no_deterministic_checks PASSED [ 23%]
+tests/test_generated_certification.py::test_generated_signed_arithmetic_bounds_and_wrong_answers PASSED [ 25%]
+tests/test_generated_certification.py::test_generated_pairs_reject_omission_and_wrong_cardinality PASSED [ 26%]
+tests/test_geometry_parser.py::GeometryParserTests::test_missing_witness_coordinate_is_not_certified PASSED [ 27%]
+tests/test_geometry_parser.py::GeometryParserTests::test_nearby_rational_is_not_rounded_to_equal PASSED [ 28%]
+tests/test_geometry_parser.py::GeometryParserTests::test_python_expression_is_rejected PASSED [ 29%]
+tests/test_geometry_wu.py::GeometryWuTests::test_bogus_conclusion_refused PASSED [ 30%]
+tests/test_geometry_wu.py::GeometryWuTests::test_midpoint_theorem_parallel_and_length PASSED [ 31%]
+tests/test_geometry_wu.py::GeometryWuTests::test_parallelogram_opposite_sides_equal PASSED [ 32%]
+tests/test_geometry_wu.py::GeometryWuTests::test_thales_semicircle_right_angle PASSED [ 33%]
+tests/test_geometry_wu.py::GeometryWuTests::test_witness_contradiction_blocks_certification PASSED [ 34%]
+tests/test_holonomic.py::HolonomicLiteTests::test_evaluate_factorial PASSED [ 35%]
+tests/test_holonomic.py::HolonomicLiteTests::test_find_factorial_candidate PASSED [ 36%]
+tests/test_holonomic.py::HolonomicLiteTests::test_lean_definition_generation PASSED [ 37%]
+tests/test_holonomic.py::HolonomicLiteTests::test_negative_parameters_raise PASSED [ 38%]
+tests/test_isolation.py::test_missing_sandbox_is_fail_closed PASSED      [ 39%]
+tests/test_isolation.py::test_cli_does_not_fall_back_without_configuration PASSED [ 40%]
+tests/test_isolation.py::test_live_isolation_hides_host_files_and_environment PASSED [ 41%]
+tests/test_isolation.py::test_live_network_namespace_is_separate PASSED  [ 42%]
+tests/test_live_lean.py::LiveLeanTests::test_correct_and_incorrect_observations 
+tests/test_live_lean.py::LiveLeanTests::test_correct_and_incorrect_observations PASSED [ 43%]
+tests/test_live_lean.py::LiveLeanTests::test_multiline_formula_and_import PASSED [ 44%]
+tests/test_newton_interpolation.py::NewtonInterpolationTests::test_detect_polynomial_degree PASSED [ 45%]
+tests/test_newton_interpolation.py::NewtonInterpolationTests::test_finite_difference_table PASSED [ 46%]
+tests/test_newton_interpolation.py::NewtonInterpolationTests::test_newton_forward_coefficients_evaluation PASSED [ 47%]
+tests/test_newton_interpolation.py::NewtonInterpolationTests::test_polynomial_candidate_quadratic PASSED [ 48%]
+tests/test_newton_interpolation.py::NewtonInterpolationTests::test_rejects_non_polynomial PASSED [ 50%]
+tests/test_pair_certificates.py::test_strict_expression_bounds_and_certificate_contracts PASSED [ 51%]
+tests/test_pair_certificates.py::test_digests_bind_constraints_and_certificate PASSED [ 52%]
+tests/test_pair_certificates.py::test_large_certificate_uses_data_not_nested_literal_and_retains_exact_equality PASSED [ 53%]
+tests/test_pair_certificates.py::test_live_maximum_certificate_positive_and_incomplete_negative PASSED [ 54%]
+tests/test_pair_certificates.py::test_live_malformed_decoding_cannot_fall_back_to_empty_success PASSED [ 55%]
+tests/test_pair_certificates.py::test_live_completeness_not_just_witness_validity PASSED [ 56%]
+tests/test_project_metadata.py::test_supported_python_range_matches_runtime_features PASSED [ 57%]
+tests/test_runner.py::CheckerRunnerTests::test_exact_lean_version_can_be_required PASSED [ 58%]
+tests/test_runner.py::CheckerRunnerTests::test_execution_os_error_after_preflight_is_structured PASSED [ 59%]
+tests/test_runner.py::CheckerRunnerTests::test_incompatible_lean_version_is_rejected PASSED [ 60%]
+tests/test_runner.py::CheckerRunnerTests::test_missing_lean_binary_returns_structured_error PASSED [ 61%]
+tests/test_runner.py::CheckerRunnerTests::test_process_failure_after_successful_preflight_is_operational 
+tests/test_runner.py::CheckerRunnerTests::test_process_failure_after_successful_preflight_is_operational PASSED [ 62%]
+tests/test_runner.py::CheckerRunnerTests::test_sanitizer_bypass_is_rejected PASSED [ 63%]
+tests/test_runner.py::CheckerRunnerTests::test_sanitizer_failure_short_circuits PASSED [ 64%]
+tests/test_runner.py::CheckerRunnerTests::test_tautological_native_verify_statement_is_rejected_before_preflight PASSED [ 65%]
+tests/test_sanitizer.py::SanitizerTests::test_rejects_attribute_command_bypass PASSED [ 66%]
+tests/test_sanitizer.py::SanitizerTests::test_rejects_disallowed_imports_in_profile_a PASSED [ 67%]
+tests/test_sanitizer.py::SanitizerTests::test_strips_banned_attributes PASSED [ 68%]
+tests/test_sanitizer.py::SanitizerTests::test_strips_multiline_banned_attributes PASSED [ 69%]
+tests/test_sanitizer.py::SanitizerTests::test_template_compilation PASSED [ 70%]
+tests/test_specification.py::SpecificationTests::test_bounds_are_explicit_and_limited 
+tests/test_specification.py::SpecificationTests::test_bounds_are_explicit_and_limited PASSED [ 71%]
+tests/test_specification.py::SpecificationTests::test_digest_binds_spec_but_not_candidate PASSED [ 72%]
+tests/test_specification.py::SpecificationTests::test_injection_and_unsupported_expressions_are_rejected 
+tests/test_specification.py::SpecificationTests::test_injection_and_unsupported_expressions_are_rejected PASSED [ 73%]
+tests/test_specification.py::SpecificationTests::test_verdict_status_separates_rejection_from_operational_failure 
+tests/test_specification.py::SpecificationTests::test_verdict_status_separates_rejection_from_operational_failure PASSED [ 75%]
+tests/test_specification.py::LiveSpecificationTests::test_all_specification_kinds_and_negative_controls 
+tests/test_specification.py::LiveSpecificationTests::test_all_specification_kinds_and_negative_controls PASSED [ 76%]
+tests/test_trace_consensus.py::TraceConsensusTests::test_accepts_consensus_cluster PASSED [ 77%]
+tests/test_trace_consensus.py::TraceConsensusTests::test_cluster_traces PASSED [ 78%]
+tests/test_trace_consensus.py::TraceConsensusTests::test_extract_common_prefix PASSED [ 79%]
+tests/test_trace_consensus.py::TraceConsensusTests::test_rejects_when_cluster_below_threshold PASSED [ 80%]
+tests/test_verdict_diagnostics.py::test_complete_negative_decision_in_cli_or_lsp_output[stdout-verify.lean:43:2: error: ] PASSED [ 81%]
+tests/test_verdict_diagnostics.py::test_complete_negative_decision_in_cli_or_lsp_output[stdout-[43:2] ] PASSED [ 82%]
+tests/test_verdict_diagnostics.py::test_complete_negative_decision_in_cli_or_lsp_output[stdout-error: ] PASSED [ 83%]
+tests/test_verdict_diagnostics.py::test_complete_negative_decision_in_cli_or_lsp_output[stderr-verify.lean:43:2: error: ] PASSED [ 84%]
+tests/test_verdict_diagnostics.py::test_complete_negative_decision_in_cli_or_lsp_output[stderr-[43:2] ] PASSED [ 85%]
+tests/test_verdict_diagnostics.py::test_complete_negative_decision_in_cli_or_lsp_output[stderr-error: ] PASSED [ 86%]
+tests/test_verdict_diagnostics.py::test_lean_warning_before_complete_negative_decision_remains_a_rejection PASSED [ 87%]
+tests/test_verdict_diagnostics.py::test_unconfirmed_or_mixed_failure_is_operational[] PASSED [ 88%]
+tests/test_verdict_diagnostics.py::test_unconfirmed_or_mixed_failure_is_operational[false] PASSED [ 89%]
+tests/test_verdict_diagnostics.py::test_unconfirmed_or_mixed_failure_is_operational[is false] PASSED [ 90%]
+tests/test_verdict_diagnostics.py::test_unconfirmed_or_mixed_failure_is_operational[verify.lean:43:2: error: unsolved goals] PASSED [ 91%]
+tests/test_verdict_diagnostics.py::test_unconfirmed_or_mixed_failure_is_operational[error: failed to locate application] PASSED [ 92%]
+tests/test_verdict_diagnostics.py::test_unconfirmed_or_mixed_failure_is_operational[verify.lean:43:2: error: Tactic `native_decide` failed: Could not evaluate decidable instance] PASSED [ 93%]
+tests/test_verdict_diagnostics.py::test_unconfirmed_or_mixed_failure_is_operational[verify.lean:43:2: error: Tactic `native_decide` evaluated that the proposition\n  (Array.range expected.size).all (fun n => f n == expected[n]!) = true\n] PASSED [ 94%]
+tests/test_verdict_diagnostics.py::test_unconfirmed_or_mixed_failure_is_operational[verify.lean:43:2: error: Tactic `native_decide` evaluated that the proposition\n  (Array.range expected.size).all (fun n => f n == expected[n]!) = true\nis false\nverify.lean:44:2: error: unknown identifier] PASSED [ 95%]
+tests/test_verdict_diagnostics.py::test_unconfirmed_or_mixed_failure_is_operational[warning: is false\nverify.lean:43:2: error: Tactic `native_decide` evaluated that the proposition\n  (Array.range expected.size).all (fun n => f n == expected[n]!) = true\nis false] PASSED [ 96%]
+tests/test_verdict_diagnostics.py::test_native_false_message_cannot_override_a_process_failure PASSED [ 97%]
+tests/test_verdict_diagnostics.py::test_multiple_complete_negative_diagnostics_are_recognized PASSED [ 98%]
+tests/test_verdict_diagnostics.py::test_large_truncated_pretty_printed_proposition_is_inconclusive PASSED [100%]
+
+============================= slowest 30 durations =============================
+539.11s call     tests/test_generated_certification.py::test_generated_pairs_reject_omission_and_wrong_cardinality
+504.01s call     tests/test_generated_certification.py::test_generated_signed_arithmetic_bounds_and_wrong_answers
+150.28s call     tests/test_specification.py::LiveSpecificationTests::test_all_specification_kinds_and_negative_controls
+87.58s call     tests/test_pair_certificates.py::test_live_completeness_not_just_witness_validity
+66.20s call     tests/test_pair_certificates.py::test_live_maximum_certificate_positive_and_incomplete_negative
+57.78s call     tests/test_pair_certificates.py::test_live_malformed_decoding_cannot_fall_back_to_empty_success
+26.25s call     tests/test_live_lean.py::LiveLeanTests::test_correct_and_incorrect_observations
+15.40s call     tests/test_live_lean.py::LiveLeanTests::test_multiline_formula_and_import
+14.56s call     tests/test_isolation.py::test_live_isolation_hides_host_files_and_environment
+13.43s call     tests/test_geometry_parser.py::GeometryParserTests::test_missing_witness_coordinate_is_not_certified
+1.02s call     tests/test_geometry_wu.py::GeometryWuTests::test_midpoint_theorem_parallel_and_length
+0.73s call     tests/test_pair_certificates.py::test_large_certificate_uses_data_not_nested_literal_and_retains_exact_equality
+0.63s call     tests/test_geometry_wu.py::GeometryWuTests::test_bogus_conclusion_refused
+0.58s call     tests/test_isolation.py::test_live_network_namespace_is_separate
+0.38s call     tests/test_geometry_wu.py::GeometryWuTests::test_parallelogram_opposite_sides_equal
+0.36s call     tests/test_runner.py::CheckerRunnerTests::test_process_failure_after_successful_preflight_is_operational
+0.35s call     tests/test_berlekamp_massey.py::BerlekampMasseyTests::test_quasi_polynomial_with_negative_coefficients
+0.34s call     tests/test_verdict_diagnostics.py::test_large_truncated_pretty_printed_proposition_is_inconclusive
+0.31s call     tests/test_fail_closed.py::FailClosedTests::test_executable_commands_rejected
+0.17s call     tests/test_specification.py::SpecificationTests::test_verdict_status_separates_rejection_from_operational_failure
+0.16s call     tests/test_runner.py::CheckerRunnerTests::test_execution_os_error_after_preflight_is_structured
+0.15s call     tests/test_geometry_wu.py::GeometryWuTests::test_thales_semicircle_right_angle
+0.09s call     tests/test_runner.py::CheckerRunnerTests::test_exact_lean_version_can_be_required
+0.09s call     tests/test_runner.py::CheckerRunnerTests::test_incompatible_lean_version_is_rejected
+0.08s call     tests/test_specification.py::SpecificationTests::test_injection_and_unsupported_expressions_are_rejected
+0.08s call     tests/test_runner.py::CheckerRunnerTests::test_missing_lean_binary_returns_structured_error
+0.08s setup    tests/test_isolation.py::test_missing_sandbox_is_fail_closed
+0.08s call     tests/test_certificate_cli.py::test_cli_routes_pair_certificates_and_rejects_extra_fields
+0.06s call     tests/test_geometry_parser.py::GeometryParserTests::test_nearby_rational_is_not_rounded_to_equal
+0.06s call     tests/test_runner.py::CheckerRunnerTests::test_tautological_native_verify_statement_is_rejected_before_preflight
+============= 96 passed, 52 subtests passed in 1488.11s (0:24:48) ==============

@@ -322,7 +322,13 @@ structural smoke, Lean startup and quickstart. The Engine live suite exceeded
 the gate's fixed 900-second subprocess limit under TCG (`returncode=-1`,
 900.218 seconds). The gate correctly reports `native_validation_complete=false`
 and `release_ready=false`; later RL live, control and release checks did not
-run. A focused actual-Lean regression test for the reproduced warning-prefixed
+run. A separate verbose diagnostic run completed the full Engine suite with
+real Lean: **96 passed, 52 subtests passed in 1,488.11 seconds**. This confirms
+the suite can complete in the guest but still exceeds the unchanged gate's
+900-second stage limit; it is not a substitute for a passing joint gate. Its
+[summary](evidence/native-engine-diagnostic-20261005-tcg.json) and
+[full log](evidence/native-engine-diagnostic-20261005-tcg.txt) are preserved.
+A focused actual-Lean regression test for the reproduced warning-prefixed
 negative-diagnostic case passes, but does not substitute for the joint gate.
 No required skip is counted as a pass.
 
