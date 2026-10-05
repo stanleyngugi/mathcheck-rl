@@ -406,6 +406,8 @@ mathematical statuses; invalid input made zero checker invocations. The installe
 Engine/core module SHA-256 values match the pinned Git trees. Full identities,
 asset hashes, versions, and smoke results are in
 [`evidence/native-closeout-whpx-20261005-final/publication.json`](evidence/native-closeout-whpx-20261005-final/publication.json).
+The raw successful Linux consumer result is retained in
+[`evidence/native-closeout-whpx-20261005-final/prime-consumer-whpx.json`](evidence/native-closeout-whpx-20261005-final/prime-consumer-whpx.json).
 
 Native validation, GitHub publication, Prime Hub publication, independent asset
 hash checks, fresh package installation and installed-consumer native checks are

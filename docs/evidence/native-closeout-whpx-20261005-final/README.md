@@ -8,6 +8,9 @@ the reproducible, locked four-wheel build hashes. `environment.json` records
 the host accelerator, guest setup, exact source commits, toolchain provenance,
 test results and the sole optional training-module skip, also detailed in
 `optional-training-skip.json`.
+`prime-consumer-whpx.json` retains the successful fresh consumer installation,
+`pip check`, installed identity/hash record and native Lean control output for
+the independently fetched Prime 0.1.2 wheel.
 
 The four candidate wheels are present in `native-release/` and repeated in
 `wheels/`; the gate independently rebuilt them and verified identical hashes.
