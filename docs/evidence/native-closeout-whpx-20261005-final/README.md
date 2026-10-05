@@ -12,9 +12,8 @@ test results and the sole optional training-module skip, also detailed in
 `pip check`, installed identity/hash record and native Lean control output for
 the independently fetched Prime 0.1.2 wheel.
 
-The four candidate wheels are present in `native-release/` and repeated in
-`wheels/`; the gate independently rebuilt them and verified identical hashes.
-The duplicate wheel files are kept with this local evidence directory for
-release upload convenience; the evidence commit publishes the report, logs,
-environment record and manifest. GitHub release assets carry the validated
-distribution wheels.
+The gate independently rebuilt all four candidate wheels and verified
+identical hashes. The release manifest records those identities; GitHub release
+assets carry the validated distribution wheels. The repository evidence commit
+preserves the report, logs, environment record, manifest and consumer checks
+without duplicating the release binaries.
