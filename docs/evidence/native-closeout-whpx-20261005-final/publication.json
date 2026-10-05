@@ -1,0 +1,90 @@
+{
+  "schema": "mathcheck-publication-closeout-v1",
+  "github": {
+    "engine": {
+      "release": "https://github.com/stanleyngugi/mathcheck-engine/releases/tag/v0.3.3",
+      "tag_target": "2556e1fec67aabb8823fed10d170df7f42ebf574",
+      "wheel_sha256": "da94438427e02382c80dcf366c540c3e625e552966d7c873516aaca7790f6782",
+      "downloaded_asset_hash_matches_manifest": true
+    },
+    "rl": {
+      "release": "https://github.com/stanleyngugi/mathcheck-rl/releases/tag/v0.2.2",
+      "tag_target": "62c988f428f35c484b1d851ffb5b5fcb130eb619",
+      "wheel_sha256": {
+        "native_verify-0.2.2-py3-none-any.whl": "6fc894b041dda14b5dbf5c6cdae86bac2926bc6883df8b17ce30381367b7369f",
+        "native_verify_seq-0.2.2-py3-none-any.whl": "430f9df43389d04f4286b994c5c21d8d4a9cee1a3714d332033160ba25a171f8",
+        "mathcheck_rl-0.1.2-py3-none-any.whl": "cc1a8e472240d5b9cbdde442a9a5645e68740eb490508f8f1cbf8588fa4636de"
+      },
+      "downloaded_asset_hashes_match_manifest": true
+    }
+  },
+  "prime_hub": {
+    "environment": "stanley-ngugi/mathcheck-rl",
+    "environment_id": "hly0jznqk92hh5pyqhelymim",
+    "visibility": "PUBLIC",
+    "runtime": "v1",
+    "semantic_version": "0.1.2",
+    "version_id": "w139dmpyx1jcvdqb5pnra23n",
+    "content_hash": "d5fe188d6874826ed9f6c8eb6b3f82069bc1c99a387d021c69cbca14da345295",
+    "published_at": "2026-10-05T16:47:49.095Z",
+    "published_wheel_url": "https://hub.primeintellect.ai/stanley-ngugi/mathcheck-rl/@d5fe188d/mathcheck_rl-0.1.2-py3-none-any.whl",
+    "prime_built_wheel_sha256": "e6f4c3074cbfd5436ba225448023134455d12fa69533a8c8ec35a01b4a0ed231",
+    "gate_built_wheel_sha256": "cc1a8e472240d5b9cbdde442a9a5645e68740eb490508f8f1cbf8588fa4636de",
+    "metadata_pins": {
+      "engine": "fa2f04ce4a1d114f08444944dbf0898515611980",
+      "rl_core": "d7158c411f0e00122f86bbd56949839b86284923",
+      "verifiers": "0.3.0"
+    },
+    "hub_module_sha256": "08a069e6272d031a70d2f83a88bffcf05f06b5cd6eb090ab852734bcef129cd3",
+    "gate_wheel_hub_module_sha256": "92ab8c94599a662c91791756d470ea9ca6b3652c59e3cd35bf1c61924d66c737",
+    "hub_module_text_matches_gate_wheel_after_line_ending_normalization": true
+  },
+  "fresh_consumers": {
+    "prime_cli_install": {
+      "python": "3.11.14",
+      "prime_env_install": "passed",
+      "pip_check": "No broken requirements found.",
+      "versions": {
+        "mathcheck-rl": "0.1.2",
+        "lean-kernel-verifier": "0.3.3",
+        "native-verify": "0.2.2",
+        "verifiers": "0.3.0",
+        "datasets": "4.8.5"
+      },
+      "direct_url_commits": {
+        "engine": "fa2f04ce4a1d114f08444944dbf0898515611980",
+        "rl_core": "d7158c411f0e00122f86bbd56949839b86284923"
+      },
+      "hub_module_sha256_matches_published_wheel": true,
+      "hub_module_text_matches_gate_wheel_after_line_ending_normalization": true
+    },
+    "linux_native_consumer": {
+      "python": "3.12.3",
+      "platform": "Ubuntu 24.04.4 under QEMU WHPX",
+      "install_source": "independently downloaded Prime Hub 0.1.2 wheel",
+      "prime_wheel_sha256": "e6f4c3074cbfd5436ba225448023134455d12fa69533a8c8ec35a01b4a0ed231",
+      "pip_check": "No broken requirements found.",
+      "direct_url_commits": {
+        "engine": "fa2f04ce4a1d114f08444944dbf0898515611980",
+        "rl_core": "d7158c411f0e00122f86bbd56949839b86284923"
+      },
+      "module_sha256": {
+        "published_hub_mathcheck_rl.py": "08a069e6272d031a70d2f83a88bffcf05f06b5cd6eb090ab852734bcef129cd3",
+        "engine_package_init": "8cdc5a04dee728eeb2d53fd2ce03fc01c1536e484997d00c82874f73b3586643",
+        "rl_core_package_init": "fc6160d60b3f922c87af7b9d10af52ab3ee8b1fe0d1bbf41188e10c78625d5df"
+      },
+      "engine_and_core_module_hashes_match_pinned_git_trees": true,
+      "native_smoke_exit_code": 0,
+      "native_smoke": {
+        "count_correct": "checked_success; reward 1.0",
+        "count_wrong": "mathematical_rejection; reward 0.0",
+        "minimum_least": "checked_success; reward 1.0",
+        "minimum_nonleast": "mathematical_rejection; reward 0.0",
+        "pairs_complete": "checked_success; reward 1.0",
+        "pairs_incomplete": "mathematical_rejection; reward 0.0",
+        "invalid_input": "invalid_input; reward 0.0; zero checker invocations"
+      }
+    }
+  },
+  "overall": "published_artifacts_verified; fresh_consumer_checks_passed"
+}

@@ -367,6 +367,47 @@ The validated source revisions are Engine
 Engine/core pins `fa2f04ce4a1d114f08444944dbf0898515611980` and
 `d7158c411f0e00122f86bbd56949839b86284923`; later commits contain evidence and
 documentation only. This passing WHPX result supersedes the earlier TCG timeout
-and failed WHPX boot diagnostics. GitHub releases and Prime Hub publication are
-now authorized by the passed gate and are recorded in the final closeout entry
-after publication and fresh installed-consumer verification.
+and failed WHPX boot diagnostics. GitHub releases and Prime Hub publication
+were completed after the gate passed. Release identities and fresh installed-
+consumer checks are recorded below.
+
+## Publication and installed-consumer closeout — 2026-10-05
+
+The validated GitHub releases are live: [Engine 0.3.3](https://github.com/stanleyngugi/mathcheck-engine/releases/tag/v0.3.3)
+is tagged at validated source `2556e1fec67aabb8823fed10d170df7f42ebf574`, and
+[RL 0.2.2](https://github.com/stanleyngugi/mathcheck-rl/releases/tag/v0.2.2)
+at `62c988f428f35c484b1d851ffb5b5fcb130eb619`. The published Engine, RL core,
+RL sequence and Hub candidate GitHub assets were downloaded independently; all
+four wheel SHA-256 values match the native gate manifest.
+
+Prime Hub now lists public `stanley-ngugi/mathcheck-rl` version **0.1.2** as
+runtime v1. Prime CLI authenticated as owner `stanley-ngugi` with environment
+read/write scope and successfully published the candidate without a version
+bump. Prime reports version ID `w139dmpyx1jcvdqb5pnra23n` and content hash
+`d5fe188d6874826ed9f6c8eb6b3f82069bc1c99a387d021c69cbca14da345295`. The
+Prime-built wheel SHA-256 is
+`e6f4c3074cbfd5436ba225448023134455d12fa69533a8c8ec35a01b4a0ed231`. Prime's
+packaged `mathcheck_rl.py` has SHA-256
+`08a069e6272d031a70d2f83a88bffcf05f06b5cd6eb090ab852734bcef129cd3`; after
+normalizing CRLF to LF, its content hash matches the locally gated wheel's
+`92ab8c94599a662c91791756d470ea9ca6b3652c59e3cd35bf1c61924d66c737`. Its
+metadata retains Engine pin `fa2f04ce4a1d114f08444944dbf0898515611980`,
+RL core pin `d7158c411f0e00122f86bbd56949839b86284923`, and Verifiers 0.3.0.
+
+Two clean consumer environments independently installed Prime 0.1.2. A new
+Windows Python 3.11 environment installed it through `prime env install` and
+passed `pip check`; installed direct-URL metadata resolved both immutable Git
+pins, and installed module bytes match the published wheel. A separate fresh
+Ubuntu 24.04.4/Python 3.12.3 environment installed the exact Prime-downloaded
+wheel and Git-pinned dependencies, passed `pip check`, and ran the installed
+framework's full six-control Lean smoke under the same isolated Lean 4.23.0
+runtime. All valid, invalid and nonminimal cases returned their expected
+mathematical statuses; invalid input made zero checker invocations. The installed
+Engine/core module SHA-256 values match the pinned Git trees. Full identities,
+asset hashes, versions, and smoke results are in
+[`evidence/native-closeout-whpx-20261005-final/publication.json`](evidence/native-closeout-whpx-20261005-final/publication.json).
+
+Native validation, GitHub publication, Prime Hub publication, independent asset
+hash checks, fresh package installation and installed-consumer native checks are
+complete. The sole source-suite skip remains the optional PyTorch training
+module; no required native check was skipped.
