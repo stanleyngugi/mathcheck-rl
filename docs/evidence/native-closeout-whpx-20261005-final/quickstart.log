@@ -1,0 +1,53 @@
+{
+  "project": "MathCheck RL",
+  "controls": [
+    {
+      "task": "count",
+      "control": "correct",
+      "expected": "checked_success",
+      "status": "checked_success",
+      "reason": null,
+      "specification_digest": "a46594a796a8d3a21c3e48bf3ddd8f4d0e88920c8779a184410a1458941f62ee"
+    },
+    {
+      "task": "count",
+      "control": "adjacent_wrong",
+      "expected": "mathematical_rejection",
+      "status": "mathematical_rejection",
+      "reason": "candidate_does_not_satisfy_specification",
+      "specification_digest": "a46594a796a8d3a21c3e48bf3ddd8f4d0e88920c8779a184410a1458941f62ee"
+    },
+    {
+      "task": "minimum",
+      "control": "least",
+      "expected": "checked_success",
+      "status": "checked_success",
+      "reason": null,
+      "specification_digest": "3eef21cb671f438facd0b81c0f81049f4216db131444bb709cf4f28b09549772"
+    },
+    {
+      "task": "minimum",
+      "control": "feasible_nonminimal",
+      "expected": "mathematical_rejection",
+      "status": "mathematical_rejection",
+      "reason": "candidate_does_not_satisfy_specification",
+      "specification_digest": "3eef21cb671f438facd0b81c0f81049f4216db131444bb709cf4f28b09549772"
+    },
+    {
+      "task": "pairs",
+      "control": "complete",
+      "expected": "checked_success",
+      "status": "checked_success",
+      "reason": null,
+      "specification_digest": "fd408523a3633ebc5da2299b54c3938352bbfbac268e0447277472eb13eb3984"
+    },
+    {
+      "task": "pairs",
+      "control": "incomplete",
+      "expected": "mathematical_rejection",
+      "status": "mathematical_rejection",
+      "reason": "candidate_does_not_satisfy_specification",
+      "specification_digest": "fd408523a3633ebc5da2299b54c3938352bbfbac268e0447277472eb13eb3984"
+    }
+  ]
+}

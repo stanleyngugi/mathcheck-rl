@@ -1,0 +1,14 @@
+{
+  "record_type": "terminal",
+  "reference_only": false,
+  "control_count": 6,
+  "native_statuses": {
+    "checked_success": 3,
+    "mathematical_rejection": 3
+  },
+  "disagreements": 0,
+  "operational_errors": 0,
+  "reference_median_ms": 0.04055000022162858,
+  "native_median_ms": 1084.5,
+  "native_evidence_complete": true
+}

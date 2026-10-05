@@ -1,0 +1,8 @@
+{
+  "source": "tests/test_grpo.py",
+  "skip_type": "optional training integration module",
+  "observed": "pytest.importorskip(\"torch\")",
+  "torch_available": false,
+  "required_native_skip": false,
+  "gate_result": "all required native stages passed; RL learning results are not required"
+}

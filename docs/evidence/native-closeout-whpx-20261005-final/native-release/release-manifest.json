@@ -1,0 +1,21 @@
+{
+  "lean_binary_sha256": "cbf5fd536e142ef1beaccf33f788fd8a7f3f29fb214e75c11319a8d8677b4b2b",
+  "lean_version": "4.23.0",
+  "release_tools": {
+    "build": "1.6.0",
+    "datasets": "4.8.5",
+    "hatchling": "1.32.0",
+    "pytest": "9.1.1",
+    "setuptools": "84.0.0",
+    "verifiers": "0.3.0",
+    "wheel": "0.48.0"
+  },
+  "schema_version": 1,
+  "source_date_epoch": "1704067200",
+  "wheels": {
+    "lean_kernel_verifier-0.3.3-py3-none-any.whl": "da94438427e02382c80dcf366c540c3e625e552966d7c873516aaca7790f6782",
+    "mathcheck_rl-0.1.2-py3-none-any.whl": "cc1a8e472240d5b9cbdde442a9a5645e68740eb490508f8f1cbf8588fa4636de",
+    "native_verify-0.2.2-py3-none-any.whl": "6fc894b041dda14b5dbf5c6cdae86bac2926bc6883df8b17ce30381367b7369f",
+    "native_verify_seq-0.2.2-py3-none-any.whl": "430f9df43389d04f4286b994c5c21d8d4a9cee1a3714d332033160ba25a171f8"
+  }
+}

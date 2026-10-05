@@ -341,3 +341,32 @@ The fix is at Engine commit `fa2f04ce4a1d114f08444944dbf0898515611980`; Hub
 candidate 0.1.2 pins that Engine commit and RL core
 `d7158c411f0e00122f86bbd56949839b86284923`. The GitHub releases and Prime Hub
 upload remain withheld until a qualifying native gate exits 0.
+
+## Final native closeout — 2026-10-05
+
+The unchanged joint gate subsequently passed on the persistent Ubuntu 24.04.4
+guest under QEMU WHPX (`-accel whpx,kernel-irqchip=off`), using Python 3.12.3,
+unprivileged user `mathcheck` (UID 1002), bubblewrap 0.9.0, and stock read-only
+Lean 4.23.0. The official Lean archive and installed binary hashes, verified
+VM package provenance, exact source commits, gate report, locked wheel manifest
+and complete stage logs are retained in
+[`evidence/native-closeout-whpx-20261005-final/`](evidence/native-closeout-whpx-20261005-final/).
+
+The gate exited 0 in 801.238 seconds with
+`native_validation_complete=true` and `release_ready=true`. Engine live tests
+passed (**96 tests and 52 subtests in 424.30 seconds**). RL live tests passed
+(**182 passed**); pytest skipped only optional `tests/test_grpo.py` because its
+training-only PyTorch dependency was absent. Required native skips: **0**.
+All source checks, quickstart controls, dataset/procedural differentials,
+consumer installs, `pip check`, four wheel builds and native release gate passed.
+The second locked wheel build matched all four hashes in the retained manifest.
+
+The validated source revisions are Engine
+`2556e1fec67aabb8823fed10d170df7f42ebf574` and RL
+`62c988f428f35c484b1d851ffb5b5fcb130eb619`. Hub 0.1.2 retains immutable
+Engine/core pins `fa2f04ce4a1d114f08444944dbf0898515611980` and
+`d7158c411f0e00122f86bbd56949839b86284923`; later commits contain evidence and
+documentation only. This passing WHPX result supersedes the earlier TCG timeout
+and failed WHPX boot diagnostics. GitHub releases and Prime Hub publication are
+now authorized by the passed gate and are recorded in the final closeout entry
+after publication and fresh installed-consumer verification.
